@@ -36,9 +36,9 @@ public class AudioVisualizer : MonoBehaviour
     }
     private void Update()
     {
-        print(CalculateNote());
+        //print(CalculateNote());
     }
-    private float[] CalculateFrequency()
+    private float[] CalculateFrequency(AudioClip _clip)
     {
         AudioSource audioSource = GetComponent<AudioSource>();
         var samples = new float[buffersize];
@@ -79,15 +79,14 @@ public class AudioVisualizer : MonoBehaviour
 
         return frequencys;
     }
-    private (float,string) CalculateNote()
+    public (float,string) CalculateNote(AudioClip _clip)
     {
-        float[] frequencys = CalculateFrequency();
+        float[] frequencys = CalculateFrequency(_clip);
         string[] closestNotes = new string[3] { "", "", "" };
         float[] closestFreqs = new float[3] { 0f, 0f, 0f };
         float actualClosestFreq;
         string actualClosestNote;
         bool isOpenWoundString;
-        //foreach (float freq in frequencys) { print(freq); }
         for (int i = 0; i < notes.Count; i++)
         {
             for (int j = 0;j<frequencys.Length;j++)
@@ -99,11 +98,9 @@ public class AudioVisualizer : MonoBehaviour
                 }
             }
         }
-        //foreach (int freq in closestFreqs) { print(freq); }
 
         for (int i = 0; i < closestFreqs.Length; i++)
         {
-           // Debug.Log(closestFreqs[i]); 
             for (int a = 0; a < openWoundStringNotes.Count; a++)
             {
                 if (closestNotes[i] == openWoundStringNotes[a])

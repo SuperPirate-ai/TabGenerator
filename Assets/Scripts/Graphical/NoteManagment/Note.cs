@@ -17,7 +17,7 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 velocity = new Vector3(speed * Time.deltaTime, 0);
+        Vector3 velocity = new Vector3(-speed * Time.deltaTime, 0);
         this.transform.Translate(velocity);
     }
 }
