@@ -1,0 +1,25 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/Assets/AssetStoreTools*
+
+# Visual Studio cache directory
+.vscode/
+
+# Rider
+.idea/
+
+# User-specific files
+*.userprefs
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+# Unity3D Generated File On Crash Reports
+crashlytics-build.properties
