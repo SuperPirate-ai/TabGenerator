@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7d9e0a59dcd6ea428180cb9c984c683, type: 3}
+  m_Name: Notes
+  m_EditorClassIdentifier: 
+  frequnecys: 52000000570000005c00000062000000680000006e000000750000007b000000830000008b000000930000009c000000a5000000af000000b9000000c4000000d0000000dc000000e9000000f7000000060100001501000026010000370100004a0100005d01000072010000880100009f010000b8010000d2010000ee0100000b0200002a0200004b0200006e02000093020000ba020000e4020000100300003f03000070030000a4030000dc03000017040000
+  noteNames:
+  - E2
+  - F2
+  - F#2
+  - G2
+  - G#2
+  - A2
+  - A#2
+  - B2
+  - C2
+  - C#2
+  - D2
+  - D#2
+  - E3
+  - F3
+  - F#3
+  - G3
+  - G#3
+  - A3
+  - A#3
+  - B3
+  - C3
+  - C#3
+  - D3
+  - D#3
+  - E4
+  - F4
+  - F#4
+  - G4
+  - G#4
+  - A4
+  - A#4
+  - B4
+  - C4
+  - C#4
+  - D4
+  - D#4
+  - E5
+  - F5
+  - F#5
+  - G5
+  - G#5
+  - A5
+  - A#5
+  - B5
+  - C5
+  woundOpenStringNotes:
+  - E2
+  - A2
+  - D2

@@ -1,0 +1,17 @@
+{
+    "name": "Scripts.Audio",
+    "rootNamespace": "",
+    "references": [
+        "GUID:08abe08a671f1b34a8d96098e9609faa",
+        "GUID:13b90b032e25753499be1ef349e29751"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
