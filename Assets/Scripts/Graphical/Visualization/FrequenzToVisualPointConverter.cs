@@ -8,13 +8,14 @@ public class FrequenzToVisualPointConverter : MonoBehaviour
 
     [SerializeField] NotesSO notes;
     [SerializeField] StringReferenzSO guitarStringRefernez;
-    [SerializeField] GameObject noteObj;
+     GameObject noteObj;
 
 
     private void OnEnable()
     {
         if(Instance != null) Destroy(this);
         Instance = this;
+        noteObj = NoteManager.Instance.noteObj;
     }
     public void OnNoteDetected(string _note,bool _isOpenWoundString)
     {

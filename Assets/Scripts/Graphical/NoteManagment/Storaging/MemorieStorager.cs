@@ -5,13 +5,7 @@ using TMPro;
 
 public class MemorieStorager : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag ==  "Note")
-        {
-           StorageNoteInMemory(collision.gameObject);
-        }
-    }
+    
     public static void StorageNoteInMemory(GameObject note)
     {
 
@@ -27,6 +21,16 @@ public class MemorieStorager : MonoBehaviour
         {
             StorageNoteInMemory(item);
 
+        }
+    }
+    
+    public void LoadFromMemory()
+    {
+        SaveAllNotes();
+        foreach (var notepos in NoteManager.Instance.playedNotes)
+        {
+            GameObject go = Instantiate(NoteManager.Instance.noteObj, notepos, Quaternion.identity);
+            go.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = notepos.z.ToString();
         }
     }
 

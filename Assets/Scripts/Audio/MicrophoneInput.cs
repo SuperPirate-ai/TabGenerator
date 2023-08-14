@@ -9,8 +9,7 @@ using UnityEngine;
 public class MicrophoneInput : MonoBehaviour
 {
     public string microphone;
-    public FFTWindow fftWindow;
-
+    bool recording;
     [SerializeField] AudioVisualizer visualizer;
     private AudioSource audioSource;
     private int sampleRate = 44100;
@@ -28,7 +27,18 @@ public class MicrophoneInput : MonoBehaviour
        StartCoroutine( UpdateMicrophone());
     }
     
+    public void StartRecording()
+    {
+        if(recording)
+        {
+            StopCoroutine(UpdateMicrophone());
+            recording = false;
+            return;
+        }
+        StartCoroutine(UpdateMicrophone());
+        recording = true;
 
+    }
     public IEnumerator UpdateMicrophone()
     {
         audioSource.Stop();
