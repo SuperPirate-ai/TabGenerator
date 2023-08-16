@@ -11,11 +11,10 @@ public class SaveLoadFiles : MonoBehaviour
     public TMP_InputField path;
     public void Save()
     {
-        MemorieStorager.SaveAllNotes();
         string file = $"BPM:{NoteManager.Instance.BPM};";
-        foreach (Vector3 pos in NoteManager.Instance.playedNotes) 
+        foreach (GameObject note in NoteManager.Instance.playedNotes) 
         {
-            file += $"{pos.x},{pos.y},{pos.z};";
+            file += $"{note.transform.position.x},{note.transform.position.y},{note.transform.position.z};";
         }
 
         if(!Directory.Exists("Recordings"))

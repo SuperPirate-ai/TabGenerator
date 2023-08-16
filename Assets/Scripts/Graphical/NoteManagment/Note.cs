@@ -17,6 +17,12 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Move();
+    }
+    void Move()
+    {
+        if (NoteManager.Instance.PlayPaused) return;
+
         Vector3 velocity = new Vector3(-speed * Time.deltaTime, 0);
         this.transform.Translate(velocity);
     }

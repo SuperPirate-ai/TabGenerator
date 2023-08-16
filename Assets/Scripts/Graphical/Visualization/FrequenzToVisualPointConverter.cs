@@ -45,7 +45,7 @@ public class FrequenzToVisualPointConverter : MonoBehaviour
             int  y = System.Convert.ToInt16(positions[0]);
             GameObject go = Instantiate(noteObj, new Vector3(0, -y), Quaternion.identity);
             go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = positions[1];
-
+            NoteManager.Instance.playedNotes.Add(go);
             if(_isOpenWoundString)
             {
                 break;

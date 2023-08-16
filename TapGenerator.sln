@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.UI", "Scripts.UI.csproj", "{70A524FB-FD12-47A0-6606-FC9179AA7C1E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Graphical.NoteManagement", "Scripts.Graphical.NoteManagement.csproj", "{C110E0EF-F913-CF3F-818F-FA4931CE501E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Audio", "Scripts.Audio.csproj", "{9BAE3F21-842D-2EEC-EEB9-FBE6F8B86416}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.UI", "Scripts.UI.csproj", "{70A524FB-FD12-47A0-6606-FC9179AA7C1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Graphical.NoteManagment.Storaging", "Scripts.Graphical.NoteManagment.Storaging.csproj", "{C8E10F10-AFB6-343E-34D8-FAA824BCE50E}"
 EndProject
@@ -19,6 +19,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C110E0EF-F913-CF3F-818F-FA4931CE501E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C110E0EF-F913-CF3F-818F-FA4931CE501E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C110E0EF-F913-CF3F-818F-FA4931CE501E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,10 +31,6 @@ Global
 		{9BAE3F21-842D-2EEC-EEB9-FBE6F8B86416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BAE3F21-842D-2EEC-EEB9-FBE6F8B86416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BAE3F21-842D-2EEC-EEB9-FBE6F8B86416}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70A524FB-FD12-47A0-6606-FC9179AA7C1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8E10F10-AFB6-343E-34D8-FAA824BCE50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8E10F10-AFB6-343E-34D8-FAA824BCE50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E10F10-AFB6-343E-34D8-FAA824BCE50E}.Release|Any CPU.ActiveCfg = Release|Any CPU

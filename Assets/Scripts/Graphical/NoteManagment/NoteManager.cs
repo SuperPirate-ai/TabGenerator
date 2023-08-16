@@ -1,38 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
-
 public class NoteManager : MonoBehaviour
 {
     public static NoteManager Instance { get; private set; }
     public GameObject noteObj;
-    public List<Vector3> playedNotes;
+    public List<GameObject> playedNotes;
     public int BPM = 100;
     public int NoteSpeed = 10;
+    public bool PlayPaused = true;
     private void Awake()
     {
         if(Instance != null) Destroy(this); 
        
         Instance = this;
     }
-    public void Play()
+    public void Play(TMP_Text btnText)
     {
-        GameObject[] notes = GameObject.FindGameObjectsWithTag("Note");
-        GameObject firstNote = null;
-        foreach(GameObject note in notes)
-        {
-            if (firstNote == null || note.transform.position.y < firstNote.transform.position.y)
-            {
-                firstNote = note;
-            }
-        }
-        foreach(GameObject note in notes)
-        {
-            
-            note.transform.position -= new Vector3(firstNote.transform.position.x,0) ;
-
-        }
+        PlayPaused = !PlayPaused;
+        btnText.text = PlayPaused ? "Play" : "Pause";
     }
     
 }
