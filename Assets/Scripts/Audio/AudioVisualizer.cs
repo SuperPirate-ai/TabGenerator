@@ -40,10 +40,10 @@ public class AudioVisualizer : MonoBehaviour
     }
     private float[] CalculateFrequency(AudioClip _clip)
     {
-        AudioSource audioSource = GetComponent<AudioSource>();
+        //AudioSource audioSource = GetComponent<AudioSource>();
         var samples = new float[buffersize];
         double[] samplesDoub = new double[samples.Length];
-        audioSource.clip.GetData(samples, 0);
+        _clip.GetData(samples, 0);
 
 
         for (int i = 0; i < samples.Length; i++)
@@ -91,7 +91,7 @@ public class AudioVisualizer : MonoBehaviour
         {
             for (int j = 0;j<frequencys.Length;j++)
             {
-                if (Mathf.Abs(notes[i].Item1 - frequencys[j]) < Mathf.Abs(closestFreqs[j] - (float)frequencys[j]))
+                if (Mathf.Abs(notes[i].Item1 - frequencys[j]) < Mathf.Abs(closestFreqs[j] - (float)frequencys[j]) && Mathf.Abs(notes[i].Item1 - frequencys[j]) < 40f)
                 {
                     closestNotes[j] = notes[i].Item2;
                     closestFreqs[j] = notes[i].Item1;    
@@ -99,8 +99,10 @@ public class AudioVisualizer : MonoBehaviour
             }
         }
 
+        if (closestFreqs[0] + closestFreqs[1] + closestFreqs[2] == 0f) return (-1,"None");
         for (int i = 0; i < closestFreqs.Length; i++)
         {
+           
             for (int a = 0; a < openWoundStringNotes.Count; a++)
             {
                 if (closestNotes[i] == openWoundStringNotes[a])
