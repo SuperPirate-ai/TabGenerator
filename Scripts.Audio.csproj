@@ -762,6 +762,10 @@
       <Project>{A308509D-DF6B-CB3B-0E8F-A1B7D458F9EE}</Project>
       <Name>Scripts.Visualisation</Name>
     </ProjectReference>
+    <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
+      <Project>{C110E0EF-F913-CF3F-818F-FA4931CE501E}</Project>
+      <Name>Scripts.Graphical.NoteManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

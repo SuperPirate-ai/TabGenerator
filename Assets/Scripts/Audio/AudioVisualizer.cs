@@ -62,21 +62,22 @@ public class AudioVisualizer : MonoBehaviour
         var values = fftReal.Select((value, index) => new { Value = value, Index = index });
         var sortedValues = values.OrderByDescending(item => item.Value);
         var   highestValues = sortedValues.Take(3);
-        int j = 0;
+        int j = -1;
         foreach (var item in highestValues)
         {
+            j++;
+            if (item.Value < .001f) { highestFFTValues[j] = -1; continue; }
             highestFFTValues[j] = item.Value;
             highestFFTBins[j] = item.Index;
-            j++;
         }
 
         float[] frequencys = new float[3];
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
+            if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
             frequencys[i] = (highestFFTBins[i] * sampleRate / fftReal.Length) / 2;
            
         }
-
         return frequencys;
     }
     public (float,string) CalculateNote(AudioClip _clip)
@@ -91,6 +92,7 @@ public class AudioVisualizer : MonoBehaviour
         {
             for (int j = 0;j<frequencys.Length;j++)
             {
+                if (frequencys[j] == -1) continue;
                 if (Mathf.Abs(notes[i].Item1 - frequencys[j]) < Mathf.Abs(closestFreqs[j] - (float)frequencys[j]) && Mathf.Abs(notes[i].Item1 - frequencys[j]) < 40f)
                 {
                     closestNotes[j] = notes[i].Item2;
@@ -116,16 +118,19 @@ public class AudioVisualizer : MonoBehaviour
             }
             
         }
+        
         actualClosestNote = closestNotes[0];
         actualClosestFreq = closestFreqs[0];
         isOpenWoundString = false;
         wound:
+        if(actualClosestFreq == 0)return (-1,"NONE");
         if(LastNote != actualClosestNote)
         {
             FrequenzToVisualPointConverter.Instance.OnNoteDetected(actualClosestNote,isOpenWoundString);
             LastNote = actualClosestNote;
             StartCoroutine(INewNote());
         }
+        
         return (actualClosestFreq,actualClosestNote);
     }
 

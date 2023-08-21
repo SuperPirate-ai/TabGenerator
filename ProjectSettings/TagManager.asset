@@ -42,6 +42,9 @@ TagManager:
   - name: Background
     uniqueID: 872523249
     locked: 0
+  - name: NoteLines
+    uniqueID: 477763183
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
