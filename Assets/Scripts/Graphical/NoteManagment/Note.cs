@@ -17,6 +17,7 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!manager.playedNotes.Contains(this.gameObject))Destroy(this.gameObject);
         Move();
     }
     void Move()

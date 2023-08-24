@@ -23,68 +23,36 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         microInputDropDown.AddOptions(Microphone.devices.ToList());
+        
     }
     
-    public void StartRecording()
+    public void StartRecording(TMP_Text _bntText)
     {
-        if(recording)
+        recording = !recording;
+        if (!recording)
         {
-            StopCoroutine(UpdateMicrophone());
+            Microphone.End(microphone);
             NoteManager.Instance.PlayPaused = true;
-            recording = false;
-            return;
         }
-        NoteManager.Instance.PlayPaused = false;
-        StartCoroutine(UpdateMicrophone());
-        recording = true;
-
+        else
+        {
+            NoteManager.Instance.PlayPaused = false;
+            StartCoroutine(UpdateMicrophone());
+        }
+        _bntText.text = recording ? "Stop" : "Record";
     }
     public IEnumerator UpdateMicrophone()
     {
         audioSource.Stop();
-        audioSource.clip = Microphone.Start(microphone, false, 1, sampleRate);
+        if(!recording) yield break;
 
+        audioSource.clip = Microphone.Start(microphone, false, 1, sampleRate);
         yield return new WaitForSecondsRealtime(.5f);
-        //TrimAudioClip();
-        //ShowSpectrum();
         Microphone.End(microphone);
         visualizer.CalculateNote(audioSource.clip);
-        if (!recording) StopCoroutine(UpdateMicrophone());
         StartCoroutine(UpdateMicrophone());
-    }
-    //void TrimAudioClip()
-    //{
-    //    AudioClip origClip = audioSource.clip;
-    //    var origClipSmaples = new float[origClip.samples];
-    //    int numOfClips = (int)(origClip.length * 10);
-    //    AudioClip[] clips = new AudioClip[numOfClips];
-    //    float cliplenght = .1f;
-
-    //    origClip.GetData(origClipSmaples, 0);
-
-    //    float startPosSec = 0;
-    //    for (int i = 0; i < numOfClips; i++)
-    //    {
-    //        int startsample = (int)(startPosSec * origClip.frequency);
-    //        int newLenght = (int)(cliplenght * origClip.frequency);
-
-    //        var newClipSamples = origClipSmaples.Skip(startsample).Take(newLenght).ToArray();
-    //        AudioClip resClip = AudioClip.Create(origClip.name + i, newClipSamples.Length, origClip.channels, origClip.frequency, false);
-    //        resClip.SetData(newClipSamples, 0);
-    //        clips[i] = resClip;
-    //        startPosSec += .1f;
-    //    }
-    //    StartCoroutine(Wait(clips));
-    //}
-    //IEnumerator Wait(AudioClip[] _clips)
-    //{
-    //    foreach (var item in _clips)
-    //    {
-    //        yield return new WaitUntil(()=> !audioSource.isPlaying);
-    //        audioSource.clip = item;
-    //        audioSource.Play();
-    //    }
-    //}
+}
+    
     void ShowSpectrum()
     {
         float[] samples = new float[512];

@@ -8,14 +8,12 @@ public class FrequenzToVisualPointConverter : MonoBehaviour
 
     [SerializeField] NotesSO notes;
     [SerializeField] StringReferenzSO guitarStringRefernez;
-     GameObject noteObj;
 
 
     private void OnEnable()
     {
         if(Instance != null) Destroy(this);
         Instance = this;
-        noteObj = NoteManager.Instance.noteObj;
     }
     public void OnNoteDetected(string _note,bool _isOpenWoundString)
     {
@@ -34,28 +32,9 @@ public class FrequenzToVisualPointConverter : MonoBehaviour
 
         string[] notePositions = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
 
-        foreach (var pos in notePositions)
-        {
-
-            string[] positions = pos.Split(',');
-            if(positions.Length > 2) { Debug.Log("ERROR!! More than two position Vakues."); return; }
-
-            if (_isOpenWoundString && System.Convert.ToInt16(positions[1]) != 0) continue;
-
-            int  y = System.Convert.ToInt16(positions[0]);
-            GameObject go = Instantiate(noteObj, new Vector3(0, -y), Quaternion.identity);
-            go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = positions[1];
-            NoteManager.Instance.playedNotes.Add(go);
-            if(_isOpenWoundString)
-            {
-                break;
-            }
-            if(notePositions.Length > 1)
-            {
-                go.GetComponent<Renderer>().material.color = new Color(202,1,0);//orange
-            }
-        }
-       
+        
+        NoteManager.Instance.InstantiateNotes(notePositions, _isOpenWoundString);
        
     }
+    
 }
