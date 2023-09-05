@@ -7,11 +7,7 @@ using System.Linq;
 
 public class AudioVisualizer : MonoBehaviour
 {
-    public Transform[] audioSpectrumObjects;//*
-
-    [SerializeField] float heightMultiplier;//*
     [SerializeField] int numberOfSmaples = 8192;
-    [SerializeField] float lerpTime = 1;//*         --> delete //*
     [SerializeField] NotesSO notesSO;
     
     private int sampleRate;
@@ -35,10 +31,7 @@ public class AudioVisualizer : MonoBehaviour
         openWoundStringNotes = notesSO.woundOpenStringNotes.ToList();
         sampleRate = NoteManager.Instance.defaultSamplerate;
     }
-    private void Update()
-    {
-        //print(CalculateNote());
-    }
+   
     private float[] CalculateFrequency(AudioClip _clip)
     {
         //AudioSource audioSource = GetComponent<AudioSource>();
@@ -132,7 +125,9 @@ public class AudioVisualizer : MonoBehaviour
         {
             Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
 
-            FrequenzToVisualPointConverter.Instance.OnNoteDetected(actualClosestNote,isOpenWoundString);
+
+            string[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(actualClosestNote);
+            NoteManager.Instance.InstantiateNotes(notePos,isOpenWoundString);
             LastNote = actualClosestNote;
             StartCoroutine(INewNote());
         }

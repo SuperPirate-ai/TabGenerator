@@ -22,13 +22,15 @@ public class NoteManager : MonoBehaviour
         PlayPaused = !PlayPaused;
         btnText.text = PlayPaused ? "Play" : "Pause";
     }
+   
     public void InstantiateNotes(string[] _notePositions, bool _isOpenWoundString)
     {
+        
+        
         foreach (var pos in _notePositions)
         {
 
             string[] positions = pos.Split(',');
-            //print(pos  + "||" + positions[0]);
             if (positions.Length > 3) { Debug.Log("ERROR!! More than tree position Vakues."); return; }
 
             if (_isOpenWoundString && System.Convert.ToInt16(positions[1]) != 0) continue;
@@ -49,5 +51,6 @@ public class NoteManager : MonoBehaviour
             }
         }
     }
+   
 
 }

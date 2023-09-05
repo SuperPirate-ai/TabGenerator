@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    NoteManager manager;
-    int bpm;
-    int speed;
+    private NoteManager manager;
+    private int bpm;
+    private int speed;
     private void OnEnable()
     {
         manager = NoteManager.Instance;
@@ -17,7 +17,8 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!manager.playedNotes.Contains(this.gameObject))Destroy(this.gameObject);
+        if(!manager.playedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
+
         Move();
     }
     void Move()

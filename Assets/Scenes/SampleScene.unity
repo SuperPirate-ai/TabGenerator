@@ -4932,26 +4932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473c99f9cd4abae4f8ec39d66a374499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSpectrumObjects:
-  - {fileID: 4130195994008341313}
-  - {fileID: 1916096571}
-  - {fileID: 473952356}
-  - {fileID: 261428629}
-  - {fileID: 1208494273}
-  - {fileID: 236719898}
-  - {fileID: 794267081}
-  - {fileID: 988784300}
-  - {fileID: 1257346175}
-  - {fileID: 654368087}
-  - {fileID: 375421376}
-  - {fileID: 1430566223}
-  - {fileID: 1238665482}
-  - {fileID: 1860953939}
-  - {fileID: 543977833}
-  - {fileID: 214043093}
-  heightMultiplier: 20
   numberOfSmaples: 8192
-  lerpTime: 0.2
   notesSO: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
 --- !u!114 &1559014351
 MonoBehaviour:
@@ -6875,7 +6856,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1559014351}
         m_TargetAssemblyTypeName: MicrophoneInput, Scripts.Audio
-        m_MethodName: StartRecording
+        m_MethodName: StartStopRecording
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1758687405}

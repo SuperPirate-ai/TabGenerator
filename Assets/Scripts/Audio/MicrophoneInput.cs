@@ -18,18 +18,15 @@ public class MicrophoneInput : MonoBehaviour
     private bool recording = false;
     private AudioSource audioSource;
     private int sampleRate;
-    private int buffersize = (int)Mathf.Pow(2, 13);
+    private readonly int buffersize = (int)Mathf.Pow(2, 13);
     void Start()
     {
-        ////Test
-        //microphone = "GT-1";
-        ////
         audioSource = GetComponent<AudioSource>();
         microInputDropDown.AddOptions(Microphone.devices.ToList());
         sampleRate = NoteManager.Instance.defaultSamplerate;
     }
-    
-    public void StartRecording(TMP_Text _bntText)
+  
+    public void StartStopRecording(TMP_Text _bntText)
     {
         recording = !recording;
         if (!recording)
@@ -42,6 +39,10 @@ public class MicrophoneInput : MonoBehaviour
             NoteManager.Instance.PlayPaused = false;
             StartCoroutine(UpdateMicrophone());
         }
+        ChangeRecordBtnText(_bntText);
+    }
+    private void ChangeRecordBtnText(TMP_Text _bntText)
+    {
         _bntText.text = recording ? "Stop" : "Record";
     }
     public IEnumerator UpdateMicrophone()
@@ -71,9 +72,6 @@ public class MicrophoneInput : MonoBehaviour
     {
         microphone = microInputDropDown.options[microInputDropDown.value].text;
         print(microphone);
-
-
     }
-
 
 }

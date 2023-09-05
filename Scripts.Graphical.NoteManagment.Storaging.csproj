@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Graphical\NoteManagment\Storaging\SaveLoadFiles.cs" />
-    <Compile Include="Assets\Scripts\Graphical\NoteManagment\Storaging\MemorieStorager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Graphical\NoteManagment\Storaging\Scripts.Graphical.NoteManagment.Storaging.asmdef" />
