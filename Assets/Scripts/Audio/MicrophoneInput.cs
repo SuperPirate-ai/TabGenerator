@@ -17,13 +17,16 @@ public class MicrophoneInput : MonoBehaviour
 
     private bool recording = false;
     private AudioSource audioSource;
-    private int sampleRate = 44100;
+    private int sampleRate;
     private int buffersize = (int)Mathf.Pow(2, 13);
     void Start()
     {
+        ////Test
+        //microphone = "GT-1";
+        ////
         audioSource = GetComponent<AudioSource>();
         microInputDropDown.AddOptions(Microphone.devices.ToList());
-        
+        sampleRate = NoteManager.Instance.defaultSamplerate;
     }
     
     public void StartRecording(TMP_Text _bntText)

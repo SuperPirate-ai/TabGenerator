@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Audio\AudioVisualizer.cs" />
     <Compile Include="Assets\Scripts\Audio\MicrophoneInput.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Audio\Scripts.Audio.asmdef" />

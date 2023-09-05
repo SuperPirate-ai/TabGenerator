@@ -7,14 +7,14 @@ using System.Linq;
 
 public class AudioVisualizer : MonoBehaviour
 {
-    public Transform[] audioSpectrumObjects;
+    public Transform[] audioSpectrumObjects;//*
 
-    [SerializeField] float heightMultiplier;
-    [SerializeField] int numberOfSmaples = 1024;
-    [SerializeField] float lerpTime = 1;
+    [SerializeField] float heightMultiplier;//*
+    [SerializeField] int numberOfSmaples = 8192;
+    [SerializeField] float lerpTime = 1;//*         --> delete //*
     [SerializeField] NotesSO notesSO;
     
-    private int sampleRate = 44100;
+    private int sampleRate;
     private int buffersize = (int)Math.Pow(2, 14);
     private double[] fftReal;
     
@@ -33,6 +33,7 @@ public class AudioVisualizer : MonoBehaviour
         }
 
         openWoundStringNotes = notesSO.woundOpenStringNotes.ToList();
+        sampleRate = NoteManager.Instance.defaultSamplerate;
     }
     private void Update()
     {
@@ -54,11 +55,12 @@ public class AudioVisualizer : MonoBehaviour
         var fft = FFT(samplesDoub);
         Array.Copy(fft, fftReal, fftReal.Length);
 
+        //taking higpassFilter
+        fftReal = AudioFilter.Instance.HighPassFilter(75, fftReal);
 
         double[] highestFFTValues = new double[3];
         int[] highestFFTBins = new int[3];
 
-            
         var values = fftReal.Select((value, index) => new { Value = value, Index = index });
         var sortedValues = values.OrderByDescending(item => item.Value);
         var   highestValues = sortedValues.Take(3);
@@ -88,6 +90,7 @@ public class AudioVisualizer : MonoBehaviour
         float actualClosestFreq;
         string actualClosestNote;
         bool isOpenWoundString;
+
         for (int i = 0; i < notes.Count; i++)
         {
             for (int j = 0;j<frequencys.Length;j++)
@@ -122,10 +125,13 @@ public class AudioVisualizer : MonoBehaviour
         actualClosestNote = closestNotes[0];
         actualClosestFreq = closestFreqs[0];
         isOpenWoundString = false;
+
         wound:
         if(actualClosestFreq == 0)return (-1,"NONE");
         if(LastNote != actualClosestNote)
         {
+            Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
+
             FrequenzToVisualPointConverter.Instance.OnNoteDetected(actualClosestNote,isOpenWoundString);
             LastNote = actualClosestNote;
             StartCoroutine(INewNote());

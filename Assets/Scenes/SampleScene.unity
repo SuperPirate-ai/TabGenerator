@@ -3024,6 +3024,7 @@ MonoBehaviour:
   BPM: 100
   NoteSpeed: 10
   PlayPaused: 1
+  defaultSamplerate: 44100
 --- !u!4 &947617753
 Transform:
   m_ObjectHideFlags: 0
@@ -3724,13 +3725,13 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1559014347}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1559014351}
+        m_TargetAssemblyTypeName: MicrophoneInput, Scripts.Audio
+        m_MethodName: OnMicrophoneInputChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4800,6 +4801,7 @@ GameObject:
   - component: {fileID: 1559014348}
   - component: {fileID: 1559014350}
   - component: {fileID: 1559014351}
+  - component: {fileID: 1559014352}
   m_Layer: 0
   m_Name: MicrophoneManager
   m_TagString: Untagged
@@ -4985,6 +4987,18 @@ MonoBehaviour:
   - {fileID: 214043093}
   heightMultiplier: 20
   lerpTime: 1
+--- !u!114 &1559014352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559014347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f67f956d673b1e45b40b2e9d99a7e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1565107581
 GameObject:
   m_ObjectHideFlags: 0
