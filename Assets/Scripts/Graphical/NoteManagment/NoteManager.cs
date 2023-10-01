@@ -10,7 +10,7 @@ public class NoteManager : MonoBehaviour
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    public int defaultSamplerate = 22050;
+    public int defaultSamplerate = 44100 ;
     private void Awake()
     {
         if(Instance != null) Destroy(this); 

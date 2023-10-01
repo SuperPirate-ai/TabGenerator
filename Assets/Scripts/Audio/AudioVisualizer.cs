@@ -51,12 +51,18 @@ public class AudioVisualizer : MonoBehaviour
         //taking higpassFilter
         fftReal = AudioFilter.Instance.HighPassFilter(75, fftReal);
 
+        float[] frequencys = GetHighestFFTPeaks();
+        print(frequencys[0] + "||" + frequencys[1] +"||" + frequencys[2]);
+        return frequencys;
+    }
+    private float[] GetHighestFFTPeaks()
+    {
         double[] highestFFTValues = new double[3];
         int[] highestFFTBins = new int[3];
 
         var values = fftReal.Select((value, index) => new { Value = value, Index = index });
         var sortedValues = values.OrderByDescending(item => item.Value);
-        var   highestValues = sortedValues.Take(3);
+        var highestValues = sortedValues.Take(3);
         int j = -1;
         foreach (var item in highestValues)
         {
@@ -70,8 +76,7 @@ public class AudioVisualizer : MonoBehaviour
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
             if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
-            frequencys[i] = (highestFFTBins[i] * sampleRate / fftReal.Length) / 2;
-           
+            frequencys[i] = (highestFFTBins[i] * (sampleRate/2 )/ fftReal.Length);
         }
         return frequencys;
     }
@@ -123,8 +128,7 @@ public class AudioVisualizer : MonoBehaviour
         if(actualClosestFreq == 0)return (-1,"NONE");
         if(LastNote != actualClosestNote)
         {
-            Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
-
+            //Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
 
             string[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(actualClosestNote);
             NoteManager.Instance.InstantiateNotes(notePos,isOpenWoundString);
