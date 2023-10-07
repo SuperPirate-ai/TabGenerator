@@ -56,7 +56,7 @@ public class SaveLoadFiles : MonoBehaviour
         Vector3[] notepos = new Vector3[data.Length - 1];
         for (int i = 1; i < data.Length; i++)
         {
-            int[] pos =  data[i].Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+            int[] pos = data[i].Split(',').Select(n => Convert.ToInt32(n)).ToArray();
 
             notepos[i] = new Vector3(pos[2], pos[0], pos[1]);
         }

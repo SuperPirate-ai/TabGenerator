@@ -14,13 +14,13 @@ public class NoteToVisualPointsConverter : MonoBehaviour
 
     private void OnEnable()
     {
-        if(Instance != null) Destroy(this);
+        if (Instance != null) Destroy(this);
         Instance = this;
     }
     public Vector3[] GetNotePositions(string _note)
     {
         int indexOfNote = -1;
-        
+
         for (int i = 0; i < notes.noteNames.Length; i++)
         {
             if (notes.noteNames[i] == _note)
@@ -35,7 +35,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
         Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];
 
-        for(int i = 0; i < notePositionsString.Length;i++)
+        for (int i = 0; i < notePositionsString.Length; i++)
         {
             string[] point = notePositionsString[i].Split(',');
             notePositionsVector[i] = new Vector3(0, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
@@ -43,6 +43,6 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         return notePositionsVector;
     }
 
-    
-    
+
+
 }

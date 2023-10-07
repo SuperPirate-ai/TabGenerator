@@ -10,11 +10,11 @@ public class NoteManager : MonoBehaviour
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    public int defaultSamplerate = 44100 ;
+    public int defaultSamplerate = 44100;
     private void Awake()
     {
-        if(Instance != null) Destroy(this); 
-       
+        if (Instance != null) Destroy(this);
+
         Instance = this;
     }
     public void Play(TMP_Text btnText)
@@ -22,16 +22,16 @@ public class NoteManager : MonoBehaviour
         PlayPaused = !PlayPaused;
         btnText.text = PlayPaused ? "Play" : "Pause";
     }
-   
+
     public void InstantiateNotes(Vector3[] _notePositions, bool _isOpenWoundString)
     {
-        
+
         foreach (Vector3 position in _notePositions)
         {
 
             if (_isOpenWoundString && position.x != 0) continue;
 
-            GameObject go = Instantiate(noteObj,position, Quaternion.identity);
+            GameObject go = Instantiate(noteObj, position, Quaternion.identity);
             go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = position.z.ToString();
             Instance.playedNotes.Add(go);
             if (_isOpenWoundString)
@@ -44,5 +44,5 @@ public class NoteManager : MonoBehaviour
             }
         }
     }
-   
+
 }
