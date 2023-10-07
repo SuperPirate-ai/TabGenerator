@@ -9,11 +9,13 @@ public class AudioVisualizer : MonoBehaviour
 {
     [SerializeField] int numberOfSmaples = 8192;
     [SerializeField] NotesSO notesSO;
+    [SerializeField] int analysingDepth;
     
     private int sampleRate;
     private int buffersize = (int)Math.Pow(2, 14);
     private double[] fftReal;
-    
+    private float fftError;
+
     private List<(int, string)> notes;
     private List<string> openWoundStringNotes;
 
@@ -30,6 +32,7 @@ public class AudioVisualizer : MonoBehaviour
 
         openWoundStringNotes = notesSO.woundOpenStringNotes.ToList();
         sampleRate = NoteManager.Instance.defaultSamplerate;
+        fftError = sampleRate / numberOfSmaples;
     }
    
     private float[] CalculateFrequency(AudioClip _clip)
@@ -51,28 +54,35 @@ public class AudioVisualizer : MonoBehaviour
         //taking higpassFilter
         fftReal = AudioFilter.Instance.HighPassFilter(75, fftReal);
 
-        float[] frequencys = GetHighestFFTPeaks();
-        print(frequencys[0] + "||" + frequencys[1] +"||" + frequencys[2]);
+        float[] frequencys = GetHighestFFTPeaks(analysingDepth);
+        //print(frequencys[0] + "||" + frequencys[1] +"||" + frequencys[2]);
         return frequencys;
     }
-    private float[] GetHighestFFTPeaks()
+    private float[] GetHighestFFTPeaks(int _numberOfPeaks)
     {
-        double[] highestFFTValues = new double[3];
-        int[] highestFFTBins = new int[3];
+        double[] highestFFTValues = new double[_numberOfPeaks];
+        int[] highestFFTBins = new int[_numberOfPeaks];
+
 
         var values = fftReal.Select((value, index) => new { Value = value, Index = index });
         var sortedValues = values.OrderByDescending(item => item.Value);
-        var highestValues = sortedValues.Take(3);
-        int j = -1;
+        var highestValues = sortedValues.Take(_numberOfPeaks);
+
+        highestValues =  highestFFTValues.Select((value, index) => new { Value = value, Index = index }).OrderBy(item => item.Index);
+
+        int j = _numberOfPeaks;
         foreach (var item in highestValues)
         {
-            j++;
+            print(item.Value + "||" + item.Index);
+            j--;
+            
             if (item.Value < .001f) { highestFFTValues[j] = -1; continue; }
+
             highestFFTValues[j] = item.Value;
             highestFFTBins[j] = item.Index;
         }
 
-        float[] frequencys = new float[3];
+        float[] frequencys = new float[_numberOfPeaks];
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
             if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
@@ -83,8 +93,8 @@ public class AudioVisualizer : MonoBehaviour
     public (float,string) CalculateNote(AudioClip _clip)
     {
         float[] frequencys = CalculateFrequency(_clip);
-        string[] closestNotes = new string[3] { "", "", "" };
-        float[] closestFreqs = new float[3] { 0f, 0f, 0f };
+        string[] closestNotes = new string[analysingDepth];
+        float[] closestFreqs = new float[analysingDepth];
         float actualClosestFreq;
         string actualClosestNote;
         bool isOpenWoundString;
@@ -94,7 +104,7 @@ public class AudioVisualizer : MonoBehaviour
             for (int j = 0;j<frequencys.Length;j++)
             {
                 if (frequencys[j] == -1) continue;
-                if (Mathf.Abs(notes[i].Item1 - frequencys[j]) < Mathf.Abs(closestFreqs[j] - (float)frequencys[j]) && Mathf.Abs(notes[i].Item1 - frequencys[j]) < 40f)
+                if (Mathf.Abs(notes[i].Item1 - frequencys[j]) < Mathf.Abs(closestFreqs[j] - (float)frequencys[j]) && Mathf.Abs(notes[i].Item1 - frequencys[j]) < fftError)
                 {
                     closestNotes[j] = notes[i].Item2;
                     closestFreqs[j] = notes[i].Item1;    
@@ -102,7 +112,7 @@ public class AudioVisualizer : MonoBehaviour
             }
         }
 
-        if (closestFreqs[0] + closestFreqs[1] + closestFreqs[2] == 0f) return (-1,"None");
+        if (AreAllValuesZero(closestFreqs)) return (-1,"None");
         for (int i = 0; i < closestFreqs.Length; i++)
         {
            
@@ -131,6 +141,7 @@ public class AudioVisualizer : MonoBehaviour
             //Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
 
             string[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(actualClosestNote);
+            
             NoteManager.Instance.InstantiateNotes(notePos,isOpenWoundString);
             LastNote = actualClosestNote;
             StartCoroutine(INewNote());
@@ -144,6 +155,17 @@ public class AudioVisualizer : MonoBehaviour
         yield return new WaitForSecondsRealtime(.7f);
         LastNote = "";
         StopCoroutine(INewNote());
+    }
+
+    bool AreAllValuesZero(float[] _values)
+    {
+        foreach (var value in _values) 
+        {
+            if(value == 0) continue;
+
+            return false;
+        }
+        return true;
     }
     public static double[] FFT(double[] _data)
     {

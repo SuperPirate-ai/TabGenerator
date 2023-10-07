@@ -23,7 +23,9 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         microInputDropDown.AddOptions(Microphone.devices.ToList());
+        microInputDropDown.value = 0; 
         sampleRate = NoteManager.Instance.defaultSamplerate;
+        microphone = Microphone.devices[0];
     }
   
     public void StartStopRecording(TMP_Text _bntText)
@@ -49,7 +51,6 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource.Stop();
         if(!recording) yield break;
-
         audioSource.clip = Microphone.Start(microphone, false, 1, sampleRate);
         yield return new WaitForSecondsRealtime(.5f);
         Microphone.End(microphone);

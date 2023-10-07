@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Graphical\NoteManagment\NoteManager.cs" />
+    <Compile Include="Assets\Scripts\Graphical\NoteManagment\FollowingNoteDetermination.cs" />
     <Compile Include="Assets\Scripts\Graphical\NoteManagment\Note.cs" />
   </ItemGroup>
   <ItemGroup>
