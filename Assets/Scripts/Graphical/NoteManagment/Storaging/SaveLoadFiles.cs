@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using System.Linq;
 using TMPro;
-using UnityEngine.WSA;
-using Accord.Math;
-using Unity.VisualScripting.YamlDotNet.Core;
+using UnityEngine;
 
 public class SaveLoadFiles : MonoBehaviour
 {
@@ -27,7 +23,7 @@ public class SaveLoadFiles : MonoBehaviour
     public void Save()
     {
         string file = $"{noteManager.BPM}";
-        foreach (GameObject note in noteManager.playedNotes) 
+        foreach (GameObject note in noteManager.playedNotes)
         {
             file += $";{note.transform.position.y},{note.transform.position.z},{note.transform.position.x}";
         }
@@ -38,14 +34,14 @@ public class SaveLoadFiles : MonoBehaviour
     }
     public void Load()
     {
-        if(DoesRecordingExists($"{internalPath}/{fileName.text}") == false) 
+        if (DoesRecordingExists($"{internalPath}/{fileName.text}") == false)
         {
             ThrowErrorMessage();
             return;
         }
-        
+
         errorMes.gameObject.SetActive(false);
-        
+
         string file;
         StreamReader reader = new StreamReader($"{internalPath}/{fileName.text}" + (fileName.text.EndsWith(".csF") ? "" : ".csF"));
 
@@ -53,12 +49,16 @@ public class SaveLoadFiles : MonoBehaviour
         reader.Close();
 
         noteManager.playedNotes.Clear();
+
         string[] data = file.Split(";");
-        noteManager.BPM = Convert.ToInt16(data[0]);
-        string[] notepos = new string[data.Length-1];
+        noteManager.BPM = Convert.ToInt32(data[0]);
+
+        Vector3[] notepos = new Vector3[data.Length - 1];
         for (int i = 1; i < data.Length; i++)
         {
-            notepos[i-1] = data[i];
+            int[] pos =  data[i].Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+
+            notepos[i] = new Vector3(pos[2], pos[0], pos[1]);
         }
         noteManager.InstantiateNotes(notepos, false);
 

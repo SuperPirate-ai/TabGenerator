@@ -23,24 +23,17 @@ public class NoteManager : MonoBehaviour
         btnText.text = PlayPaused ? "Play" : "Pause";
     }
    
-    public void InstantiateNotes(string[] _notePositions, bool _isOpenWoundString)
+    public void InstantiateNotes(Vector3[] _notePositions, bool _isOpenWoundString)
     {
         
-        
-        foreach (var pos in _notePositions)
+        foreach (Vector3 position in _notePositions)
         {
 
-            string[] positions = pos.Split(',');
-            if (positions.Length > 3) { Debug.Log("ERROR!! More than tree position Vakues."); return; }
+            if (_isOpenWoundString && position.x != 0) continue;
 
-            if (_isOpenWoundString && System.Convert.ToInt16(positions[1]) != 0) continue;
-
-            float y = (float)System.Convert.ToDouble(positions[0]);
-            int z = System.Convert.ToInt32(positions[1]);
-            float x = positions.Length > 2 ? (float)System.Convert.ToDouble(positions[2]) : 0f;
-            GameObject go = Instantiate(noteObj, new Vector3(x, y, z), Quaternion.identity);
-            go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = positions[1];
-            NoteManager.Instance.playedNotes.Add(go);
+            GameObject go = Instantiate(noteObj,position, Quaternion.identity);
+            go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = position.z.ToString();
+            Instance.playedNotes.Add(go);
             if (_isOpenWoundString)
             {
                 break;
@@ -52,5 +45,4 @@ public class NoteManager : MonoBehaviour
         }
     }
    
-
 }

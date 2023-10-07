@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+
 public class NoteToVisualPointsConverter : MonoBehaviour
 {
     public static NoteToVisualPointsConverter Instance { get; private set; }
@@ -15,7 +17,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         if(Instance != null) Destroy(this);
         Instance = this;
     }
-    public string[] GetNotePositions(string _note)
+    public Vector3[] GetNotePositions(string _note)
     {
         int indexOfNote = -1;
         
@@ -30,8 +32,15 @@ public class NoteToVisualPointsConverter : MonoBehaviour
 
         if (indexOfNote == -1) { Debug.Log($"No Note found with the name{_note}."); return null; }
 
-        string[] notePositions = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
-        return notePositions;
+        string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
+        Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];
+
+        for(int i = 0; i < notePositionsString.Length;i++)
+        {
+            string[] point = notePositionsString[i].Split(',');
+            notePositionsVector[i] = new Vector3(0, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
+        }
+        return notePositionsVector;
     }
 
     
