@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 public class NoteManager : MonoBehaviour
 {
     public static NoteManager Instance { get; private set; }
@@ -28,21 +30,24 @@ public class NoteManager : MonoBehaviour
 
         foreach (Vector3 position in _notePositions)
         {
-
-            if (_isOpenWoundString && position.x != 0) continue;
-
-            GameObject go = Instantiate(noteObj, position, Quaternion.identity);
-            go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = position.z.ToString();
-            Instance.playedNotes.Add(go);
-            if (_isOpenWoundString)
-            {
-                break;
-            }
-            if (_notePositions.Length > 1)
-            {
-                go.GetComponent<Renderer>().material.color = new Color(202, 1, 0);//orange
-            }
+           int code = InstantiateNotes(position, _isOpenWoundString);
+            if (code == 1) break;
         }
+    }
+    public int InstantiateNotes(Vector3 _notePositions, bool _isOpenWoundString)
+    {
+        if (_isOpenWoundString && _notePositions.x != 0) return 0;
+
+        GameObject go = Instantiate(noteObj, _notePositions, Quaternion.identity);
+        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePositions.z.ToString();
+        Instance.playedNotes.Add(go);
+        
+        if (_isOpenWoundString)
+        {
+            return 1;
+        }
+        return 0;
+        
     }
 
 }

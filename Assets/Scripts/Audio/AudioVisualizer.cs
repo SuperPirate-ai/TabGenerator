@@ -141,8 +141,8 @@ public class AudioVisualizer : MonoBehaviour
             //Debug.Log("Freq: " + actualClosestFreq + "Note: " + actualClosestNote);
 
             Vector3[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(actualClosestNote);
-
-            NoteManager.Instance.InstantiateNotes(notePos, isOpenWoundString);
+            Vector3 mostLiklyPosition = FollowingNoteDetermination.Instance.DeterminNextNote(notePos);
+            NoteManager.Instance.InstantiateNotes(mostLiklyPosition, isOpenWoundString);
             LastNote = actualClosestNote;
             StartCoroutine(INewNote());
         }
