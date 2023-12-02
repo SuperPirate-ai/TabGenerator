@@ -2,7 +2,8 @@
     "name": "Scripts.UI",
     "rootNamespace": "",
     "references": [
-        "GUID:ac971a34786908645adb769090ab949f"
+        "GUID:ac971a34786908645adb769090ab949f",
+        "GUID:13b90b032e25753499be1ef349e29751"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

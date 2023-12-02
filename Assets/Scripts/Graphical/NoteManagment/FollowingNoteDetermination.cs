@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,8 +12,8 @@ public class FollowingNoteDetermination : MonoBehaviour
     public Vector3 DeterminNextNote(Vector3[] _notePositions)
     {
         GameObject lastNote = NoteManager.Instance.playedNotes.Last();
-        Vector3 posOfLastNote =  lastNote.transform.position;
-        Vector3 mostLiklyNotePosition = new Vector3(Mathf.Infinity,Mathf.Infinity,Mathf.Infinity);
+        Vector3 posOfLastNote = lastNote.transform.position;
+        Vector3 mostLiklyNotePosition = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
 
         foreach (var position in _notePositions)
         {

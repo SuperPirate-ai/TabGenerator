@@ -1,8 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class NoteManager : MonoBehaviour
 {
@@ -12,7 +11,8 @@ public class NoteManager : MonoBehaviour
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    public int defaultSamplerate = 44100;
+    public int defaultSamplerate = 11025;
+    public int defaultBufferSize = (int)Math.Pow(2, 14);
     private void Awake()
     {
         if (Instance != null) Destroy(this);
@@ -25,29 +25,17 @@ public class NoteManager : MonoBehaviour
         btnText.text = PlayPaused ? "Play" : "Pause";
     }
 
-    public void InstantiateNotes(Vector3[] _notePositions, bool _isOpenWoundString)
+    public void InstantiateNotes(Vector3[] _notePositions)
     {
-
         foreach (Vector3 position in _notePositions)
         {
-           int code = InstantiateNotes(position, _isOpenWoundString);
-            if (code == 1) break;
+            InstantiateNote(position);
         }
     }
-    public int InstantiateNotes(Vector3 _notePositions, bool _isOpenWoundString)
+    public void InstantiateNote(Vector3 _notePosition)
     {
-        if (_isOpenWoundString && _notePositions.x != 0) return 0;
-
-        GameObject go = Instantiate(noteObj, _notePositions, Quaternion.identity);
-        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePositions.z.ToString();
+        GameObject go = Instantiate(noteObj, _notePosition, Quaternion.identity);
+        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePosition.z.ToString();
         Instance.playedNotes.Add(go);
-        
-        if (_isOpenWoundString)
-        {
-            return 1;
-        }
-        return 0;
-        
     }
-
 }

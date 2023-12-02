@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Note : MonoBehaviour
@@ -7,6 +6,8 @@ public class Note : MonoBehaviour
     private NoteManager manager;
     private int bpm;
     private int speed;
+    public delegate void MouseClickNote([Optional] GameObject _note);
+    public static event MouseClickNote clickedOnMouse;
     private void OnEnable()
     {
         manager = NoteManager.Instance;
@@ -17,7 +18,7 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!manager.playedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
+        if (!manager.playedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
 
         Move();
     }
@@ -28,4 +29,10 @@ public class Note : MonoBehaviour
         Vector3 velocity = new Vector3(-speed * Time.deltaTime, 0);
         this.transform.Translate(velocity);
     }
+
+    private void OnMouseDown()
+    {
+        clickedOnMouse.Invoke(this.gameObject);
+    }
+
 }

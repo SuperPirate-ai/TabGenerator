@@ -1,7 +1,5 @@
-using Accord.Math;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,29 +10,29 @@ public class TestAudioFreq : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] int sampleRate;
     private double[] fftReal;
-    
+
     int numberOfSmaples = 8192;
     int buffersize = (int)Math.Pow(2, 14);
     void Start()
     {
         microphoneName = Microphone.devices[0];
-        fftReal = new double[buffersize/2];
+        fftReal = new double[buffersize / 2];
         Record();
     }
     float timeElapsed = 0f;
-    void  Record()
+    void Record()
     {
         timeElapsed += Time.deltaTime;
         audioSource.clip = null;
 
-       audioSource.clip = Microphone.Start(microphoneName, false, 1, sampleRate);
+        audioSource.clip = Microphone.Start(microphoneName, false, 1, sampleRate);
         // while (Microphone.IsRecording(microphoneName) && timeElapsed < 1.5f) { }
-       
+
         StartCoroutine(WaitForFixedUpdateAndCallRecord());
         //
-        
+
     }
-    IEnumerator WaitForFixedUpdateAndCallRecord() 
+    IEnumerator WaitForFixedUpdateAndCallRecord()
     {
         yield return new WaitForSeconds(1.1f);
         print(CalculateFrequency()[0]);
@@ -79,13 +77,13 @@ public class TestAudioFreq : MonoBehaviour
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
             if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
-            frequencys[i] = ((highestFFTBins[i] * sampleRate / fftReal.Length) / 2)/3;
+            frequencys[i] = ((highestFFTBins[i] * sampleRate / fftReal.Length) / 2) / 3;
 
         }
         return frequencys;
     }
 
-    
+
     public static double[] FFT(double[] _data)
     {
         double[] fft = new double[_data.Length];
@@ -96,7 +94,7 @@ public class TestAudioFreq : MonoBehaviour
             fftComplex[i] = new System.Numerics.Complex(_data[i], 0.0);
         }
         Accord.Math.FourierTransform.FFT(fftComplex, Accord.Math.FourierTransform.Direction.Forward);
-       
+
         for (int i = 0; i < _data.Length; i++)
         {
             fft[i] = fftComplex[i].Magnitude;
