@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class AudioVisualizer : MonoBehaviour
@@ -107,21 +108,14 @@ public class AudioVisualizer : MonoBehaviour
     {
         float[] corespondingFrequencies = new float[_rawFrequencies.Length];
 
-        for (int i = 0; i < notesFrequencies.Count; i++)
+        for (int i = 0; i < _rawFrequencies.Length; i++)
         {
-            float noteFreq = notesFrequencies[i];
-            for (int a = 0; a < _rawFrequencies.Length; a++)
-            {
-                float rawFreq = _rawFrequencies[a];
+            float rawFreq = _rawFrequencies[i];
 
-                bool newFreqIsCloserToNoteFreq = Mathf.Abs(noteFreq - rawFreq) < Mathf.Abs(noteFreq - corespondingFrequencies[a]);
-                bool isInFFtError = Mathf.Abs(noteFreq - rawFreq) < fftError;
-
-                if (newFreqIsCloserToNoteFreq && isInFFtError)
-                {
-                    corespondingFrequencies[a] = noteFreq;
-                }
-            }
+            var closestValue = notesFrequencies.Select((value, index) => new { Value = value, Index = index, Difference = Math.Abs(value - rawFreq) })
+                .OrderBy(v => v.Difference)
+                .First();
+            corespondingFrequencies[i] = closestValue.Value;
         }
 
         float[] coreespondingFreqNoZeros = Array.FindAll(corespondingFrequencies, x => x != 0);
