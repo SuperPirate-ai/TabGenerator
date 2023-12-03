@@ -105,6 +105,7 @@ public class AudioVisualizer : MonoBehaviour
     private float[] GetFrequencysCoresbondingToNote(float[] _rawFrequencys)
     {
         float[] corespondingFrequencys = new float[_rawFrequencys.Length];
+
         for (int i = 0; i < notesFrequencys.Count; i++)
         {
             float noteFreq = notesFrequencys[i];
