@@ -15,7 +15,7 @@ public class AudioVisualizer : MonoBehaviour
 
 
     private AudioFilter audioFilter;
-    private List<int> notesFrequencys;
+    private List<int> notesFrequencies;
 
     private float fftError;
     private float LastFreq = 0;
@@ -23,10 +23,10 @@ public class AudioVisualizer : MonoBehaviour
     private void Awake()
     {
         fftReal = new double[numberOfSmaples];
-        notesFrequencys = new List<int>();
+        notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
         {
-            notesFrequencys.Add(notesSO.frequnecys[i]);
+            notesFrequencies.Add(notesSO.frequnecys[i]);
         }
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
@@ -36,12 +36,13 @@ public class AudioVisualizer : MonoBehaviour
     public void Visualize(AudioClip _clip)
     {
         double[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(_clip);
-        float[] frequencys = CalculateFrequencys(rawSamples);
-
-        float[] corresbondingFrequneys = GetFrequencysCoresbondingToNote(frequencys);
+        float[] frequencies = CalculateFrequencies(rawSamples);
+       
+        float[] corresbondingFrequneys = GetFrequenciesCoresbondingToNote(frequencies);
         if (corresbondingFrequneys.Length == 0) return;
         if (corresbondingFrequneys[0] == LastFreq) return;
-
+       
+        print(frequencies[0]+ " corresponse to " +corresbondingFrequneys[0]);
         Vector3[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(corresbondingFrequneys[0]);
         NoteManager.Instance.InstantiateNotes(notePos);
 
@@ -49,7 +50,7 @@ public class AudioVisualizer : MonoBehaviour
         StartCoroutine(INewNote());
     }
 
-    private float[] CalculateFrequencys(double[] _samples)
+    private float[] CalculateFrequencies(double[] _samples)
     {
         double[] samples = _samples;
         double[] highestFFTValues = new double[analysingDepth];
@@ -68,7 +69,6 @@ public class AudioVisualizer : MonoBehaviour
         int j = analysingDepth;
         foreach (var item in peaks)
         {
-            print(item.Value + "||" + item.Key);
             j--;
 
             if (item.Value < .0001f) { highestFFTValues[j] = -1; continue; }
@@ -77,14 +77,14 @@ public class AudioVisualizer : MonoBehaviour
             highestFFTBins[j] = item.Key;
         }
 
-        float[] frequencys = new float[analysingDepth];
+        float[] frequencies = new float[analysingDepth];
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
-            if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
-            frequencys[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length);
+            if (highestFFTValues[i] == -1) { frequencies[i] = -1; continue; }
+            frequencies[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length);
         }
 
-        return frequencys;
+        return frequencies;
     }
     private SortedDictionary<int,double> GetSortedHighestFFTPeaks(int _numberOfPeaks)
     {
@@ -103,28 +103,28 @@ public class AudioVisualizer : MonoBehaviour
 
         return sortedPeaks;
     }
-    private float[] GetFrequencysCoresbondingToNote(float[] _rawFrequencys)
+    private float[] GetFrequenciesCoresbondingToNote(float[] _rawFrequencies)
     {
-        float[] corespondingFrequencys = new float[_rawFrequencys.Length];
+        float[] corespondingFrequencies = new float[_rawFrequencies.Length];
 
-        for (int i = 0; i < notesFrequencys.Count; i++)
+        for (int i = 0; i < notesFrequencies.Count; i++)
         {
-            float noteFreq = notesFrequencys[i];
-            for (int a = 0; a < _rawFrequencys.Length; a++)
+            float noteFreq = notesFrequencies[i];
+            for (int a = 0; a < _rawFrequencies.Length; a++)
             {
-                float rawFreq = _rawFrequencys[a];
+                float rawFreq = _rawFrequencies[a];
 
-                bool newFreqIsCloserToNoteFreq = Mathf.Abs(noteFreq - rawFreq) < Mathf.Abs(noteFreq - corespondingFrequencys[a]);
+                bool newFreqIsCloserToNoteFreq = Mathf.Abs(noteFreq - rawFreq) < Mathf.Abs(noteFreq - corespondingFrequencies[a]);
                 bool isInFFtError = Mathf.Abs(noteFreq - rawFreq) < fftError;
 
                 if (newFreqIsCloserToNoteFreq && isInFFtError)
                 {
-                    corespondingFrequencys[a] = noteFreq;
+                    corespondingFrequencies[a] = noteFreq;
                 }
             }
         }
 
-        float[] coreespondingFreqNoZeros = Array.FindAll(corespondingFrequencys, x => x != 0);
+        float[] coreespondingFreqNoZeros = Array.FindAll(corespondingFrequencies, x => x != 0);
 
         return coreespondingFreqNoZeros;
     }

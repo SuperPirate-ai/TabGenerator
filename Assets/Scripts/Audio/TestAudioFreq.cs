@@ -73,14 +73,14 @@ public class TestAudioFreq : MonoBehaviour
             highestFFTBins[j] = item.Index;
         }
 
-        float[] frequencys = new float[3];
+        float[] frequencies = new float[3];
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
-            if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
-            frequencys[i] = ((highestFFTBins[i] * sampleRate / fftReal.Length) / 2) / 3;
+            if (highestFFTValues[i] == -1) { frequencies[i] = -1; continue; }
+            frequencies[i] = ((highestFFTBins[i] * sampleRate / fftReal.Length) / 2) / 3;
 
         }
-        return frequencys;
+        return frequencies;
     }
 
 
