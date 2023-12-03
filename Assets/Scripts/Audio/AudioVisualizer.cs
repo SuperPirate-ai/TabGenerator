@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 public class AudioVisualizer : MonoBehaviour
 {
     [SerializeField] int numberOfSmaples = 8192;
@@ -13,13 +12,13 @@ public class AudioVisualizer : MonoBehaviour
 
     private int sampleRate;
     private double[] fftReal;
-    private float fftError;
+
+
     private AudioFilter audioFilter;
-
-
     private List<int> notesFrequencys;
 
-    float LastFreq = 0;
+    private float fftError;
+    private float LastFreq = 0;
 
     private void Awake()
     {
@@ -30,14 +29,14 @@ public class AudioVisualizer : MonoBehaviour
             notesFrequencys.Add(notesSO.frequnecys[i]);
         }
 
-        sampleRate = NoteManager.Instance.defaultSamplerate;
+        sampleRate = NoteManager.Instance.DefaultSamplerate;
         fftError = sampleRate / numberOfSmaples;
     }
 
     public void Visualize(AudioClip _clip)
     {
         double[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(_clip);
-        float[] frequencys = CalculateFrequency(rawSamples);
+        float[] frequencys = CalculateFrequencys(rawSamples);
 
         float[] corresbondingFrequneys = GetFrequencysCoresbondingToNote(frequencys);
         if (corresbondingFrequneys.Length == 0) return;
@@ -50,9 +49,11 @@ public class AudioVisualizer : MonoBehaviour
         StartCoroutine(INewNote());
     }
 
-    private float[] CalculateFrequency(double[] _samples)
+    private float[] CalculateFrequencys(double[] _samples)
     {
         double[] samples = _samples;
+        double[] highestFFTValues = new double[analysingDepth];
+        int[] highestFFTBins = new int[analysingDepth];
 
         var fft = AudioComponents.Instance.FFT(samples);
         Array.Copy(fft, fftReal, fftReal.Length);
@@ -61,29 +62,11 @@ public class AudioVisualizer : MonoBehaviour
         audioFilter = new AudioFilter(75, 1000, fftReal);
         //fftReal = audioFilter.HighPassFilter(75, fftReal);
 
-        float[] frequencys = GetHighestFFTPeaks(analysingDepth);
-        return frequencys;
-    }
-    private float[] GetHighestFFTPeaks(int _numberOfPeaks)
-    {
-        double[] highestFFTValues = new double[_numberOfPeaks];
-        int[] highestFFTBins = new int[_numberOfPeaks];
-
-        #region taking peaks of fftReal
-        var values = fftReal.Select((value, index) => new { Value = value, Index = index });
-        var sortedValues = values.OrderByDescending(item => item.Value);
-        var highestValues = sortedValues.Take(_numberOfPeaks);
-        #endregion
-        SortedDictionary<int, double> sortedPeaks = new SortedDictionary<int, double>();
-
-        foreach (var value in highestValues)
-        {
-            sortedPeaks.Add(value.Index, value.Value);
-        }
+        SortedDictionary<int,double> peaks = GetSortedHighestFFTPeaks(analysingDepth);
 
 
-        int j = _numberOfPeaks;
-        foreach (var item in sortedPeaks)
+        int j = analysingDepth;
+        foreach (var item in peaks)
         {
             print(item.Value + "||" + item.Key);
             j--;
@@ -94,13 +77,31 @@ public class AudioVisualizer : MonoBehaviour
             highestFFTBins[j] = item.Key;
         }
 
-        float[] frequencys = new float[_numberOfPeaks];
+        float[] frequencys = new float[analysingDepth];
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
             if (highestFFTValues[i] == -1) { frequencys[i] = -1; continue; }
-            frequencys[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length) / 2;
+            frequencys[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length);
         }
+
         return frequencys;
+    }
+    private SortedDictionary<int,double> GetSortedHighestFFTPeaks(int _numberOfPeaks)
+    {
+        #region taking peaks of fftReal
+        var values = fftReal.Select((value, index) => new { Value = value, Index = index });
+        var sortedValues = values.OrderByDescending(item => item.Value);
+        var highestValues = sortedValues.Take(_numberOfPeaks);
+        #endregion
+
+        SortedDictionary<int, double> sortedPeaks = new SortedDictionary<int, double>();
+
+        foreach (var value in highestValues)
+        {
+            sortedPeaks.Add(value.Index, value.Value);
+        }
+
+        return sortedPeaks;
     }
     private float[] GetFrequencysCoresbondingToNote(float[] _rawFrequencys)
     {

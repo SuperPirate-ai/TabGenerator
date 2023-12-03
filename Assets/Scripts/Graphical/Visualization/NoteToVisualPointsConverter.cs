@@ -19,7 +19,6 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         print("get note Positions");
         int indexOfNote = -1;
          
-
         for (int i = 0; i < notes.frequnecys.Length; i++)
         {
             if (notes.frequnecys[i] == _frequency)
@@ -29,7 +28,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
             }
         }
 
-        if (indexOfNote == -1) { Debug.Log($"No Note found with the Frequency{_frequency}."); return null; }
+        if (indexOfNote == -1) { Debug.Log($"No Note found with the Frequency {_frequency}."); return null; }
 
         string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
         Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];

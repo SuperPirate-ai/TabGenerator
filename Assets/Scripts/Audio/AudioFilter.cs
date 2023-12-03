@@ -16,8 +16,8 @@ public class AudioFilter : MonoBehaviour
         double[] filteredFFT = new double[fftSamples.Length];
         double[] highpass = HighPassFilter(lowestFrequency, fftSamples);
         double[] lowpass = LowPassFilter(highestFrequency, fftSamples);
-        int cutofBinLowPass = (int)(highestFrequency * fftSamples.Length * 2 / NoteManager.Instance.defaultSamplerate);
-        int cutofBinHighPass = (int)(lowestFrequency * fftSamples.Length * 2 / NoteManager.Instance.defaultSamplerate);
+        int cutofBinLowPass = (int)(highestFrequency * fftSamples.Length * 2 / NoteManager.Instance.DefaultSamplerate);
+        int cutofBinHighPass = (int)(lowestFrequency * fftSamples.Length * 2 / NoteManager.Instance.DefaultSamplerate);
 
         for (int i = 0; i < filteredFFT.Length; i++)
         {
@@ -39,7 +39,7 @@ public class AudioFilter : MonoBehaviour
     double[] AllPassFilter(float _cutofFrequency, double[] _fftSamples)
     {
         float fb = _cutofFrequency;
-        float fs = NoteManager.Instance.defaultSamplerate;
+        float fs = NoteManager.Instance.DefaultSamplerate;
 
         float b = Mathf.Tan((Mathf.PI * fb) / fs);
         float a = b - 1 / b + 1;
@@ -74,7 +74,7 @@ public class AudioFilter : MonoBehaviour
     public double[] LowPassFilter(float _cutofFrequency, double[] _fftSamples)
     {
         double[] filterdFFT = _fftSamples;
-        int cutofBin = (int)(_cutofFrequency * _fftSamples.Length * 2 / NoteManager.Instance.defaultSamplerate);
+        int cutofBin = (int)(_cutofFrequency * _fftSamples.Length * 2 / NoteManager.Instance.DefaultSamplerate);
         for (int i = cutofBin; i < _fftSamples.Length; i++)
         {
             filterdFFT[i] = 0;

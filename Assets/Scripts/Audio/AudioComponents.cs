@@ -14,7 +14,7 @@ public class AudioComponents : MonoBehaviour
     }
     private void Start()
     {
-        buffersize = NoteManager.Instance.defaultBufferSize;
+        buffersize = NoteManager.Instance.DefaultBufferSize;
     }
     public double[] ExtractDataOutOfAudioClip(AudioClip _clip)
     {
@@ -23,11 +23,11 @@ public class AudioComponents : MonoBehaviour
 
         _clip.GetData(samples, 0);
 
-
         for (int i = 0; i < buffersize; i++)
         {
             doublSamples[i] = samples[i];
         }
+
         return doublSamples;
     }
     public double[] FFT(double[] _data)
@@ -39,12 +39,14 @@ public class AudioComponents : MonoBehaviour
         {
             fftComplex[i] = new System.Numerics.Complex(_data[i], 0.0);
         }
+
         Accord.Math.FourierTransform.FFT(fftComplex, Accord.Math.FourierTransform.Direction.Forward);
 
         for (int i = 0; i < _data.Length; i++)
         {
             fft[i] = fftComplex[i].Magnitude;
         }
+
         return fft;
     }
 }

@@ -6,13 +6,16 @@ using UnityEngine;
 public class NoteManager : MonoBehaviour
 {
     public static NoteManager Instance { get; private set; }
+
     public GameObject noteObj;
     public List<GameObject> playedNotes;
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    public int defaultSamplerate = 11025;
-    public int defaultBufferSize = (int)Math.Pow(2, 14);
+    public int DefaultSamplerate = 11025;
+    public int DefaultBufferSize = (int)Math.Pow(2, 14);
+
+    [HideInInspector] public int MaxBMP;
     private void Awake()
     {
         if (Instance != null) Destroy(this);

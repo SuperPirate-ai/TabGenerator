@@ -16,13 +16,19 @@ public class MicrophoneInput : MonoBehaviour
     private AudioSource audioSource;
     private int sampleRate;
     private readonly int buffersize = (int)Mathf.Pow(2, 13);
+    private float actualRecordingLength;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
         microInputDropDown.AddOptions(Microphone.devices.ToList());
         microInputDropDown.value = 0;
-        sampleRate = NoteManager.Instance.defaultSamplerate;
         microphone = Microphone.devices[0];
+
+        sampleRate = NoteManager.Instance.DefaultSamplerate;
+        actualRecordingLength = .5f;
+
+        NoteManager.Instance.MaxBMP = (int)(60 / actualRecordingLength);
     }
 
     public void StartStopRecording(TMP_Text _bntText)
@@ -49,7 +55,7 @@ public class MicrophoneInput : MonoBehaviour
         audioSource.Stop();
         if (!recording) yield break;
         audioSource.clip = Microphone.Start(microphone, false, 1, sampleRate);
-        yield return new WaitForSecondsRealtime(.5f);
+        yield return new WaitForSecondsRealtime(actualRecordingLength);
         Microphone.End(microphone);
 
 
