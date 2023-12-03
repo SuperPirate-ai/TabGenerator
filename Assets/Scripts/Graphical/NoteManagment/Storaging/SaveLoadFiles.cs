@@ -60,7 +60,7 @@ public class SaveLoadFiles : MonoBehaviour
 
             notepos[i] = new Vector3(pos[2], pos[0], pos[1]);
         }
-        noteManager.InstantiateNotes(notepos, false);
+        noteManager.InstantiateNotes(notepos);
 
     }
 

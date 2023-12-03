@@ -1,5 +1,3 @@
-using Codice.Client.Common.GameUI;
-using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -13,7 +11,6 @@ public class MicrophoneInput : MonoBehaviour
     [SerializeField] TMP_Dropdown microInputDropDown;
     [SerializeField] Transform[] audioSpectrumObjects;
     [SerializeField] float heightMultiplier;
-    [SerializeField] float lerpTime = 1;
 
     private bool recording = false;
     private AudioSource audioSource;
@@ -23,11 +20,11 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         microInputDropDown.AddOptions(Microphone.devices.ToList());
-        microInputDropDown.value = 0; 
+        microInputDropDown.value = 0;
         sampleRate = NoteManager.Instance.defaultSamplerate;
         microphone = Microphone.devices[0];
     }
-  
+
     public void StartStopRecording(TMP_Text _bntText)
     {
         recording = !recording;
@@ -50,14 +47,17 @@ public class MicrophoneInput : MonoBehaviour
     public IEnumerator UpdateMicrophone()
     {
         audioSource.Stop();
-        if(!recording) yield break;
+        if (!recording) yield break;
         audioSource.clip = Microphone.Start(microphone, false, 1, sampleRate);
         yield return new WaitForSecondsRealtime(.5f);
         Microphone.End(microphone);
-        visualizer.CalculateNote(audioSource.clip);
+
+
+        visualizer.Visualize(audioSource.clip);
         StartCoroutine(UpdateMicrophone());
-}
-    
+    }
+
+
     void ShowSpectrum()
     {
         float[] samples = new float[512];
@@ -66,7 +66,7 @@ public class MicrophoneInput : MonoBehaviour
         {
             Vector3 locScaleCube = audioSpectrumObjects[i].localScale;
             audioSpectrumObjects[i].localScale = new Vector3(locScaleCube.x, samples[i] * heightMultiplier);
-        
+
         }
     }
     public void OnMicrophoneInputChanged()

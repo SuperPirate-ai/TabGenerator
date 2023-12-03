@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FollowingNoteDetermination : MonoBehaviour
@@ -10,10 +9,22 @@ public class FollowingNoteDetermination : MonoBehaviour
         if (Instance != null) Destroy(this);
         Instance = this;
     }
-    public string DeterminNextNote(string[] _notePositions)
+    public Vector3 DeterminNextNote(Vector3[] _notePositions)
     {
-            foreach (var position in _notePositions)
-            { }
-        return "";
+        GameObject lastNote = NoteManager.Instance.playedNotes.Last();
+        Vector3 posOfLastNote = lastNote.transform.position;
+        Vector3 mostLiklyNotePosition = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+
+        foreach (var position in _notePositions)
+        {
+            float distanceMostLiklyToLast = Vector3.Distance(mostLiklyNotePosition, posOfLastNote);
+            float distancePositionToLast = Vector3.Distance(position, posOfLastNote);
+
+            if (distanceMostLiklyToLast > distancePositionToLast)
+            {
+                mostLiklyNotePosition = position;
+            }
+        }
+        return mostLiklyNotePosition;
     }
 }
