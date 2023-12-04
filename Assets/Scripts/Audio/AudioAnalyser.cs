@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEngine;
 
-public class AudioVisualizer : MonoBehaviour
+public class AudioAnalyser : MonoBehaviour
 {
     [SerializeField] int numberOfSmaples = 8192;
     [SerializeField] NotesSO notesSO;
@@ -14,7 +14,7 @@ public class AudioVisualizer : MonoBehaviour
     private int sampleRate;
     private double[] fftReal;
 
-
+    private AudioVisualizer visualizer;
     private AudioFilter audioFilter;
     private List<int> notesFrequencies;
 
@@ -30,24 +30,23 @@ public class AudioVisualizer : MonoBehaviour
             notesFrequencies.Add(notesSO.frequnecys[i]);
         }
 
+        visualizer = new AudioVisualizer();
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         fftError = sampleRate / numberOfSmaples;
     }
 
-    public void Visualize(AudioClip _clip)
+    public void Analyse(AudioClip _clip)
     {
         double[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(_clip);
         float[] frequencies = CalculateFrequencies(rawSamples);
        
-        float[] corresbondingFrequneys = GetFrequenciesCoresbondingToNote(frequencies);
-        if (corresbondingFrequneys.Length == 0) return;
-        if (corresbondingFrequneys[0] == LastFreq) return;
-       
-        print(frequencies[0]+ " corresponse to " +corresbondingFrequneys[0]);
-        Vector3[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(corresbondingFrequneys[0]);
-        NoteManager.Instance.InstantiateNotes(notePos);
+        float[] correspondingFrequneys = GetFrequenciesCoresbondingToNote(frequencies);
+        if (correspondingFrequneys.Length == 0) return;
+        if (correspondingFrequneys[0] == LastFreq) return;
 
-        LastFreq = corresbondingFrequneys[0];
+        visualizer.Visualize(correspondingFrequneys[0]);
+      
+        LastFreq = correspondingFrequneys[0];
         StartCoroutine(INewNote());
     }
 
@@ -82,7 +81,7 @@ public class AudioVisualizer : MonoBehaviour
         for (int i = 0; i < highestFFTValues.Length; i++)
         {
             if (highestFFTValues[i] == -1) { frequencies[i] = -1; continue; }
-            frequencies[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length);
+            frequencies[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length)/4;
         }
 
         return frequencies;
@@ -106,11 +105,13 @@ public class AudioVisualizer : MonoBehaviour
     }
     private float[] GetFrequenciesCoresbondingToNote(float[] _rawFrequencies)
     {
-        float[] corespondingFrequencies = new float[_rawFrequencies.Length];
+        float[] rawFrequencies = Array.FindAll(_rawFrequencies, x => x != -1);
 
-        for (int i = 0; i < _rawFrequencies.Length; i++)
+        float[] corespondingFrequencies = new float[rawFrequencies.Length];
+
+        for (int i = 0; i < rawFrequencies.Length; i++)
         {
-            float rawFreq = _rawFrequencies[i];
+            float rawFreq = rawFrequencies[i];
 
             var closestValue = notesFrequencies.Select((value, index) => new { Value = value, Index = index, Difference = Math.Abs(value - rawFreq) })
                 .OrderBy(v => v.Difference)
