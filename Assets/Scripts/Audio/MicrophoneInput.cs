@@ -7,7 +7,7 @@ using UnityEngine;
 public class MicrophoneInput : MonoBehaviour
 {
     public string microphone;
-    [SerializeField] AudioVisualizer visualizer;
+    [SerializeField] AudioAnalyser analyser;
     [SerializeField] TMP_Dropdown microInputDropDown;
     [SerializeField] Transform[] audioSpectrumObjects;
     [SerializeField] float heightMultiplier;
@@ -59,7 +59,7 @@ public class MicrophoneInput : MonoBehaviour
         Microphone.End(microphone);
 
 
-        visualizer.Visualize(audioSource.clip);
+        analyser.Analyse(audioSource.clip);
         StartCoroutine(UpdateMicrophone());
     }
 
