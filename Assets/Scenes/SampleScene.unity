@@ -3024,8 +3024,9 @@ MonoBehaviour:
   BPM: 100
   NoteSpeed: 10
   PlayPaused: 1
-  defaultSamplerate: 44100
-  defaultBufferSize: 16384
+  DefaultSamplerate: 11025
+  DefaultBufferSize: 16384
+  MaxBMP: 0
 --- !u!4 &947617753
 Transform:
   m_ObjectHideFlags: 0
@@ -4977,9 +4978,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473c99f9cd4abae4f8ec39d66a374499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfSmaples: 8192
+  numberOfSamples: 8192
   notesSO: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
   analysingDepth: 5
+  visualizer: {fileID: 1774572596}
 --- !u!114 &1559014351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4993,7 +4995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   microphone: 
-  visualizer: {fileID: 1559014350}
+  analyser: {fileID: 1559014350}
   microInputDropDown: {fileID: 1174978511}
   audioSpectrumObjects:
   - {fileID: 4130195994008341313}
@@ -5825,8 +5827,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1774572595}
   - component: {fileID: 1774572594}
+  - component: {fileID: 1774572596}
   m_Layer: 0
-  m_Name: NotePositionCalculateManager
+  m_Name: AudioVisualizing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5861,6 +5864,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1774572596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774572593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e97f6ae1794b5b42afbaa61ba888c01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1795082498
 GameObject:
   m_ObjectHideFlags: 0

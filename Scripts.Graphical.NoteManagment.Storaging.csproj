@@ -486,6 +486,10 @@
       <HintPath>Assets\Plugins\Accord.Math.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="NWaves">
+      <HintPath>Assets\Plugins\NWaves.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
       <Private>False</Private>

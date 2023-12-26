@@ -28,6 +28,7 @@ public class MicrophoneInput : MonoBehaviour
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         actualRecordingLength = .5f;
 
+        
         NoteManager.Instance.MaxBMP = (int)(60 / actualRecordingLength);
     }
 
@@ -58,8 +59,8 @@ public class MicrophoneInput : MonoBehaviour
         yield return new WaitForSecondsRealtime(actualRecordingLength);
         Microphone.End(microphone);
 
-
-        analyser.Analyse(audioSource.clip);
+        AudioClip clip = audioSource.clip;
+        analyser.Analyse(clip);
         StartCoroutine(UpdateMicrophone());
     }
 

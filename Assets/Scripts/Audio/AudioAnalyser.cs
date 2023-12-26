@@ -2,19 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class AudioAnalyser : MonoBehaviour
 {
-    [SerializeField] int numberOfSmaples = 8192;
+    [SerializeField] int numberOfSamples = 8192;
     [SerializeField] NotesSO notesSO;
     [SerializeField] int analysingDepth;
+    [SerializeField] AudioVisualizer visualizer;
 
     private int sampleRate;
-    private double[] fftReal;
+    private float[] fftReal;
 
-    private AudioVisualizer visualizer;
     private AudioFilter audioFilter;
     private List<int> notesFrequencies;
 
@@ -23,47 +22,56 @@ public class AudioAnalyser : MonoBehaviour
 
     private void Awake()
     {
-        fftReal = new double[numberOfSmaples];
+        fftReal = new float[numberOfSamples];
+        
         notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
         {
             notesFrequencies.Add(notesSO.frequnecys[i]);
         }
 
-        visualizer = new AudioVisualizer();
         sampleRate = NoteManager.Instance.DefaultSamplerate;
-        fftError = sampleRate / numberOfSmaples;
+        fftError = sampleRate / numberOfSamples;
+        print(sampleRate);
     }
 
     public void Analyse(AudioClip _clip)
     {
-        double[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(_clip);
-        float[] frequencies = CalculateFrequencies(rawSamples);
-       
-        float[] correspondingFrequneys = GetFrequenciesCoresbondingToNote(frequencies);
-        if (correspondingFrequneys.Length == 0) return;
-        if (correspondingFrequneys[0] == LastFreq) return;
+        print(sampleRate);
+        AudioClip clip = _clip;
+        float[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip);
+        float frequency = CalculateFrequency(rawSamples);
+        if (frequency == -1) return;
 
-        visualizer.Visualize(correspondingFrequneys[0]);
+
+        float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
+        if (correspondingFrequney == 0) return;
+        if (correspondingFrequney == LastFreq) return;
+        
+        visualizer.Visualize(correspondingFrequney);
       
-        LastFreq = correspondingFrequneys[0];
+        LastFreq = correspondingFrequney;
         StartCoroutine(INewNote());
     }
 
-    private float[] CalculateFrequencies(double[] _samples)
+
+    private float CalculateFrequency(float[] _samples)
     {
-        double[] samples = _samples;
-        double[] highestFFTValues = new double[analysingDepth];
+        fftReal = new float[numberOfSamples];
+        float[] samples = _samples;
+        float[] highestFFTValues = new float[analysingDepth];
         int[] highestFFTBins = new int[analysingDepth];
 
         var fft = AudioComponents.Instance.FFT(samples);
+
         Array.Copy(fft, fftReal, fftReal.Length);
 
-        //taking higpassFilter
+        //taking Filter
         audioFilter = new AudioFilter(75, 1000, fftReal);
+        fftReal = ApplyFilter(fftReal);
         //fftReal = audioFilter.HighPassFilter(75, fftReal);
 
-        SortedDictionary<int,double> peaks = GetSortedHighestFFTPeaks(analysingDepth);
+        SortedDictionary<int,float> peaks = GetSortedHighestFFTPeaks(analysingDepth);
 
 
         int j = analysingDepth;
@@ -77,16 +85,20 @@ public class AudioAnalyser : MonoBehaviour
             highestFFTBins[j] = item.Key;
         }
 
-        float[] frequencies = new float[analysingDepth];
-        for (int i = 0; i < highestFFTValues.Length; i++)
-        {
-            if (highestFFTValues[i] == -1) { frequencies[i] = -1; continue; }
-            frequencies[i] = (highestFFTBins[i] * (sampleRate / 2) / fftReal.Length)/4;
-        }
 
-        return frequencies;
+        int bestPeakBin = GetBestPeakBinBasedOnProtrusion(highestFFTValues, highestFFTBins);
+        if (bestPeakBin == -1) return -1;
+
+        float frequency = bestPeakBin * sampleRate /fftReal.Length;
+        //for (int i = 0; i < highestFFTValues.Length; i++)
+        //{
+        //    if (highestFFTValues[i] == -1) { frequencies[i] = -1; continue; }
+        //    frequencies[i] = (highestFFTBins[i] * (sampleRate) / fftReal.Length);
+        //}
+
+        return frequency;
     }
-    private SortedDictionary<int,double> GetSortedHighestFFTPeaks(int _numberOfPeaks)
+    private SortedDictionary<int,float> GetSortedHighestFFTPeaks(int _numberOfPeaks)
     {
         #region taking peaks of fftReal
         var values = fftReal.Select((value, index) => new { Value = value, Index = index });
@@ -94,7 +106,7 @@ public class AudioAnalyser : MonoBehaviour
         var highestValues = sortedValues.Take(_numberOfPeaks);
         #endregion
 
-        SortedDictionary<int, double> sortedPeaks = new SortedDictionary<int, double>();
+        SortedDictionary<int, float> sortedPeaks = new SortedDictionary<int, float>();
 
         foreach (var value in highestValues)
         {
@@ -103,25 +115,57 @@ public class AudioAnalyser : MonoBehaviour
 
         return sortedPeaks;
     }
-    private float[] GetFrequenciesCoresbondingToNote(float[] _rawFrequencies)
+    private float[] ApplyFilter(float[] _frequencies)
     {
-        float[] rawFrequencies = Array.FindAll(_rawFrequencies, x => x != -1);
+        float[] frequencies = _frequencies;
+        NWaves.Signals.DiscreteSignal sig = new NWaves.Signals.DiscreteSignal(sampleRate, frequencies);
+        var movingFilter = new  NWaves.Filters.MovingAverageFilter(5);
+        var smoothSig = movingFilter.ApplyTo(sig);
 
-        float[] corespondingFrequencies = new float[rawFrequencies.Length];
-
-        for (int i = 0; i < rawFrequencies.Length; i++)
+        return smoothSig.Samples;
+    }
+    private int GetBestPeakBinBasedOnProtrusion(float[] _peaks, int[] _bins)
+    {
+        float[] protrusionValues = new float[_peaks.Length];
+        for (int i = 0; i < _peaks.Length; i++)
         {
-            float rawFreq = rawFrequencies[i];
-
-            var closestValue = notesFrequencies.Select((value, index) => new { Value = value, Index = index, Difference = Math.Abs(value - rawFreq) })
-                .OrderBy(v => v.Difference)
-                .First();
-            corespondingFrequencies[i] = closestValue.Value;
+            protrusionValues[i] = CalculateProtrusionValue(_peaks[i], _bins[i]);
         }
+        var maxIndex = protrusionValues.Select((value, index) => new { Value = value, Index = index }).OrderByDescending(item => item.Value).First().Index;
+        if (_peaks[maxIndex] == -1) return -1;
+        return _bins[maxIndex];
+    }
+    private float CalculateProtrusionValue(float _peak,int _bin)
+    {
+        float protrusionValue;
+        if(_bin == fftReal.Length - 1)
+        {
+            protrusionValue = _peak/ fftReal[_bin -1];
+        }
+        else if(_bin == 0)
+        {
+            protrusionValue = _peak / fftReal[_bin + 1];
+        }
+        else
+        {
+            protrusionValue = _peak / Mathf.Max((float)fftReal[_bin - 1], (float)fftReal[_bin + 1]);
+        }
+        return protrusionValue;
+    }
 
-        float[] coreespondingFreqNoZeros = Array.FindAll(corespondingFrequencies, x => x != 0);
+    private float GetFrequencyCoresbondingToNote(float _rawFrequency)
+    {
+        float corespondingFrequency = 0;
+         
+        var closestValue = notesFrequencies.Select((value, index) => new { Value = value, Index = index, Difference = Math.Abs(value - _rawFrequency) })
+            .OrderBy(v => v.Difference)
+            .First();
 
-        return coreespondingFreqNoZeros;
+        if(Mathf.Abs(closestValue.Value - _rawFrequency)> fftError) return 0;
+        
+        corespondingFrequency = closestValue.Value;
+      
+        return corespondingFrequency;
     }
 
     IEnumerator INewNote()
