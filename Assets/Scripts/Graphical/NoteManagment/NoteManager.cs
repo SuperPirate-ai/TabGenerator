@@ -14,6 +14,7 @@ public class NoteManager : MonoBehaviour
     public bool PlayPaused = true;
     public int DefaultSamplerate = 11025;
     public int DefaultBufferSize = (int)Math.Pow(2, 14);
+    public float HighestPossibleFrequency;
 
     [HideInInspector] public int MaxBMP;
     private void Awake()

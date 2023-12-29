@@ -432,6 +432,10 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEditor.UWP.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.YamlDotNet">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll</HintPath>
       <Private>False</Private>
@@ -446,6 +450,10 @@
     </Reference>
     <Reference Include="Unity.Plastic.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.0.5\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NWaves">
+      <HintPath>Assets\Plugins\NWaves.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Accord">
@@ -486,10 +494,6 @@
     </Reference>
     <Reference Include="Accord.Math.Core">
       <HintPath>Assets\Plugins\Accord.Math.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="NWaves">
-      <HintPath>Assets\Plugins\NWaves.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

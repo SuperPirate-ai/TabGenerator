@@ -19,14 +19,8 @@ public class AudioComponents : MonoBehaviour
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip)
     {
         float[] samples = new float[buffersize];
-        //double[] doublSamples = new double[buffersize];
-
+        
         _clip.GetData(samples, 0);
-
-        //for (int i = 0; i < buffersize; i++)
-        //{
-        //    doublSamples[i] = samples[i];
-        //}
 
         return samples;
     }
