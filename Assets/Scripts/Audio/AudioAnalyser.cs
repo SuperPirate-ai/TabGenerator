@@ -17,28 +17,28 @@ public class AudioAnalyser : MonoBehaviour
 
     private AudioFilter audioFilter;
     private List<int> notesFrequencies;
-    private Dictionary<float,float> peaks = new Dictionary<float,float>(); // item1 => frequency, item2 => amplitude
+    private Dictionary<float, float> peaks = new Dictionary<float, float>(); // item1 => frequency, item2 => amplitude
 
     private float fftError;
     private float LastFreq = 0;
     private int highestBin;
-   
+
 
     private void Awake()
     {
         fftReal = new float[numberOfSamples];
-        
+
         notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
         {
             notesFrequencies.Add(notesSO.frequnecys[i]);
         }
-        
+
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         fftError = sampleRate / numberOfSamples;
-        
+
         highestBin = Mathf.RoundToInt(NoteManager.Instance.HighestPossibleFrequency / (float)((float)sampleRate / numberOfSamples));
-        
+
     }
 
     public void Analyse(float[] _rawSamples)
@@ -51,9 +51,9 @@ public class AudioAnalyser : MonoBehaviour
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
         if (correspondingFrequney == 0) return;
         if (correspondingFrequney == LastFreq) return;
-        
+
         visualizer.Visualize(correspondingFrequney);
-        
+
         LastFreq = correspondingFrequney;
         StartCoroutine(INewNote());
     }
@@ -86,12 +86,43 @@ public class AudioAnalyser : MonoBehaviour
                 lowestFFTValue = fftReal[i];
             }
         }
-        if (highestFFTValue < .001f) return -1;
-        //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
-        float frequency = (float)highestFFTBin /(float)fftReal.Length * (float)sampleRate;
+
+        //peak gate
+        //int subsampleSize = (int)((float)sampleRate / (float)(1.0f/70.0f));
+        //print(subsampleSize);
+        //float[] subsampleLoudnesses = new float[subsampleSize];
+        //for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        //{
+        //    for (int j = i*subsampleSize; j < i* subsampleSize + subsampleSize; j++)
+        //    {
+        //        //if (Math.Abs(samples[j]) > subsampleLoudnesses[i])
+        //        //{
+        //        //    subsampleLoudnesses[i] = Math.Abs(samples[j]);
+        //        //}
+        //        print($"{samples} {j} {subsampleSize} {i}");
+        //    }
+        //}
         
+        //bool noAttack = true;
+        //for (int i = 0; i < subsampleSize - 1; i++)
+        //{
+        //    if (subsampleLoudnesses[i] * 1.5 < subsampleLoudnesses[i + 1])
+        //    {
+        //        noAttack = false;
+        //        break;
+        //    }
+        //}
+        //if (noAttack) return -1;
+
+
+        //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
+        float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
+        
+        // noise gate
+        if (highestFFTValue< .001f) return -1;
         return frequency;
     }
+
     void CalculatePeaks()
     {
         List<int> indices = GetPeaksIndices();
@@ -201,7 +232,7 @@ public class AudioAnalyser : MonoBehaviour
 
     IEnumerator INewNote()
     {
-        yield return new WaitForSecondsRealtime(.7f);
+        yield return new WaitForSecondsRealtime(0);
         LastFreq = 0;
         StopCoroutine(INewNote());
     }
