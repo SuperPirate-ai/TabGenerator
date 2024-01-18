@@ -88,31 +88,31 @@ public class AudioAnalyser : MonoBehaviour
         }
 
         //peak gate
-        //int subsampleSize = (int)((float)sampleRate / (float)(1.0f/70.0f));
-        //print(subsampleSize);
-        //float[] subsampleLoudnesses = new float[subsampleSize];
-        //for (int i = 0; i < subsampleLoudnesses.Length; i++)
-        //{
-        //    for (int j = i*subsampleSize; j < i* subsampleSize + subsampleSize; j++)
-        //    {
-        //        //if (Math.Abs(samples[j]) > subsampleLoudnesses[i])
-        //        //{
-        //        //    subsampleLoudnesses[i] = Math.Abs(samples[j]);
-        //        //}
-        //        print($"{samples} {j} {subsampleSize} {i}");
-        //    }
-        //}
-        
-        //bool noAttack = true;
-        //for (int i = 0; i < subsampleSize - 1; i++)
-        //{
-        //    if (subsampleLoudnesses[i] * 1.5 < subsampleLoudnesses[i + 1])
-        //    {
-        //        noAttack = false;
-        //        break;
-        //    }
-        //}
-        //if (noAttack) return -1;
+        int subsampleSize = (int)((float)sampleRate / (float)(1.0f / 70.0f));
+        print(subsampleSize);
+        float[] subsampleLoudnesses = new float[subsampleSize];
+        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        {
+            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
+            {
+                //if (Math.Abs(samples[j]) > subsampleLoudnesses[i])
+                //{
+                //    subsampleLoudnesses[i] = Math.Abs(samples[j]);
+                //}
+                print($"{samples} {j} {subsampleSize} {i}");
+            }
+        }
+
+        bool noAttack = true;
+        for (int i = 0; i < subsampleSize - 1; i++)
+        {
+            if (subsampleLoudnesses[i] * 1.5 < subsampleLoudnesses[i + 1])
+            {
+                noAttack = false;
+                break;
+            }
+        }
+        if (noAttack) return -1;
 
 
         //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
