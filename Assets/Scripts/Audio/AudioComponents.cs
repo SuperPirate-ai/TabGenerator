@@ -1,9 +1,9 @@
+using System.Linq;
 using UnityEngine;
 
 public class AudioComponents : MonoBehaviour
 {
     private int buffersize;
-
     public static AudioComponents Instance;
 
     private void Awake()
@@ -12,15 +12,16 @@ public class AudioComponents : MonoBehaviour
 
         Instance = this;
     }
+   
     private void Start()
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
     }
-    public float[] ExtractDataOutOfAudioClip(AudioClip _clip)
+    public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
         float[] samples = new float[buffersize];
         
-        _clip.GetData(samples, 0);
+        _clip.GetData(samples, _positionInClip);
 
         return samples;
     }

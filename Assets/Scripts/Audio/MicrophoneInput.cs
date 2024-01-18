@@ -17,6 +17,9 @@ public class MicrophoneInput : MonoBehaviour
     private int sampleRate;
     private readonly int buffersize = (int)Mathf.Pow(2, 13);
     private float actualRecordingLength;
+    private int positionInClip = 0;
+    
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -42,8 +45,10 @@ public class MicrophoneInput : MonoBehaviour
         }
         else
         {
+
             NoteManager.Instance.PlayPaused = false;
-            StartCoroutine(UpdateMicrophone());
+            StartCoroutine(GrapMicrophoneBuffer());
+            positionInClip = 0;
         }
         ChangeRecordBtnText(_bntText);
     }
@@ -51,7 +56,11 @@ public class MicrophoneInput : MonoBehaviour
     {
         _bntText.text = recording ? "Stop" : "Record";
     }
-    public IEnumerator UpdateMicrophone()
+    void StartMicrophone()
+    {
+        audioSource.clip = Microphone.Start(microphone, true, 3599, sampleRate);
+    }
+    public IEnumerator GrapMicrophoneBuffer()
     {
         audioSource.Stop();
         if (!recording) yield break;
@@ -60,8 +69,9 @@ public class MicrophoneInput : MonoBehaviour
         Microphone.End(microphone);
 
         AudioClip clip = audioSource.clip;
+
         analyser.Analyse(clip);
-        StartCoroutine(UpdateMicrophone());
+        StartCoroutine(GrapMicrophoneBuffer());
     }
 
 

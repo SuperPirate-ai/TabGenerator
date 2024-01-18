@@ -17,6 +17,7 @@ public class AudioAnalyser : MonoBehaviour
 
     private AudioFilter audioFilter;
     private List<int> notesFrequencies;
+    private Dictionary<float,float> peaks = new Dictionary<float,float>(); // item1 => frequency, item2 => amplitude
 
     private float fftError;
     private float LastFreq = 0;
@@ -37,17 +38,18 @@ public class AudioAnalyser : MonoBehaviour
         fftError = sampleRate / numberOfSamples;
         
         highestBin = Mathf.RoundToInt(NoteManager.Instance.HighestPossibleFrequency / (float)((float)sampleRate / numberOfSamples));
-        print(highestBin);
+        
     }
 
     public void Analyse(AudioClip _clip)
     {
         AudioClip clip = _clip;
-        float[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip);
+        float[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, 0);
         float frequency = CalculateFrequency(rawSamples);
         if (frequency == -1) return;
 
 
+        //Debug.Log(frequency + "Hz");
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
         if (correspondingFrequney == 0) return;
         if (correspondingFrequney == LastFreq) return;
@@ -70,11 +72,48 @@ public class AudioAnalyser : MonoBehaviour
 
         Array.Copy(fft, fftReal, fftReal.Length);
 
-        //if (fftReal.Max() < 0.001f) return -1;
+        float lowestFFTValue = 1;
+        float highestFFTValue = 0;
+        int highestFFTBin = 0;
+        for (int i = 0; i < fftReal.Length; i++)
+        {
+            if (fftReal[i] > highestFFTValue)
+            {
+                highestFFTValue = fftReal[i];
+                highestFFTBin = i;
+            }
 
-        float frequency = 1 /fftReal.Length * sampleRate;
-        Debug.Log(frequency + " Hz");
+            if (fftReal[i] < lowestFFTValue)
+            {
+                lowestFFTValue = fftReal[i];
+            }
+        }
+        //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
+        float frequency = (float)highestFFTBin /(float)fftReal.Length * (float)sampleRate;
+        
         return frequency;
+    }
+    void CalculatePeaks()
+    {
+        List<int> indices = GetPeaksIndices();
+
+        List<float> frequencies = new List<float>();
+        for (int i = 0; i < indices.Count; i++)
+        {
+            frequencies.Add(GetFrequencyWithBin(i));
+        }
+        
+        List<float> amplitude = GetPeaksAmplitude(indices);
+
+        for (int i = 0; i < frequencies.Count; i++)
+        {
+            peaks.Add(frequencies[i], amplitude[i]);
+        }
+
+    }
+    float AverageAmplitude()
+    {
+        return peaks.Values.Average();
     }
     int GetClosestFrequencyBinToNote()
     {
@@ -122,10 +161,23 @@ public class AudioAnalyser : MonoBehaviour
         }
         return peaksIndices;
     }
-    int[] SortIndices(List<int> indices)
+    float GetFrequencyWithBin(int _bin)
     {
-        var sorted = indices.Select(i => i).OrderByDescending(i => i);
-        int[] sortedIndices = new int[indices.Count];
+        return _bin / fftReal.Length * sampleRate;
+    }
+    List<float> GetPeaksAmplitude(List<int> _peakIndices)
+    {
+        List<float> amplitudes = new List<float>();
+        for (int i = 0;i < _peakIndices.Count;i++) 
+        {
+            amplitudes.Add(fftReal[_peakIndices[i]]);
+        }
+        return amplitudes;
+    }
+    int[] SortIndices(List<int> _indices)
+    {
+        var sorted = _indices.Select(i => i).OrderByDescending(i => i);
+        int[] sortedIndices = new int[_indices.Count];
         int j = 0;
         foreach (int index in sorted)
         {
