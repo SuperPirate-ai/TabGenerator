@@ -41,11 +41,9 @@ public class AudioAnalyser : MonoBehaviour
         
     }
 
-    public void Analyse(AudioClip _clip)
+    public void Analyse(float[] _rawSamples)
     {
-        AudioClip clip = _clip;
-        float[] rawSamples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, 0);
-        float frequency = CalculateFrequency(rawSamples);
+        float frequency = CalculateFrequency(_rawSamples);
         if (frequency == -1) return;
 
 
@@ -88,6 +86,7 @@ public class AudioAnalyser : MonoBehaviour
                 lowestFFTValue = fftReal[i];
             }
         }
+        if (highestFFTValue < .001f) return -1;
         //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
         float frequency = (float)highestFFTBin /(float)fftReal.Length * (float)sampleRate;
         

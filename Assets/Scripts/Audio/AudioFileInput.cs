@@ -13,6 +13,6 @@ public class AudioFileInput : MonoBehaviour
     public void StartAnalysingBtn()
     {
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip,0);
-        analyser.Analyse(audioClip);
+        analyser.Analyse(samples);
     }
 }
