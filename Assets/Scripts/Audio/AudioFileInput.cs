@@ -15,4 +15,9 @@ public class AudioFileInput : MonoBehaviour
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip,0);
         analyser.Analyse(samples);
     }
+    public void TestPickStrokeDetectionbtn()
+    {
+        float[] samples = { 1, 1, 1 };
+        print($"Pick stroke detected: {AudioComponents.Instance.DetectPickStroke(samples)}");
+    }
 }

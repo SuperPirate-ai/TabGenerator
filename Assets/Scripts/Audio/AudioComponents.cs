@@ -5,6 +5,7 @@ public class AudioComponents : MonoBehaviour
 {
     private int buffersize;
     public static AudioComponents Instance;
+    private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
 
     private void Awake()
     {
@@ -17,6 +18,13 @@ public class AudioComponents : MonoBehaviour
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
     }
+    private void Update()
+    {
+        if (NoteManager.Instance.PlayPaused)
+        {
+            lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+        }
+    }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
         float[] samples = new float[buffersize];
@@ -24,6 +32,43 @@ public class AudioComponents : MonoBehaviour
         _clip.GetData(samples, _positionInClip);
 
         return samples;
+    }
+    public bool DetectPickStroke(float[] _samples)
+    {
+        int subsamples = 3; // => needs to be a power of 2 || 128 -> 2^7
+        int subsampleSize = _samples.Length / subsamples;
+        float[] subsampleLoudnesses = new float[subsamples];
+
+        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        {
+            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
+            {
+                if (Mathf.Abs(_samples[j]) > subsampleLoudnesses[i])
+                {
+                    subsampleLoudnesses[i] = Mathf.Abs(_samples[j]);
+                }
+            }
+        }
+
+        bool stroke = false;
+
+        for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
+        {
+            
+            if (subsampleLoudnesses[i] * 1.5f < subsampleLoudnesses[i + 1])
+            {
+                stroke = true;
+                break;
+            }
+        }
+        if (lastSubsampleLoudnessOfPreviousBuffer * 1.5f < subsampleLoudnesses[0])
+        {
+            stroke = true;
+
+        }
+       
+        lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
+        return stroke;
     }
     public float[] FFT(float[] _data)
     {
