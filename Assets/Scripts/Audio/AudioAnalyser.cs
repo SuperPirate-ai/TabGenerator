@@ -20,9 +20,6 @@ public class AudioAnalyser : MonoBehaviour
     private Dictionary<float, float> peaks = new Dictionary<float, float>(); // item1 => frequency, item2 => amplitude
   
     private float fftError;
-    private float LastFreq = 0;
-    private int highestBin;
-
 
     private void Awake()
     {
@@ -36,9 +33,7 @@ public class AudioAnalyser : MonoBehaviour
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         fftError = sampleRate / numberOfSamples;
-
-        highestBin = Mathf.RoundToInt(NoteManager.Instance.HighestPossibleFrequency / (float)((float)sampleRate / numberOfSamples));
-
+    
     }
     
     public void Analyse(float[] _rawSamples)
@@ -50,12 +45,9 @@ public class AudioAnalyser : MonoBehaviour
         //Debug.Log(frequency + "Hz");
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
         if (correspondingFrequney == 0) return;
-        if (correspondingFrequney == LastFreq) return;
 
         visualizer.Visualize(correspondingFrequney);
 
-        LastFreq = correspondingFrequney;
-        StartCoroutine(INewNote());
     }
 
 
@@ -63,8 +55,6 @@ public class AudioAnalyser : MonoBehaviour
     {
         fftReal = new float[numberOfSamples];
         float[] samples = _samples;
-        float[] highestFFTValues = new float[analysingDepth];
-        int[] highestFFTBins = new int[analysingDepth];
 
         var fft = AudioComponents.Instance.FFT(samples);
 
@@ -92,7 +82,6 @@ public class AudioAnalyser : MonoBehaviour
         if (!AudioComponents.Instance.DetectPickStroke(samples)) return -1;
 
         //frequency Calculation
-        //print($"{fftReal[921]} {highestFFTValue} {lowestFFTValue} {samples.Max()} {samples.Min()}");
         float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
         
         // noise gate
@@ -117,10 +106,4 @@ public class AudioAnalyser : MonoBehaviour
         return corespondingFrequency;
     }
 
-    IEnumerator INewNote()
-    {
-        yield return new WaitForSecondsRealtime(0);
-        LastFreq = 0;
-        StopCoroutine(INewNote());
-    }
 }

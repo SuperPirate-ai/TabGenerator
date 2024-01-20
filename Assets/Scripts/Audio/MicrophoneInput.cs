@@ -9,8 +9,7 @@ public class MicrophoneInput : MonoBehaviour
     public string microphone;
     [SerializeField] AudioAnalyser analyser;
     [SerializeField] TMP_Dropdown microInputDropDown;
-    [SerializeField] Transform[] audioSpectrumObjects;
-    [SerializeField] float heightMultiplier;
+  
 
     private bool recording = false;
     private AudioSource audioSource;
@@ -71,19 +70,6 @@ public class MicrophoneInput : MonoBehaviour
 
         analyser.Analyse(samples);
         StartCoroutine(GrapMicrophoneBuffer());
-    }
-
-
-    void ShowSpectrum()
-    {
-        float[] samples = new float[512];
-        audioSource.GetSpectrumData(samples, 0, FFTWindow.Hanning);
-        for (int i = 0; i < audioSpectrumObjects.Length; i++)
-        {
-            Vector3 locScaleCube = audioSpectrumObjects[i].localScale;
-            audioSpectrumObjects[i].localScale = new Vector3(locScaleCube.x, samples[i] * heightMultiplier);
-
-        }
     }
     public void OnMicrophoneInputChanged()
     {
