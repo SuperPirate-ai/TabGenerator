@@ -1,6 +1,4 @@
-using NWaves.Transforms;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +16,7 @@ public class AudioAnalyser : MonoBehaviour
     private AudioFilter audioFilter;
     private List<int> notesFrequencies;
     private Dictionary<float, float> peaks = new Dictionary<float, float>(); // item1 => frequency, item2 => amplitude
-  
+
     private float fftError;
 
     private void Awake()
@@ -33,9 +31,9 @@ public class AudioAnalyser : MonoBehaviour
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         fftError = sampleRate / numberOfSamples;
-    
+
     }
-    
+
     public void Analyse(float[] _rawSamples)
     {
         float frequency = CalculateFrequency(_rawSamples);
@@ -78,31 +76,31 @@ public class AudioAnalyser : MonoBehaviour
         }
 
         //peak gate
-        
+
         if (!AudioComponents.Instance.DetectPickStroke(samples)) return -1;
 
         //frequency Calculation
         float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
-        
+
         // noise gate
-        if (highestFFTValue< .001f) return -1;
+        if (highestFFTValue < .001f) return -1;
 
         return frequency;
     }
 
-   
+
     private float GetFrequencyCoresbondingToNote(float _rawFrequency)
     {
         float corespondingFrequency = 0;
-         
+
         var closestValue = notesFrequencies.Select((value, index) => new { Value = value, Index = index, Difference = Math.Abs(value - _rawFrequency) })
             .OrderBy(v => v.Difference)
             .First();
 
-        if(Mathf.Abs(closestValue.Value - _rawFrequency)> fftError) return 0;
-        
+        if (Mathf.Abs(closestValue.Value - _rawFrequency) > fftError) return 0;
+
         corespondingFrequency = closestValue.Value;
-      
+
         return corespondingFrequency;
     }
 

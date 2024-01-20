@@ -67,7 +67,7 @@ public class AudioFilter : MonoBehaviour
         //{
         //    filterdFFT[i] = 0;
         //}
-        
+
 
 
 

@@ -17,7 +17,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
     public Vector3[] GetNotePositions(float _frequency)
     {
         int indexOfNote = -1;
-         
+
         for (int i = 0; i < notes.frequnecys.Length; i++)
         {
             if (notes.frequnecys[i] == _frequency)

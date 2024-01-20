@@ -9,7 +9,7 @@ public class MicrophoneInput : MonoBehaviour
     public string microphone;
     [SerializeField] AudioAnalyser analyser;
     [SerializeField] TMP_Dropdown microInputDropDown;
-  
+
 
     private bool recording = false;
     private AudioSource audioSource;
@@ -17,7 +17,7 @@ public class MicrophoneInput : MonoBehaviour
     private readonly int buffersize = (int)Mathf.Pow(2, 13);
     private float actualRecordingLength;
     private int positionInClip = 0;
-    
+
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class MicrophoneInput : MonoBehaviour
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         actualRecordingLength = .5f;
 
-        
+
         NoteManager.Instance.MaxBMP = (int)(60 / actualRecordingLength);
     }
 
@@ -63,7 +63,7 @@ public class MicrophoneInput : MonoBehaviour
     public IEnumerator GrapMicrophoneBuffer()
     {
         yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= buffersize);
-        
+
         AudioClip clip = audioSource.clip;
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip = Microphone.GetPosition(microphone);

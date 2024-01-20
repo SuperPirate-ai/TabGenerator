@@ -13,7 +13,7 @@ public class AudioComponents : MonoBehaviour
 
         Instance = this;
     }
-   
+
     private void Start()
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
@@ -28,7 +28,7 @@ public class AudioComponents : MonoBehaviour
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
         float[] samples = new float[buffersize];
-        
+
         _clip.GetData(samples, _positionInClip);
 
         return samples;
@@ -54,7 +54,7 @@ public class AudioComponents : MonoBehaviour
 
         for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
         {
-            
+
             if (subsampleLoudnesses[i] * 1.5f < subsampleLoudnesses[i + 1])
             {
                 stroke = true;
@@ -66,7 +66,7 @@ public class AudioComponents : MonoBehaviour
             stroke = true;
 
         }
-       
+
         lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
         return stroke;
     }

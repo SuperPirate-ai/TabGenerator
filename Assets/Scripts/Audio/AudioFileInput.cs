@@ -1,9 +1,4 @@
-using Accord.Audio;
-using Accord.IO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioFileInput : MonoBehaviour
 {
@@ -12,7 +7,7 @@ public class AudioFileInput : MonoBehaviour
 
     public void StartAnalysingBtn()
     {
-        float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip,0);
+        float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip, 0);
         analyser.Analyse(samples);
     }
     public void TestPickStrokeDetectionbtn()
