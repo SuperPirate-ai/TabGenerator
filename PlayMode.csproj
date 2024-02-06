@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{B156E728-D7F7-BE59-7A79-82B868CF3AD3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -933,7 +934,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Scripts.Audio.csproj">
-      <Project>{9BAE3F21-842D-2EEC-EEB9-FBE6F8B86416}</Project>
+      <Project>{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}</Project>
       <Name>Scripts.Audio</Name>
     </ProjectReference>
   </ItemGroup>

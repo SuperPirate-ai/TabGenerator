@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{C8E10F10-AFB6-343E-34D8-FAA824BCE50E}</ProjectGuid>
+    <ProjectGuid>{7F099656-C88B-7038-B910-8823C9F66B2C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Scripts.Graphical.NoteManagment.Storaging</AssemblyName>
@@ -428,10 +428,6 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.YamlDotNet">
@@ -1001,7 +997,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
-      <Project>{C110E0EF-F913-CF3F-818F-FA4931CE501E}</Project>
+      <Project>{A6AD9F08-A239-C71B-2A23-AC519EBA433F}</Project>
       <Name>Scripts.Graphical.NoteManagement</Name>
     </ProjectReference>
   </ItemGroup>
