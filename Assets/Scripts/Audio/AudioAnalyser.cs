@@ -39,8 +39,6 @@ public class AudioAnalyser : MonoBehaviour
         float frequency = CalculateFrequency(_rawSamples);
         if (frequency == -1) return;
 
-
-        //Debug.Log(frequency + "Hz");
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
         if (correspondingFrequney == 0) return;
 
@@ -82,6 +80,12 @@ public class AudioAnalyser : MonoBehaviour
         //frequency Calculation
         float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
 
+        // ocatve Detection
+        float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftReal, highestFFTBin);
+        if ( octaveFreq != frequency)
+        {
+            frequency = octaveFreq;
+        }
         // noise gate
         if (highestFFTValue < .001f) return -1;
 

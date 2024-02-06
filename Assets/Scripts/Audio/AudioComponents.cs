@@ -70,6 +70,22 @@ public class AudioComponents : MonoBehaviour
         lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
         return stroke;
     }
+
+    public float DetectOctaveInterference(float _frequnecy, float[] _fftReal, int _freqBin)
+    {
+        float lowerOctaveFrequency = _frequnecy / 2;
+        int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
+        
+        float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
+        float freqAmplitudedReduced = _fftReal[_freqBin] * 0.75f;
+
+        if (freqAmplitudedReduced < lowerOctaveAmplitude)
+        {
+            return lowerOctaveFrequency;
+        }
+        return _frequnecy;
+
+    }
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];
