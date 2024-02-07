@@ -12,7 +12,7 @@ public class AudioFileInput : MonoBehaviour
     }
     public void TestPickStrokeDetectionbtn()
     {
-        float[] samples = { 1, 1, 1 };
+        float[] samples = { 1, 1.5f, 1 };
         print($"Pick stroke detected: {AudioComponents.Instance.DetectPickStroke(samples)}");
     }
 }

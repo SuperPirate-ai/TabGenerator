@@ -82,7 +82,7 @@ public class AudioAnalyser : MonoBehaviour
 
         // ocatve Detection
         float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftReal, highestFFTBin);
-        if ( octaveFreq != frequency)
+        if (octaveFreq != frequency)
         {
             frequency = octaveFreq;
         }
