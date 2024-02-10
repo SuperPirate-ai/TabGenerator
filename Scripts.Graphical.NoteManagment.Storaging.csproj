@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Graphical\NoteManagment\Storaging\SaveLoadFiles.cs" />
+    <Compile Include="Assets\Scripts\Graphical\NoteManagment\Storaging\LoadFromGP5.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Graphical\NoteManagment\Storaging\Scripts.Graphical.NoteManagment.Storaging.asmdef" />
@@ -428,10 +429,6 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UWP.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.YamlDotNet">
