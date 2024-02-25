@@ -3,13 +3,17 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SaveLoadFiles : MonoBehaviour
 {
-    [SerializeField] TMP_InputField fileName;
+    [SerializeField] TMP_InputField fileNameInput;
     [SerializeField] TMP_Text errorMes;
+    [SerializeField] Toggle useGTPFileFormatChBox;
     NoteManager noteManager;
     private readonly string internalPath = "Recordings";
+    private readonly string internalPathGTP = "GTP_Recordings";
+
 
     private void Awake()
     {
@@ -19,8 +23,27 @@ public class SaveLoadFiles : MonoBehaviour
     {
         errorMes.gameObject.SetActive(false);
         CreateDirectory(internalPath);
+        CreateDirectory(internalPathGTP);
     }
-    public void Save()
+    public void Load()
+    {
+        if(useGTPFileFormatChBox.isOn)
+        {
+            string path = internalPathGTP +"/"+ fileNameInput.text;
+            string file = LoadFromGP5.Instance.GetStandard(path);
+            DisplayNotes(file);
+        }
+        LoadAsStandardFile();
+    }
+    public void Save() 
+    {
+        if(useGTPFileFormatChBox.isOn)
+        {
+        }
+        SaveAsStandartFile();
+    }
+    
+    void SaveAsStandartFile()
     {
         string file = $"{noteManager.BPM}";
         foreach (GameObject note in noteManager.playedNotes)
@@ -28,13 +51,13 @@ public class SaveLoadFiles : MonoBehaviour
             file += $";{note.transform.position.y},{note.transform.position.z},{note.transform.position.x}";
         }
 
-        StreamWriter writer = new StreamWriter($"{internalPath}/{fileName.text}.csF");
+        StreamWriter writer = new StreamWriter($"{internalPath}/{fileNameInput.text}.csF");
         writer.Write(file);
         writer.Close();
     }
-    public void Load()
+    void LoadAsStandardFile()
     {
-        if (DoesRecordingExists($"{internalPath}/{fileName.text}") == false)
+        if (DoesRecordingExists($"{internalPath}/{fileNameInput.text}") == false)
         {
             ThrowErrorMessage();
             return;
@@ -43,25 +66,28 @@ public class SaveLoadFiles : MonoBehaviour
         errorMes.gameObject.SetActive(false);
 
         string file;
-        StreamReader reader = new StreamReader($"{internalPath}/{fileName.text}" + (fileName.text.EndsWith(".csF") ? "" : ".csF"));
+        StreamReader reader = new StreamReader($"{internalPath}/{fileNameInput.text}" + (fileNameInput.text.EndsWith(".csF") ? "" : ".csF"));
 
         file = reader.ReadToEnd();
         reader.Close();
+        DisplayNotes(file);
 
+    }
+    void DisplayNotes(string _file)
+    {
         noteManager.playedNotes.Clear();
 
-        string[] data = file.Split(";");
+        string[] data = _file.Split(";");
         noteManager.BPM = Convert.ToInt32(data[0]);
 
         Vector3[] notepos = new Vector3[data.Length - 1];
         for (int i = 1; i < data.Length; i++)
         {
-            int[] pos = data[i].Split(',').Select(n => Convert.ToInt32(n)).ToArray();
+            float[] pos = data[i].Split(',').Select(n => float.Parse(n)).ToArray();
 
-            notepos[i] = new Vector3(pos[2], pos[0], pos[1]);
+            notepos[i - 1] = new Vector3(pos[2], pos[0], pos[1]);
         }
         noteManager.InstantiateNotes(notepos);
-
     }
 
     private void CreateDirectory(string _drName)

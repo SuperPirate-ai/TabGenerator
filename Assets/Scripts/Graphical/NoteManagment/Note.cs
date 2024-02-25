@@ -32,7 +32,7 @@ public class Note : MonoBehaviour
 
     private void OnMouseDown()
     {
-        clickedOnMouse.Invoke(this.gameObject);
+        //clickedOnMouse.Invoke(this.gameObject);
     }
 
 }

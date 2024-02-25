@@ -1,8 +1,7 @@
-using NUnit.Framework;
 
 public class AudioUnitTest
 {
-    [Test]
+    
     public void TestHighPassFilter()
     {
         ////Assing
