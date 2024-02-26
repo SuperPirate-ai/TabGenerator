@@ -39,6 +39,8 @@ public class SaveLoadFiles : MonoBehaviour
     {
         if (useGTPFileFormatChBox.isOn)
         {
+            string path = internalPathGTP + $"\\" + fileNameInput.text;
+            LoadFromGP5.Instance.SendStandard(path);
         }
         SaveAsStandartFile();
     }

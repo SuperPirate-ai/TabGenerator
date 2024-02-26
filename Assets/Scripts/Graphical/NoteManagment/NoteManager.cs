@@ -18,12 +18,12 @@ public class NoteManager : MonoBehaviour
     public bool IsRecording = false;
 
     [SerializeField] TMP_Text PlaybtnText;
-
+    [SerializeField] TMP_InputField BPMInput;
     [HideInInspector] public int MaxBMP;
     private void Awake()
     {
         if (Instance != null) Destroy(this);
-
+        BPMInput.text = BPM.ToString() + " BPM";
         Instance = this;
     }
     public void Play()
