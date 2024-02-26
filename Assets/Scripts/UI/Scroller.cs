@@ -7,23 +7,30 @@ public class Scroller : MonoBehaviour
     float scrollingValue;
     bool hasScrollingStarted;
     bool hasScrollingFinished;
+    bool scrolling = false;
+    Vector2 mousePosition;
 
     private void Update()
     {
-        hasScrollingStarted = Input.GetMouseButtonDown(0);
-
-        if (hasScrollingStarted)
-            mouseStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        hasScrollingFinished = Input.GetMouseButtonUp(0) && mouseStartPos != null;
-
-        if (Input.GetMouseButtonUp(0) && mouseStartPos != null)
+        if(scrolling)
+        {
+            scrollingValue = Camera.main.ScreenToWorldPoint(Input.mousePosition).x -  mousePosition.x;
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Scroll();
+
+        }
+    }
+    private void OnMouseDown()
+    {
+        scrolling = true;
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+    private void OnMouseUp()
+    {
+        scrolling = false;
     }
     private void Scroll()
     {
-        mouseEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        scrollingValue = mouseEndPos.x - mouseStartPos.x;
         foreach (var note in NoteManager.Instance.playedNotes)
         {
             note.transform.position += new Vector3(scrollingValue, 0);

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -20,6 +21,11 @@ public class Note : MonoBehaviour
     {
         if (!manager.playedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
 
+        if(this.gameObject == NoteManager.Instance.playedNotes.Last() && this.transform.position.x < 0 && !NoteManager.Instance.IsRecording && !NoteManager.Instance.PlayPaused)
+        {
+            Move();
+            NoteManager.Instance.Play();
+        }
         Move();
     }
     void Move()

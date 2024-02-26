@@ -15,6 +15,9 @@ public class NoteManager : MonoBehaviour
     public int DefaultSamplerate = 11025;
     public int DefaultBufferSize = (int)Math.Pow(2, 14);
     public float HighestPossibleFrequency;
+    public bool IsRecording = false;
+
+    [SerializeField] TMP_Text PlaybtnText;
 
     [HideInInspector] public int MaxBMP;
     private void Awake()
@@ -23,10 +26,10 @@ public class NoteManager : MonoBehaviour
 
         Instance = this;
     }
-    public void Play(TMP_Text btnText)
+    public void Play()
     {
         PlayPaused = !PlayPaused;
-        btnText.text = PlayPaused ? "Play" : "Pause";
+        PlaybtnText.text = PlayPaused ? "Play" : "Pause";
     }
 
     public void InstantiateNotes(Vector3[] _notePositions)
