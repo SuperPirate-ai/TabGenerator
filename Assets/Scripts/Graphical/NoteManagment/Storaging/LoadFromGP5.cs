@@ -1,13 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.Plastic.Newtonsoft.Json;
-using Unity.Plastic.Newtonsoft.Json.Serialization;
+//using Unity.Plastic.Newtonsoft.Json;
+//using Unity.Plastic.Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using UnityEngine;
 
 
