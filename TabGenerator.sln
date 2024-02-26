@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayMode", "PlayMode.csproj", "{040A4CA5-722B-2CA2-AB6D-8951CC5BC3DB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Visualisation", "Scripts.Visualisation.csproj", "{75FE0650-E796-5C70-99D9-D89836C1A638}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.UI", "Scripts.UI.csproj", "{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{040A4CA5-722B-2CA2-AB6D-8951CC5BC3DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{040A4CA5-722B-2CA2-AB6D-8951CC5BC3DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{040A4CA5-722B-2CA2-AB6D-8951CC5BC3DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{040A4CA5-722B-2CA2-AB6D-8951CC5BC3DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75FE0650-E796-5C70-99D9-D89836C1A638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75FE0650-E796-5C70-99D9-D89836C1A638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75FE0650-E796-5C70-99D9-D89836C1A638}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -64,7 +64,6 @@
     <Compile Include="Assets\Scripts\Audio\AudioAnalyser.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioComponents.cs" />
     <Compile Include="Assets\Scripts\Audio\MicrophoneInput.cs" />
-    <Compile Include="Assets\Scripts\Audio\AudioFilter.cs" />
     <Compile Include="Assets\Scripts\Audio\TestAudioFreq.cs" />
   </ItemGroup>
   <ItemGroup>

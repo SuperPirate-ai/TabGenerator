@@ -13,9 +13,7 @@ public class AudioAnalyser : MonoBehaviour
     private int sampleRate;
     private float[] fftReal;
 
-    private AudioFilter audioFilter;
     private List<int> notesFrequencies;
-    private Dictionary<float, float> peaks = new Dictionary<float, float>(); // item1 => frequency, item2 => amplitude
 
     private float fftError;
 

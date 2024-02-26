@@ -1,12 +1,10 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using TMPro;
 //using Unity.Plastic.Newtonsoft.Json;
 //using Unity.Plastic.Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -41,7 +39,7 @@ public class LoadFromGP5 : MonoBehaviour
             httpClient.BaseAddress = new Uri("http://0.0.0.0:5000");
             var httpResponseMessage = httpClient.GetAsync(apiPath + shutdownFileExtension).Result;
         }
-        catch {}
+        catch { }
     }
     void StartAPI()
     {
@@ -64,7 +62,7 @@ public class LoadFromGP5 : MonoBehaviour
             content = JsonConvert.DeserializeObject<GTPFileContent>(jsonResponse);
             print(content.message);
         }
-        catch(Exception e) 
+        catch (Exception e)
         {
             print(e);
         }

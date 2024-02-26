@@ -75,7 +75,7 @@ public class AudioComponents : MonoBehaviour
     {
         float lowerOctaveFrequency = _frequnecy / 2;
         int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
-        
+
         float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
         float freqAmplitudedReduced = _fftReal[_freqBin] * 0.75f;
 

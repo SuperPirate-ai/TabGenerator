@@ -21,7 +21,7 @@ public class Note : MonoBehaviour
     {
         if (!manager.playedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
 
-        if(this.gameObject == NoteManager.Instance.playedNotes.Last() && this.transform.position.x < 0 && !NoteManager.Instance.IsRecording && !NoteManager.Instance.PlayPaused)
+        if (this.gameObject == NoteManager.Instance.playedNotes.Last() && this.transform.position.x < 0 && !NoteManager.Instance.IsRecording && !NoteManager.Instance.PlayPaused)
         {
             Move();
             NoteManager.Instance.Play();

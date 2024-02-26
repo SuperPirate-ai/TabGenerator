@@ -12,9 +12,9 @@ public class Scroller : MonoBehaviour
 
     private void Update()
     {
-        if(scrolling)
+        if (scrolling)
         {
-            scrollingValue = Camera.main.ScreenToWorldPoint(Input.mousePosition).x -  mousePosition.x;
+            scrollingValue = Camera.main.ScreenToWorldPoint(Input.mousePosition).x - mousePosition.x;
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Scroll();
 

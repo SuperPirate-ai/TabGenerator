@@ -27,22 +27,22 @@ public class SaveLoadFiles : MonoBehaviour
     }
     public void Load()
     {
-        if(useGTPFileFormatChBox.isOn)
+        if (useGTPFileFormatChBox.isOn)
         {
-            string path = internalPathGTP +"/"+ fileNameInput.text;
+            string path = internalPathGTP + "/" + fileNameInput.text;
             string file = LoadFromGP5.Instance.GetStandard(path);
             DisplayNotes(file);
         }
         LoadAsStandardFile();
     }
-    public void Save() 
+    public void Save()
     {
-        if(useGTPFileFormatChBox.isOn)
+        if (useGTPFileFormatChBox.isOn)
         {
         }
         SaveAsStandartFile();
     }
-    
+
     void SaveAsStandartFile()
     {
         string file = $"{noteManager.BPM}";
