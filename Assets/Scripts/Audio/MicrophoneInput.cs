@@ -40,16 +40,16 @@ public class MicrophoneInput : MonoBehaviour
         if (!recording)
         {
             Microphone.End(microphone);
-            NoteManager.Instance.PlayPaused = true;
         }
         else
         {
 
-            NoteManager.Instance.PlayPaused = false;
             StartCoroutine(GrapMicrophoneBuffer());
             StartMicrophone();
             positionInClip = 0;
         }
+        NoteManager.Instance.IsRecording = recording;
+        NoteManager.Instance.PlayPaused = !NoteManager.Instance.PlayPaused;
         ChangeRecordBtnText(_bntText);
     }
     private void ChangeRecordBtnText(TMP_Text _bntText)
