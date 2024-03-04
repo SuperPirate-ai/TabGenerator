@@ -23,7 +23,7 @@ public class LoadFromGP5 : MonoBehaviour
     string apiPath = "http://localhost:5000";
     string readFileExtension = "/readfile?path=";
     string shutdownFileExtension = "/shutdown";
-    string writeFileExtension = "/writefile";
+    string writeFileExtension = "/writefile?path=";
     
     public string Filepath = "C://Users//peer//UnityProjects//TabGenerator//Assets//AudioFiles//the-eagles-hotel_california.gp3";
 
@@ -94,7 +94,7 @@ public class LoadFromGP5 : MonoBehaviour
             var content = JsonConvert.SerializeObject(values);
             var httpContent = new StringContent(content,System.Text.Encoding.UTF8,"application/json");
 
-            var response = await httpClient.PostAsync(apiPath + writeFileExtension, httpContent);
+            var response = await httpClient.PostAsync(apiPath + writeFileExtension +_filepath, httpContent);
 
             var responseString = await response.Content.ReadAsStringAsync();
         }
