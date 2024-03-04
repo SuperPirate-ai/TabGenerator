@@ -35,7 +35,7 @@ public class AudioComponents : MonoBehaviour
     }
     public bool DetectPickStroke(float[] _samples)
     {
-        int subsamples = 3; // => needs to be a power of 2 || 128 -> 2^7
+        int subsamples = 16; // => needs to be a power of 2 || 128 -> 2^7
         int subsampleSize = _samples.Length / subsamples;
         float[] subsampleLoudnesses = new float[subsamples];
 
@@ -55,13 +55,13 @@ public class AudioComponents : MonoBehaviour
         for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
         {
 
-            if (subsampleLoudnesses[i] * 1.5f < subsampleLoudnesses[i + 1])
+            if (subsampleLoudnesses[i] * 2f < subsampleLoudnesses[i + 1])
             {
                 stroke = true;
                 break;
             }
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 1.5f < subsampleLoudnesses[0])
+        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleLoudnesses[0])
         {
             stroke = true;
 
