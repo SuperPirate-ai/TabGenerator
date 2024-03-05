@@ -71,12 +71,12 @@ public class AudioAnalyser : MonoBehaviour
             }
         }
 
-        //peak gate
-
-        if (!AudioComponents.Instance.DetectPickStroke(samples)) return -1;
-
         //frequency Calculation
         float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
+        //peak gate
+
+        if (!AudioComponents.Instance.DetectPickStroke(samples,frequency)) return -1;
+
 
         // ocatve Detection
         float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftReal, highestFFTBin);

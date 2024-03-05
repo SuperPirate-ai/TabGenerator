@@ -26,3 +26,4 @@ crashlytics-build.properties
 
 #own due to error
 .vs/TapGenerator/FileContentIndex/
+.vsidx
