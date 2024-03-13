@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}</ProjectGuid>
+    <ProjectGuid>{AD51FE32-77CB-68C8-054D-78F1A19676F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Skripts</AssemblyName>
+    <AssemblyName>Scripts.Tools</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -60,10 +60,13 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\EventManager.cs" />
+    <Compile Include="Assets\Scripts\Tools\BPM.cs" />
+    <Compile Include="Assets\Scripts\Tools\MetronomeSound.cs" />
+    <Compile Include="Assets\Scripts\Tools\Metronome.cs" />
+    <Compile Include="Assets\Scripts\Tools\MeasureBarGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\Scripts.asmdef" />
+    <None Include="Assets\Scripts\Tools\Scripts.Tools.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -986,6 +989,10 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
@@ -996,6 +1003,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
+      <Project>{A6AD9F08-A239-C71B-2A23-AC519EBA433F}</Project>
+      <Name>Scripts.Graphical.NoteManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="Skripts.csproj">
+      <Project>{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}</Project>
+      <Name>Skripts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

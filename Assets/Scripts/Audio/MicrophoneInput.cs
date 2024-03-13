@@ -47,6 +47,8 @@ public class MicrophoneInput : MonoBehaviour
             StartCoroutine(GrapMicrophoneBuffer());
             StartMicrophone();
             positionInClip = 0;
+
+            EventManager.TriggerEvent("StratedRecording", null);
         }
         NoteManager.Instance.IsRecording = recording;
         NoteManager.Instance.PlayPaused = !NoteManager.Instance.PlayPaused;
