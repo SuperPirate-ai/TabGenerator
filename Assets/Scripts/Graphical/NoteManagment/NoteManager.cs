@@ -23,7 +23,7 @@ public class NoteManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null) Destroy(this);
-        BPMInput.text = BPM.ToString() + " BPM";
+        BPMInput.text = BPM.ToString();
         Instance = this;
     }
     public void Play()
