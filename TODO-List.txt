@@ -1,0 +1,1 @@
+delete all Measure bars when changing bpm and reInstanciate them
