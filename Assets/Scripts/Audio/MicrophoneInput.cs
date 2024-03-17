@@ -40,6 +40,7 @@ public class MicrophoneInput : MonoBehaviour
         if (!recording)
         {
             Microphone.End(microphone);
+            EventManager.TriggerEvent("StopedRecording", null);
         }
         else
         {
@@ -48,7 +49,7 @@ public class MicrophoneInput : MonoBehaviour
             StartMicrophone();
             positionInClip = 0;
 
-            EventManager.TriggerEvent("StratedRecording", null);
+            EventManager.TriggerEvent("StartedRecording", null);
         }
         NoteManager.Instance.IsRecording = recording;
         NoteManager.Instance.PlayPaused = !NoteManager.Instance.PlayPaused;

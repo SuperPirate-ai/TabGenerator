@@ -76,10 +76,10 @@ public class LoadFromGP5 : MonoBehaviour
         HttpClient httpClient = new HttpClient();
         try
         {
-            float[,] notes = new float[NoteManager.Instance.playedNotes.Count, 3];
+            float[,] notes = new float[NoteManager.Instance.PlayedNotes.Count, 3];
            
             int i = 0;
-            foreach(GameObject note in NoteManager.Instance.playedNotes)
+            foreach(GameObject note in NoteManager.Instance.PlayedNotes)
             {
                 Vector3 pos = note.transform.position;
                 notes[i,0] = pos.x;

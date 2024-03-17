@@ -1,0 +1,483 @@
+Using pre-set license
+Built from '2023.1/staging' branch; Version is '2023.1.3f1 (e00e24c187a5) revision 14683684'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'de' Physical Memory: 16305 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker2
+-projectPath
+E:/Ben/UnityProjekts/GithubProjects/TabGenerator
+-logFile
+Logs/AssetImportWorker2.log
+-srvPort
+50860
+Successfully changed project path to: E:/Ben/UnityProjekts/GithubProjects/TabGenerator
+E:/Ben/UnityProjekts/GithubProjects/TabGenerator
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [35612] Host "[IP] 192.168.178.97 [Port] 0 [Flags] 2 [Guid] 1412938062 [EditorId] 1412938062 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-LBOTFD0) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [35612] Host "[IP] 192.168.178.97 [Port] 0 [Flags] 2 [Guid] 1412938062 [EditorId] 1412938062 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-LBOTFD0) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Library Redirect Path: Library/Refreshing native plugins compatible for Editor in 13.79 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2023.1.3f1 (e00e24c187a5)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Ben/UnityProjekts/GithubProjects/TabGenerator/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon RX 5700 (ID=0x731f)
+    Vendor:   ATI
+    VRAM:     8151 MB
+    Driver:   31.0.23013.3005
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56264
+Begin MonoManager ReloadAssembly
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2023.1.3f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
+Registered in 0.006951 seconds.
+- Loaded All Assemblies, in  2.631 seconds
+Native extension for UWP target not found
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+- Finished resetting the current domain, in  1.021 seconds
+Domain Reload Profiling: 3650ms
+	BeginReloadAssembly (612ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (500ms)
+	RebuildNativeTypeToScriptingClass (23ms)
+	initialDomainReloadingComplete (79ms)
+	LoadAllAssembliesAndSetupDomain (1414ms)
+		LoadAssemblies (605ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (1407ms)
+			TypeCache.Refresh (1406ms)
+				TypeCache.ScanAssembly (1028ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (1021ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (941ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (27ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (11ms)
+			ProcessInitializeOnLoadAttributes (800ms)
+			ProcessInitializeOnLoadMethodAttributes (96ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Import Worker Mode flag is 0x00
+Begin MonoManager ReloadAssembly
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+Assembly 'Library/ScriptAssemblies/Scripts.Audio.dll' will not be loaded due to errors:
+Unable to resolve reference 'Skripts'. Is the assembly missing or incompatible with the current platform?
+Reference validation can be disabled in the Plugin Inspector.
+Assembly 'Library/ScriptAssemblies/Scripts.Tools.dll' will not be loaded due to errors:
+Unable to resolve reference 'Skripts'. Is the assembly missing or incompatible with the current platform?
+Reference validation can be disabled in the Plugin Inspector.
+Symbol file LoadedFromMemory doesn't match image E:\Ben\UnityProjekts\GithubProjects\TabGenerator\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image E:\Ben\UnityProjekts\GithubProjects\TabGenerator\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  6.328 seconds
+Refreshing native plugins compatible for Editor in 6.01 ms, found 4 plugins.
+Native extension for UWP target not found
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  5.275 seconds
+Domain Reload Profiling: 11571ms
+	BeginReloadAssembly (777ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (12ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (58ms)
+	RebuildCommonClasses (98ms)
+	RebuildNativeTypeToScriptingClass (45ms)
+	initialDomainReloadingComplete (207ms)
+	LoadAllAssembliesAndSetupDomain (5168ms)
+		LoadAssemblies (3512ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (1880ms)
+			TypeCache.Refresh (1766ms)
+				TypeCache.ScanAssembly (1701ms)
+			ScanForSourceGeneratedMonoScriptInfo (92ms)
+			ResolveRequiredComponents (21ms)
+	FinalizeReload (5276ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2521ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (31ms)
+			SetLoadedEditorAssemblies (14ms)
+			BeforeProcessingInitializeOnLoad (321ms)
+			ProcessInitializeOnLoadAttributes (2020ms)
+			ProcessInitializeOnLoadMethodAttributes (118ms)
+			AfterProcessingInitializeOnLoad (16ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (24ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 38.99 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5831 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 96 unused Assets / (1.5 MB). Loaded Objects now: 6363.
+Memory consumption went from 229.7 MB to 228.2 MB.
+Total: 20.394800 ms (FindLiveObjects: 4.112700 ms CreateObjectMapping: 6.773700 ms MarkObjects: 8.999700 ms  DeleteObjects: 0.506900 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/precompiled-assembly-types:Scripts.Audio: 7d652e69c3aaa03b19054645f81b9a08 -> 
+  custom:scripting/monoscript/fileName/AudioComponents.cs: a0f4242616cedb367782bd81753c48b0 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/AudioFileInput.cs: 89c39b705c64d1d5459ffa520eab785a -> 
+  custom:scripting/monoscript/fileName/MeasureBarGenerator.cs: 621c6c88621290eaf2282ddf20c6a323 -> 
+  custom:scripting/monoscript/fileName/EventManager.cs: 446311e0d407c27633df45ca972957e4 -> 
+  custom:scripting/monoscript/fileName/BPM.cs: 16e0c2be9608cf32b25e03ede0e50a74 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/Metronome.cs: c204270748594bc8db083eda7a24912f -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/precompiled-assembly-types:Skripts: 04c1ee73f25aad7ea49b34091be602c9 -> 
+  custom:scripting/precompiled-assembly-types:Scripts.Tools: fc958b25da620323c7d31b01920b9c65 -> 
+  custom:scripting/monoscript/fileName/TestAudioFreq.cs: b1ebaeaea9bab0086e91fac7e47b0612 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/MetronomeSound.cs: 3d0b720aeebf7bc2c8df4b51c1220ed0 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/AudioAnalyser.cs: 0c04251040a58897760e2e2b392bd4c7 -> 
+  custom:scripting/monoscript/fileName/MicrophoneInput.cs: 5d7b1f25b8ecad9a449620fceeaf94dc -> 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+C:\build\output\Unity-Technologies\mono\mono\metadata\icall.c:1842:
+Assembly 'Library/ScriptAssemblies/Scripts.Audio.dll' will not be loaded due to errors:
+Unable to resolve reference 'Skripts'. Is the assembly missing or incompatible with the current platform?
+Reference validation can be disabled in the Plugin Inspector.
+Assembly 'Library/ScriptAssemblies/Scripts.Tools.dll' will not be loaded due to errors:
+Unable to resolve reference 'Skripts'. Is the assembly missing or incompatible with the current platform?
+Reference validation can be disabled in the Plugin Inspector.
+Symbol file LoadedFromMemory doesn't match image E:\Ben\UnityProjekts\GithubProjects\TabGenerator\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image E:\Ben\UnityProjekts\GithubProjects\TabGenerator\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  3.405 seconds
+Refreshing native plugins compatible for Editor in 9.95 ms, found 4 plugins.
+Native extension for UWP target not found
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  5.037 seconds
+Domain Reload Profiling: 8433ms
+	BeginReloadAssembly (829ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (38ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (173ms)
+	RebuildCommonClasses (116ms)
+	RebuildNativeTypeToScriptingClass (38ms)
+	initialDomainReloadingComplete (82ms)
+	LoadAllAssembliesAndSetupDomain (2330ms)
+		LoadAssemblies (1441ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (1397ms)
+			TypeCache.Refresh (1374ms)
+				TypeCache.ScanAssembly (1291ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (22ms)
+	FinalizeReload (5037ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2416ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (32ms)
+			SetLoadedEditorAssemblies (13ms)
+			BeforeProcessingInitializeOnLoad (477ms)
+			ProcessInitializeOnLoadAttributes (1777ms)
+			ProcessInitializeOnLoadMethodAttributes (102ms)
+			AfterProcessingInitializeOnLoad (15ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (28ms)
+Refreshing native plugins compatible for Editor in 18.62 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5659 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 55 unused Assets / (1.5 MB). Loaded Objects now: 6372.
+Memory consumption went from 199.5 MB to 198.0 MB.
+Total: 10.976200 ms (FindLiveObjects: 0.691900 ms CreateObjectMapping: 2.247000 ms MarkObjects: 7.560400 ms  DeleteObjects: 0.475300 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/precompiled-assembly-types:Scripts.Audio: 7d652e69c3aaa03b19054645f81b9a08 -> 
+  custom:scripting/monoscript/fileName/AudioComponents.cs: a0f4242616cedb367782bd81753c48b0 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/AudioFileInput.cs: 89c39b705c64d1d5459ffa520eab785a -> 
+  custom:scripting/monoscript/fileName/MeasureBarGenerator.cs: 621c6c88621290eaf2282ddf20c6a323 -> 
+  custom:scripting/monoscript/fileName/EventManager.cs: 446311e0d407c27633df45ca972957e4 -> 
+  custom:scripting/monoscript/fileName/BPM.cs: 16e0c2be9608cf32b25e03ede0e50a74 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/Metronome.cs: c204270748594bc8db083eda7a24912f -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/precompiled-assembly-types:Skripts: 04c1ee73f25aad7ea49b34091be602c9 -> 
+  custom:scripting/precompiled-assembly-types:Scripts.Tools: fc958b25da620323c7d31b01920b9c65 -> 
+  custom:scripting/monoscript/fileName/TestAudioFreq.cs: b1ebaeaea9bab0086e91fac7e47b0612 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/MetronomeSound.cs: 3d0b720aeebf7bc2c8df4b51c1220ed0 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/AudioAnalyser.cs: 0c04251040a58897760e2e2b392bd4c7 -> 
+  custom:scripting/monoscript/fileName/MicrophoneInput.cs: 5d7b1f25b8ecad9a449620fceeaf94dc -> 
+========================================================================
+Received Import Request.
+  Time since last request: 76780.526683 seconds.
+  path: Assets/Scripts/Graphical
+  artifactKey: Guid(a5169dc312bea3d498dbdc04d73ddf72) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical using Guid(a5169dc312bea3d498dbdc04d73ddf72) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '021ae4003a964e2d9c68fe313bc147ac') in 0.008891 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/Scripts/ScriptableObjects
+  artifactKey: Guid(b263d9b20b09ca648b33150915506728) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ScriptableObjects using Guid(b263d9b20b09ca648b33150915506728) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5300f3b7b18ce361c5a25c7be41a19ab') in 0.003375 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 42.501647 seconds.
+  path: Assets/Scripts/Graphical/MeasureBar.cs
+  artifactKey: Guid(fa0502cc0ab0e1c41be2ed3bac9be388) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/MeasureBar.cs using Guid(fa0502cc0ab0e1c41be2ed3bac9be388) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd7535a0f6334cfbe559a12f3f4660245') in 0.001396 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 29555.177387 seconds.
+  path: Assets/Fonts/Raleway-ExtraBold.ttf
+  artifactKey: Guid(b4148df6945c5af469c296ad5db062b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Fonts/Raleway-ExtraBold.ttf using Guid(b4148df6945c5af469c296ad5db062b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b66877eec525cc1a8529cea602019fb8') in 0.131886 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/Fonts/Trinstam SDF.asset
+  artifactKey: Guid(c5b3c87c78229684cb16d429f59deb3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Fonts/Trinstam SDF.asset using Guid(c5b3c87c78229684cb16d429f59deb3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '42c7457b3f958e3c7c3c088e887c5771') in 0.086909 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 5
+========================================================================
+Received Import Request.
+  Time since last request: 13.669653 seconds.
+  path: Assets/AssetStore/AssetStore.asdef.asmdef
+  artifactKey: Guid(cb3fe5d867c95ca438609a55c380e4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/AssetStore/AssetStore.asdef.asmdef using Guid(cb3fe5d867c95ca438609a55c380e4cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edd33c55fb4f15a2050813fc8d19d88d') in 0.002569 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 7.769640 seconds.
+  path: Assets/Scripts/UI
+  artifactKey: Guid(8bfdba4c780d0cf439abd8f5fc47b1b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/UI using Guid(8bfdba4c780d0cf439abd8f5fc47b1b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f86514f37a8ba2cf4dd2e34301eb64b7') in 0.015755 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.152565 seconds.
+  path: Assets/Scripts/UI/Scripts.UI.asmdef
+  artifactKey: Guid(615e87e09bd93ee4c9ad62b51efd91b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/UI/Scripts.UI.asmdef using Guid(615e87e09bd93ee4c9ad62b51efd91b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0a657e528d001b5df90a4236d5014ff8') in 0.000737 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.102764 seconds.
+  path: Assets/Scripts/Tools
+  artifactKey: Guid(4e095efc1610de74884df5a9ce928cd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tools using Guid(4e095efc1610de74884df5a9ce928cd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f4ba0c93ab7cf5c1b852ae09b5ab5af8') in 0.000613 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.135113 seconds.
+  path: Assets/Scripts/Tools/Scripts.Tools.asmdef
+  artifactKey: Guid(52ad25010939bdb49beabbeded84825c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tools/Scripts.Tools.asmdef using Guid(52ad25010939bdb49beabbeded84825c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dae31c9449cf55bffe0e49f959da3f4c') in 0.000650 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 2.805242 seconds.
+  path: Assets/Scripts/Tools/Metronome.cs
+  artifactKey: Guid(a2b309e4d6bbc3046ad76f85135859c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tools/Metronome.cs using Guid(a2b309e4d6bbc3046ad76f85135859c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '37eedfc9aa49f5c40711b219be034fd1') in 0.000515 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.228873 seconds.
+  path: Assets/Scripts/Tools/MeasureBarGenerator.cs
+  artifactKey: Guid(b6acb9a642dcfe7498dfb05cc4a346f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tools/MeasureBarGenerator.cs using Guid(b6acb9a642dcfe7498dfb05cc4a346f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae44b07fbc398eb4a5587abf2154f072') in 0.000531 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.099035 seconds.
+  path: Assets/Scripts/Tools/MetronomeSound.cs
+  artifactKey: Guid(8da3c91c6617da04f99a804f76ab0e58) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tools/MetronomeSound.cs using Guid(8da3c91c6617da04f99a804f76ab0e58) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7bdd16ad1218039136570749edb6aa11') in 0.000708 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.710201 seconds.
+  path: Assets/Scripts/Audio/Scripts.Audio.asmdef
+  artifactKey: Guid(a44135301a7ae4344954fb5993963b36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Audio/Scripts.Audio.asmdef using Guid(a44135301a7ae4344954fb5993963b36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f4135a3b3a60b98bcec36b89f72058f') in 0.000655 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.546096 seconds.
+  path: Assets/Scripts/Graphical/NoteManagment
+  artifactKey: Guid(025663e8ae864074c986f25038b4d626) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/NoteManagment using Guid(025663e8ae864074c986f25038b4d626) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d7ca88eee0c87ac5d4869d070d07b9f') in 0.000608 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.389080 seconds.
+  path: Assets/Scripts/Graphical/Visualization
+  artifactKey: Guid(0300efde3300abf46813e318b0cce3ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/Visualization using Guid(0300efde3300abf46813e318b0cce3ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef81627140f514f1726effb50346a770') in 0.000663 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.088189 seconds.
+  path: Assets/Scripts/Graphical/Visualization/Scripts.Visualisation.asmdef
+  artifactKey: Guid(13b90b032e25753499be1ef349e29751) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/Visualization/Scripts.Visualisation.asmdef using Guid(13b90b032e25753499be1ef349e29751) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '916a6ae5f64954cf0fa7bfe4b063645e') in 0.000731 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.170109 seconds.
+  path: Assets/Scripts/Graphical/NoteManagment/Scripts.Graphical.NoteManagement.asmdef
+  artifactKey: Guid(ac971a34786908645adb769090ab949f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/NoteManagment/Scripts.Graphical.NoteManagement.asmdef using Guid(ac971a34786908645adb769090ab949f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3281a3e592bf5ceba602fdd7d4a63412') in 0.001225 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 2.423406 seconds.
+  path: Assets/Scripts/Graphical/NoteManagment/Storaging
+  artifactKey: Guid(5ced6d90b0471fc4d8428dbb5f513082) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/NoteManagment/Storaging using Guid(5ced6d90b0471fc4d8428dbb5f513082) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '17e2f0b7d14a536b2c00e76d6b60b6fe') in 0.000873 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.085234 seconds.
+  path: Assets/Scripts/Graphical/NoteManagment/Storaging/Scripts.Graphical.NoteManagment.Storaging.asmdef
+  artifactKey: Guid(2ecccdb31000bd94793b2fcaedbcdfd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Graphical/NoteManagment/Storaging/Scripts.Graphical.NoteManagment.Storaging.asmdef using Guid(2ecccdb31000bd94793b2fcaedbcdfd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2dbc5abd28c97754bba78639e607404e') in 0.000858 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 22.288759 seconds.
+  path: Assets/Prefabs/MeasureBar.prefab
+  artifactKey: Guid(9a753f2945fd53a4bb27c643160e0e09) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/MeasureBar.prefab using Guid(9a753f2945fd53a4bb27c643160e0e09) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da4ee4768771a2cb8f003a93630e8ab6') in 0.003335 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 9

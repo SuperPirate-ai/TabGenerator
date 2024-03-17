@@ -11,7 +11,7 @@ public class FollowingNoteDetermination : MonoBehaviour
     }
     public Vector3 DeterminNextNote(Vector3[] _notePositions)
     {
-        GameObject lastNote = NoteManager.Instance.playedNotes.Last();
+        GameObject lastNote = NoteManager.Instance.PlayedNotes.Last();
         Vector3 posOfLastNote = lastNote.transform.position;
         Vector3 mostLiklyNotePosition = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
 

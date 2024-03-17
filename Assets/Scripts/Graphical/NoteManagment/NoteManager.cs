@@ -7,8 +7,9 @@ public class NoteManager : MonoBehaviour
 {
     public static NoteManager Instance { get; private set; }
 
-    public GameObject noteObj;
-    public List<GameObject> playedNotes;
+    public GameObject NoteObj;
+    public List<GameObject> PlayedNotes;
+    public List<GameObject> MeasureBars;
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
@@ -41,8 +42,8 @@ public class NoteManager : MonoBehaviour
     }
     public void InstantiateNote(Vector3 _notePosition)
     {
-        GameObject go = Instantiate(noteObj, _notePosition, Quaternion.identity);
+        GameObject go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
         go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePosition.z.ToString();
-        Instance.playedNotes.Add(go);
+        Instance.PlayedNotes.Add(go);
     }
 }

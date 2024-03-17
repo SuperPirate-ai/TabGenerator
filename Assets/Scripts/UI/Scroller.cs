@@ -31,9 +31,13 @@ public class Scroller : MonoBehaviour
     }
     private void Scroll()
     {
-        foreach (var note in NoteManager.Instance.playedNotes)
+        foreach (var note in NoteManager.Instance.PlayedNotes)
         {
             note.transform.position += new Vector3(scrollingValue, 0);
+        }
+        foreach (var bar in NoteManager.Instance.MeasureBars)
+        {
+            bar.transform.position += new Vector3(scrollingValue, 0);
         }
     }
 }

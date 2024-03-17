@@ -8,8 +8,6 @@ using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 public class BPM : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
-   
-
 
     private void Start()
     {
