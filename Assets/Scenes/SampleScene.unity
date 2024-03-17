@@ -3585,8 +3585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f577200ed54c45d4589d7b6e2a317dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteObj: {fileID: 4403095215134486680, guid: d8508db6a1be51d40a54bff388f0a45d, type: 3}
-  playedNotes: []
+  NoteObj: {fileID: 0}
+  PlayedNotes: []
+  MeasureBars: []
   BPM: 100
   NoteSpeed: 10
   PlayPaused: 1
@@ -8626,7 +8627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeSignitureNoteCount: 4
   TimeSignitureNoteValue: 4
-  MeasureBar: {fileID: 0}
+  MeasureBar: {fileID: 1273843500334796496, guid: 0788f25d3f3ef1b48b2a0399652221b9, type: 3}
   Pointer: {fileID: 6055583949314337581}
 --- !u!4 &1129280128944166888
 Transform:
