@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\tools\\metronome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\metronome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\tools\\measurebargenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\measurebargenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|solutionrelative:assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\tools\\metronome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\metronome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\graphical\\notemanagment\\movingobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\movingobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\tools\\metronomesound.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,6 +25,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\tools\\bpm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\bpm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|solutionrelative:assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,33 +50,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Note.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA/AAAA",
+              "DocumentIndex": 3,
+              "Title": "MovingObject.cs",
+              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\MovingObject.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\MovingObject.cs",
+              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\MovingObject.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\MovingObject.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAcwBkAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-17T21:43:03.141Z",
+              "WhenOpened": "2024-03-18T18:30:31.114Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "NoteManager.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAAwCwAAAArAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-17T21:42:25.414Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "Metronome.cs",
+              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\Metronome.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Tools\\Metronome.cs",
+              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\Metronome.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Tools\\Metronome.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwAoAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T17:35:15.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Scroller.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\UI\\Scroller.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Scroller.cs",
@@ -89,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "MetronomeSound.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\MetronomeSound.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Tools\\MetronomeSound.cs",
@@ -102,39 +115,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MeasureBarGenerator.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\MeasureBarGenerator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Tools\\MeasureBarGenerator.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\MeasureBarGenerator.cs",
               "RelativeToolTip": "Assets\\Scripts\\Tools\\MeasureBarGenerator.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAxwCoAAAA1AAAA",
+              "ViewState": "AQIAACwAAAAAAAAAAAAIwEAAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-17T10:20:33.458Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Metronome.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\Metronome.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Tools\\Metronome.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\Metronome.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Tools\\Metronome.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwB0AAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T17:35:15.706Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "BPM.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\BPM.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Tools\\BPM.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Tools\\BPM.cs",
               "RelativeToolTip": "Assets\\Scripts\\Tools\\BPM.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-13T17:35:17.183Z",
               "EditorCaption": ""
