@@ -1,1 +1,1 @@
-A Programm to automise Tapwriting
+A program to automate tabwriting
