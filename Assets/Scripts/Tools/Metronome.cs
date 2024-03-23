@@ -24,8 +24,9 @@ public class Metronome : MonoBehaviour
     void SetBPM(Dictionary<string, object> _message)
     {
         if (_message["BPM"] == "") return;
-        print(_message["BPM"]);
+        print("BPM:" + _message["BPM"]);
         bpm = System.Convert.ToInt32(_message["BPM"]);
+        NoteManager.Instance.BPM = bpm;
         timeBetweenBeatsInSeconds = 60.0f / bpm;
         metronome.Interval = timeBetweenBeatsInSeconds * 1000;
     }

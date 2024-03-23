@@ -15,7 +15,6 @@ public class MeasureBarGenerator : MonoBehaviour
     private void Start()
     {
         Metronome.metronome.Elapsed += OnNewBeat;
-        EventManager.StartListening("BPMChanged", OnBPMChange);
     }
     private void Update()
     {
@@ -47,34 +46,5 @@ public class MeasureBarGenerator : MonoBehaviour
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
     }
-    void OnBPMChange(Dictionary<string, object> _message)
-    {
-        List<GameObject> measurebars = NoteManager.Instance.MeasureBars;
-        NoteManager.Instance.MeasureBars.Clear();
-        int oldBPM = NoteManager.Instance.BPM;
-        int newBPM = Convert.ToInt32(_message["BPM"]);
-        NoteManager.Instance.BPM = Convert.ToInt32(_message["BPM"]);
-                
-        float distanceBewtweenOLDBars = (Mathf.Abs(measurebars[0].transform.position.x) - Mathf.Abs(measurebars[1].transform.position.x));
-        float timeBetweenOLDBars = 60 / oldBPM;
-
-        float timeBetweenBars = 60 / newBPM;
-
-        var value = distanceBewtweenOLDBars / timeBetweenOLDBars;
-
-        float distanceBetweenNEWBars = value * timeBetweenBars;
-
-        foreach (var item in measurebars)
-        {
-            try
-            {
-                Destroy(item.gameObject);
-            }
-            catch(Exception e)
-            {
-                print(e);
-            }
-        }
-        
-    }
+    
 }
