@@ -30,14 +30,12 @@ public class MeasureBarGenerator : MonoBehaviour
         //print(beatcount);
         if(beatcount % TimeSignitureNoteCount == 0) 
         {
-            print("New Measure");
+            //print("New Measure");
             instatiateMeasureBar = true;
         }
     }
     void CreateNewMeasureBar()
     {
-        Debug.Log("Instantiating...");
-
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
     }

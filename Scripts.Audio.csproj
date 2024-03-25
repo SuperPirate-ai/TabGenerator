@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}</ProjectGuid>
+    <ProjectGuid>{0532F624-EF8F-4B66-623A-C3255174BE6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Scripts.Audio</AssemblyName>
@@ -55,7 +55,6 @@
     <UnityVersion>2023.1.3f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -1005,19 +1004,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ScriptableObject.csproj">
-      <Project>{CF443B26-1A41-4E03-91B3-0529782103D3}</Project>
+      <Project>{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}</Project>
       <Name>ScriptableObject</Name>
     </ProjectReference>
     <ProjectReference Include="Scripts.Visualisation.csproj">
-      <Project>{75FE0650-E796-5C70-99D9-D89836C1A638}</Project>
+      <Project>{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}</Project>
       <Name>Scripts.Visualisation</Name>
     </ProjectReference>
     <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
-      <Project>{A6AD9F08-A239-C71B-2A23-AC519EBA433F}</Project>
+      <Project>{16DA9A76-7C5D-2014-D886-E02FAE48586E}</Project>
       <Name>Scripts.Graphical.NoteManagement</Name>
     </ProjectReference>
     <ProjectReference Include="Skripts.csproj">
-      <Project>{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}</Project>
+      <Project>{D58F0A8E-86C7-F958-2B14-5AEDCE3138F2}</Project>
       <Name>Skripts</Name>
     </ProjectReference>
   </ItemGroup>

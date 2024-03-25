@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}</ProjectGuid>
+    <ProjectGuid>{F7C4D305-BEBF-910E-95DD-5E55E4F91DD6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Scripts.UI</AssemblyName>
@@ -55,7 +55,6 @@
     <UnityVersion>2023.1.3f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -999,11 +998,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
-      <Project>{A6AD9F08-A239-C71B-2A23-AC519EBA433F}</Project>
+      <Project>{16DA9A76-7C5D-2014-D886-E02FAE48586E}</Project>
       <Name>Scripts.Graphical.NoteManagement</Name>
     </ProjectReference>
     <ProjectReference Include="Scripts.Visualisation.csproj">
-      <Project>{75FE0650-E796-5C70-99D9-D89836C1A638}</Project>
+      <Project>{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}</Project>
       <Name>Scripts.Visualisation</Name>
     </ProjectReference>
   </ItemGroup>

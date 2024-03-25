@@ -1,11 +1,16 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using System;
 
 public class AudioComponents : MonoBehaviour
 {
+    [SerializeField] NotesSO notes;
     private int buffersize;
     public static AudioComponents Instance;
-    private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+    private float previousMaxDisplacement = Mathf.Infinity;
+    private float previousFrequency;
 
     private void Awake()
     {
@@ -22,54 +27,50 @@ public class AudioComponents : MonoBehaviour
     {
         if (NoteManager.Instance.PlayPaused)
         {
-            lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            previousMaxDisplacement = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
-        float[] samples = new float[buffersize];
-
-        _clip.GetData(samples, _positionInClip);
-
-        return samples;
+        float[] sample = new float[buffersize];
+        _clip.GetData(sample, _positionInClip);
+        return sample;
     }
-    public bool DetectPickStroke(float[] _samples,float _frequency)
+    public bool DetectPickStroke(float[] _sample,float _frequency)
     {
-        int subsamples = _frequency > 150 ? 64 : 16; // => needs to be a power of 2 || 128 -> 2^7
-        int subsampleSize = _samples.Length / subsamples;
-        float[] subsampleLoudnesses = new float[subsamples];
-        
-
-        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        float maxDisplacement = 0;
+        for (int i = 0; i < _sample.Length; i++)
         {
-            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
+            if (Math.Abs(_sample[i]) > maxDisplacement) {
+                maxDisplacement = Math.Abs(_sample[i]);
+            }
+        }
+
+        int getNoteIndex(float _frequency)
+        {
+            float frequencyDistanceFromLastOne = float.MaxValue;
+            for (int i = 0; i < notes.frequnecys.Length; i++)
             {
-                if (Mathf.Abs(_samples[j]) > subsampleLoudnesses[i])
+                if (Math.Abs(notes.frequnecys[i] - _frequency) > frequencyDistanceFromLastOne)
                 {
-                    subsampleLoudnesses[i] = Mathf.Abs(_samples[j]);
+                    return i;
                 }
+                frequencyDistanceFromLastOne = Math.Abs(notes.frequnecys[i] - _frequency);
             }
+            return -1;
         }
 
-        bool stroke = false;
+        int nowidx = getNoteIndex(_frequency);
+        int thenidx = getNoteIndex(previousFrequency);
 
-        for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
-        {
-
-            if (subsampleLoudnesses[i] * 2f < subsampleLoudnesses[i + 1])
-            {
-                stroke = true;
-                break;
-            }
+        if (maxDisplacement > previousMaxDisplacement * 1.3 || (nowidx != thenidx)) {
+            previousMaxDisplacement = maxDisplacement;
+            previousFrequency = _frequency;
+            return true;
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleLoudnesses[0])
-        {
-            stroke = true;
-
-        }
-
-        lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
-        return stroke;
+        previousMaxDisplacement = maxDisplacement;
+        previousFrequency = _frequency;
+        return false;
     }
 
     public float DetectOctaveInterference(float _frequnecy, float[] _fftReal, int _freqBin)

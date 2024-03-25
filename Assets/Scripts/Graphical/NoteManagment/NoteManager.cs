@@ -27,6 +27,7 @@ public class NoteManager : MonoBehaviour
         BPMInput.text = BPM.ToString();
         Instance = this;
     }
+
     public void Play()
     {
         PlayPaused = !PlayPaused;

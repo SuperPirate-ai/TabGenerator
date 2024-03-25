@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -14,10 +15,14 @@ public class MicrophoneInput : MonoBehaviour
     private bool recording = false;
     private AudioSource audioSource;
     private int sampleRate;
-    private readonly int buffersize = (int)Mathf.Pow(2, 13);
+    private int buffersize;
     private float actualRecordingLength;
     private int positionInClip = 0;
 
+    void Awake()
+    {
+        buffersize = NoteManager.Instance.DefaultBufferSize;
+    }
 
     void Start()
     {
@@ -65,13 +70,27 @@ public class MicrophoneInput : MonoBehaviour
     }
     public IEnumerator GrapMicrophoneBuffer()
     {
-        yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= buffersize);
+        yield return new WaitUntil(() => Microphone.GetPosition(microphone) > buffersize + positionInClip);
+        AudioClip clip;
+        float[] sample;
+        clip = audioSource.clip;
+        sample = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
 
-        AudioClip clip = audioSource.clip;
-        float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
-        positionInClip = Microphone.GetPosition(microphone);
+        positionInClip += sample.Length;
 
-        analyser.Analyse(samples);
+        //int[] bufidxs = new int[sample.Length];
+        //for (int i = 0; i < sample.Length; i++)
+        //{
+        //    bufidxs[i] = i;
+        //}
+
+        //var vis = new Dictionary<string, object>
+        //{
+        //    { "y", bufidxs },
+        //    { "xs", new float [][] { sample } }
+        //};
+        //audio_visualization_interface.Instance.CallVisualisation(vis);
+        analyser.Analyse(sample);
         StartCoroutine(GrapMicrophoneBuffer());
     }
     public void OnMicrophoneInputChanged()
