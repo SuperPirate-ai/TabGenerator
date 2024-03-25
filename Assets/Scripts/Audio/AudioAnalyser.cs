@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class AudioAnalyser : MonoBehaviour
 {
-    [SerializeField] int numberOfSamples = 8192;
     [SerializeField] NotesSO notesSO;
     [SerializeField] int analysingDepth;
     [SerializeField] AudioVisualizer visualizer;
@@ -19,7 +20,6 @@ public class AudioAnalyser : MonoBehaviour
 
     private void Awake()
     {
-        fftReal = new float[numberOfSamples];
 
         notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
@@ -28,7 +28,7 @@ public class AudioAnalyser : MonoBehaviour
         }
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
-        fftError = sampleRate / numberOfSamples;
+        fftError = sampleRate / NoteManager.Instance.DefaultBufferSize;
 
     }
 
@@ -36,6 +36,7 @@ public class AudioAnalyser : MonoBehaviour
     {
         float frequency = CalculateFrequency(_rawSamples);
         if (frequency == -1) return;
+        //print(frequency);
 
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
         if (correspondingFrequney == 0) return;
@@ -45,13 +46,12 @@ public class AudioAnalyser : MonoBehaviour
     }
 
 
-    private float CalculateFrequency(float[] _samples)
+    private float CalculateFrequency(float[] _sample)
     {
-        fftReal = new float[numberOfSamples];
-        float[] samples = _samples;
+        fftReal = new float[NoteManager.Instance.DefaultBufferSize];
+        float[] samples = _sample;
 
         var fft = AudioComponents.Instance.FFT(samples);
-
         Array.Copy(fft, fftReal, fftReal.Length);
 
         float lowestFFTValue = 1;

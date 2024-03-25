@@ -3585,15 +3585,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f577200ed54c45d4589d7b6e2a317dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoteObj: {fileID: 0}
+  NoteObj: {fileID: 4403095215134486680, guid: d8508db6a1be51d40a54bff388f0a45d, type: 3}
   PlayedNotes: []
   MeasureBars: []
   BPM: 100
   NoteSpeed: 10
   PlayPaused: 1
   DefaultSamplerate: 44100
-  DefaultBufferSize: 8192
-  HighestPossibleFrequency: 1050
+  DefaultBufferSize: 2048
+  HighestPossibleFrequency: 1500
   IsRecording: 0
   PlaybtnText: {fileID: 1630205352}
   BPMInput: {fileID: 200756724}
@@ -5829,6 +5829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f0770128e1df74198efd35eff58d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notes: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
 --- !u!4 &1544126245
 Transform:
   m_ObjectHideFlags: 0
@@ -6048,7 +6049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 473c99f9cd4abae4f8ec39d66a374499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfSamples: 8192
   notesSO: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
   analysingDepth: 5
   visualizer: {fileID: 1774572596}
@@ -8629,6 +8629,50 @@ MonoBehaviour:
   TimeSignitureNoteValue: 4
   MeasureBar: {fileID: 1273843500334796496, guid: 0788f25d3f3ef1b48b2a0399652221b9, type: 3}
   Pointer: {fileID: 6055583949314337581}
+--- !u!1 &2145913243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2145913245}
+  - component: {fileID: 2145913244}
+  m_Layer: 0
+  m_Name: audio_visualizer_python
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2145913244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145913243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5282be6abeddc72409bb38dcdaa520a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2145913245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145913243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5479465, y: -1.4826554, z: -9.966059}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1129280128944166888
 Transform:
   m_ObjectHideFlags: 0
