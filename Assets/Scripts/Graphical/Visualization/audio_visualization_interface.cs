@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Sockets;
 
 
 public class audio_visualization_interface : MonoBehaviour
@@ -34,8 +34,16 @@ public class audio_visualization_interface : MonoBehaviour
         var content = JsonConvert.SerializeObject(values);
         var httpContent = new StringContent(content, System.Text.Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync("http://localhost:5001/plot_data", httpContent);
+        try
+        {
+            var response = await httpClient.PostAsync("http://localhost:5001/plot_data", httpContent);
+            var responseString = await response.Content.ReadAsStringAsync();
+        }
+        catch (WebException webEx)
+        { }
+        catch (SocketException sockEx)
+        {
+        }
 
-        var responseString = await response.Content.ReadAsStringAsync();
     }
 }

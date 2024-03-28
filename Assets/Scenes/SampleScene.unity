@@ -3592,7 +3592,7 @@ MonoBehaviour:
   NoteSpeed: 10
   PlayPaused: 1
   DefaultSamplerate: 44100
-  DefaultBufferSize: 2048
+  DefaultBufferSize: 8192
   HighestPossibleFrequency: 1500
   IsRecording: 0
   PlaybtnText: {fileID: 1630205352}
@@ -6954,7 +6954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
-  guitarStringRefernez: {fileID: 11400000, guid: 3e810070ea115754eb7093b4c0227b1b, type: 2}
+  stringFret0NoteIndex: 00000000050000000a0000000f0000001300000018000000
 --- !u!4 &1774572595
 Transform:
   m_ObjectHideFlags: 0

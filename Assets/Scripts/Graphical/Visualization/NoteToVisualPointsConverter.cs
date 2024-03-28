@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 
@@ -5,8 +7,9 @@ public class NoteToVisualPointsConverter : MonoBehaviour
 {
     public static NoteToVisualPointsConverter Instance { get; private set; }
 
-    [SerializeField] NotesSO notes;
-    [SerializeField] StringReferenzSO guitarStringRefernez;
+    [SerializeField] public NotesSO notes;
+    //[SerializeField] public StringReferenzSO guitarStringRefernez;
+    public int[] stringFret0NoteIndex = new int[6] { 0, 5, 10, 15, 19, 24 };
 
 
     private void OnEnable()
@@ -14,42 +17,20 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         if (Instance != null) Destroy(this);
         Instance = this;
     }
-    public Vector3[] GetNotePositions(float _frequency)
+    public Vector3[] GetNotePositions(List<Tuple<int, string, int>> recognizedNotes)
     {
-        int indexOfNote = -1;
 
-        for (int i = 0; i < notes.frequnecys.Length; i++)
-        {
-            if (notes.frequnecys[i] == _frequency)
-            {
-                indexOfNote = i;
-                break;
-            }
-        }
+        if (recognizedNotes.Count == 0) return new Vector3[] { };
+        int gtr_string = recognizedNotes[0].Item3;
+        int fret = recognizedNotes[0].Item1 - stringFret0NoteIndex[6 + gtr_string];
 
-        if (indexOfNote == -1) { Debug.Log($"No Note found with the Frequency {_frequency}."); return null; }
-
-        string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
-        Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];
-
-        for (int i = 0; i < notePositionsString.Length; i++)
-        {
-            string[] point = notePositionsString[i].Split(',');
-            notePositionsVector[i] = new Vector3(0, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
-        }
-        return notePositionsVector;
+        if (fret < 0) return new Vector3[] { };
+        return new Vector3[] { new Vector3(0, gtr_string, fret) };
     }
     public Vector3[] GetNotePositions(Vector3 _notepos)
     {
         string positionsString = null;
-        foreach (string item in guitarStringRefernez.NotePositions)
-        {
-            if (item.Contains($"{_notepos.y},{_notepos.z}"))
-            {
-                positionsString = item;
-                break;
-            }
-        }
+       
         if (positionsString == null) { Debug.LogError("NO POSITIONS FOUND FOR GIVEN POINT!"); return null; }
 
         string[] posArray = positionsString.Split(";");

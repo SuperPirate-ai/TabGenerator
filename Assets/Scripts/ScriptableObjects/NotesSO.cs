@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Notes", menuName = "Notes")]
 public class NotesSO : ScriptableObject
 {
-    public int[] frequnecys;
+    public float[] frequencies = { 82.41f, 87.31f, 92.50f, 98.00f, 103.83f, 110.00f, 116.54f, 123.47f, 130.81f, 138.59f, 146.83f, 155.56f,
+                                   82.41f*2f, 87.31f*2f, 92.50f*2f, 98.00f*2f, 103.83f*2f, 110.00f*2f, 116.54f*2f, 123.47f*2f, 130.81f*2f, 138.59f*2f, 146.83f*2f, 155.56f*2f,
+                                   82.41f*4f, 87.31f*4f, 92.50f*4f, 98.00f*4f, 103.83f*4f, 110.00f*4f, 116.54f*4f, 123.47f*4f, 130.81f*4f, 138.59f*4f, 146.83f*4f, 155.56f*4f,
+                                   82.41f*8f, 87.31f*8f, 92.50f*8f, 98.00f*8f, 103.83f*8f, 110.00f*8f, 116.54f*8f, 123.47f*8f, 130.81f*8f, 138.59f*8f, 146.83f*8f, 155.56f*8f,
+                                   82.41f*16f, 87.31f*16f, 92.50f*16f, 98.00f*16f, 103.83f*16f, 110.00f*16f, 116.54f*16f, 123.47f*16f, 130.81f*16f, 138.59f*16f, 146.83f*16f, 155.56f*16f, 164.81f*16f};
 }
