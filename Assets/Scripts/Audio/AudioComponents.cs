@@ -9,8 +9,9 @@ public class AudioComponents : MonoBehaviour
     [SerializeField] NotesSO notes;
     private int buffersize;
     public static AudioComponents Instance;
-    private float previousMaxDisplacement = Mathf.Infinity;
-    private int thenidx;
+    public float previousMaxDisplacement = Mathf.Infinity;
+    private string thenname;
+    public int earlyreturnCounter = 0;
 
     private void Awake()
     {
@@ -36,8 +37,9 @@ public class AudioComponents : MonoBehaviour
         _clip.GetData(sample, _positionInClip);
         return sample;
     }
-    public bool DetectPickStroke(float[] _sample, int noteIndex)
+    public bool DetectPickStroke(float[] _sample, string noteName)
     {
+        earlyreturnCounter = 0;
         float maxDisplacement = 0;
         for (int i = 0; i < _sample.Length; i++)
         {
@@ -45,19 +47,33 @@ public class AudioComponents : MonoBehaviour
                 maxDisplacement = Math.Abs(_sample[i]);
             }
         }
-        if (maxDisplacement < 0.01f) {
+        if (maxDisplacement < 0.001f) {
             return false;
         }
-
-
-        if (maxDisplacement > previousMaxDisplacement * 1.3) {
+        if (thenname != noteName) {
             previousMaxDisplacement = maxDisplacement;
-            thenidx = noteIndex;
+            thenname = noteName;
+            print("based on note change");
+            return true;
+        }
+
+        if (maxDisplacement > previousMaxDisplacement * 3) {
+            previousMaxDisplacement = maxDisplacement;
+            thenname = noteName;
+            print("based on displacement");
             return true;
         }
         previousMaxDisplacement = maxDisplacement;
-        thenidx = noteIndex;
+        thenname = noteName;
         return false;
+    }
+
+    public void ListenForEarlyReturn() {
+        if (earlyreturnCounter > 0)
+        {
+            previousMaxDisplacement = 0;
+        }
+        earlyreturnCounter++;
     }
 
     public float[] FFT(float[] _data)

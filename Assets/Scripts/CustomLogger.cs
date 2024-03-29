@@ -28,7 +28,46 @@ public class CustomLogger
             case Type t when t == typeof(bool):
                 temp += (bool)obj + " ";
                 break;
-
+            case Type t when t == typeof(int[]):
+                temp += "[";
+                foreach (object item in (Array)obj)
+                {
+                    temp += UnfoldObject(item) + ", ";
+                }
+                temp += "]";
+                break;
+            case Type t when t == typeof(string[]):
+                temp += "[";
+                foreach (object item in (Array)obj)
+                {
+                    temp += UnfoldObject(item) + ", ";
+                }
+                temp += "]";
+                break;
+            case Type t when t == typeof(float[]):
+                temp += "[";
+                foreach (object item in (Array)obj)
+                {
+                    temp += UnfoldObject(item) + ", ";
+                }
+                temp += "]";
+                break;
+            case Type t when t == typeof(double[]):
+                temp += "[";
+                foreach (object item in (Array)obj)
+                {
+                    temp += UnfoldObject(item) + ", ";
+                }
+                temp += "]";
+                break;
+            case Type t when t == typeof(bool[]):
+                temp += "[";
+                foreach (object item in (Array)obj)
+                {
+                    temp += UnfoldObject(item) + ", ";
+                }
+                temp += "]";
+                break;
             case Type t when t == typeof(Array):
                 temp += "[";
                 foreach (object item in (Array)obj)
@@ -69,7 +108,7 @@ public class CustomLogger
                 temp += obj.ToString();
                 break;
             default:
-                temp += "UNSUPPORTED " + obj.GetType() + " ";
+                temp += "UNSUPPORTED " + obj.GetType().FullName + " " + obj.ToString() + " ";
                 break;
         }
         return temp;
