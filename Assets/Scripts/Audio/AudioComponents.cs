@@ -3,6 +3,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System;
+using CL = CustomLogger;
+using UnityEditor.Experimental.GraphView;
 
 public class AudioComponents : MonoBehaviour
 {
@@ -37,32 +39,30 @@ public class AudioComponents : MonoBehaviour
         _clip.GetData(sample, _positionInClip);
         return sample;
     }
-    public bool DetectPickStroke(float[] _sample, string noteName)
+    public bool DetectPickStroke(float maxDisplacement, string noteName)
     {
         earlyreturnCounter = 0;
-        float maxDisplacement = 0;
-        for (int i = 0; i < _sample.Length; i++)
-        {
-            if (Math.Abs(_sample[i]) > maxDisplacement) {
-                maxDisplacement = Math.Abs(_sample[i]);
-            }
-        }
         if (maxDisplacement < 0.001f) {
+            CL.Log("too low level");
             return false;
         }
+        CL.Log("high enough level");
+
         if (thenname != noteName) {
             previousMaxDisplacement = maxDisplacement;
             thenname = noteName;
-            print("based on note change");
+            CL.Log("note change");
             return true;
         }
+        CL.Log("no note change");
 
         if (maxDisplacement > previousMaxDisplacement * 3) {
             previousMaxDisplacement = maxDisplacement;
             thenname = noteName;
-            print("based on displacement");
+            CL.Log("enough relative level");
             return true;
         }
+        CL.Log("not enough relative level");
         previousMaxDisplacement = maxDisplacement;
         thenname = noteName;
         return false;
@@ -71,6 +71,7 @@ public class AudioComponents : MonoBehaviour
     public void ListenForEarlyReturn() {
         if (earlyreturnCounter > 0)
         {
+            CL.Log("resetting previousMaxDisplacement");
             previousMaxDisplacement = 0;
         }
         earlyreturnCounter++;

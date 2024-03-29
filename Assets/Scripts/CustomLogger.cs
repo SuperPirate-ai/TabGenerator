@@ -122,7 +122,11 @@ public class CustomLogger
     public static string Flush()
     {
         string temp = msg;
-        UnityEngine.Debug.Log(msg);
+        if (temp.Length > 0)
+        { 
+            UnityEngine.Debug.Log(msg); 
+        }
+        
         msg = "";
         return temp;
     }

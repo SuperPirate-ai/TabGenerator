@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFDC9271-F949-E3DC-D736-BAF5A80A2968}|UnityEditor.TestRunner.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\library\\packagecache\\com.unity.test-framework@1.3.9\\unityeditor.testrunner\\testlaunchers\\platformsetup\\androidplatformsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CFDC9271-F949-E3DC-D736-BAF5A80A2968}|UnityEditor.TestRunner.csproj|solutionrelative:library\\packagecache\\com.unity.test-framework@1.3.9\\unityeditor.testrunner\\testlaunchers\\platformsetup\\androidplatformsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|solutionrelative:assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}|ScriptableObject.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\scriptableobjects\\notesso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}|ScriptableObject.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\scriptableobjects\\notesso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}|ScriptableObject.csproj|solutionrelative:assets\\scripts\\scriptableobjects\\notesso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\audio\\audiofileinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiofileinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,8 +25,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "DockedWidth": 461,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,45 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AndroidPlatformSetup.cs",
-              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Library\\PackageCache\\com.unity.test-framework@1.3.9\\UnityEditor.TestRunner\\TestLaunchers\\PlatformSetup\\AndroidPlatformSetup.cs",
-              "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.test-framework@1.3.9\\UnityEditor.TestRunner\\TestLaunchers\\PlatformSetup\\AndroidPlatformSetup.cs",
-              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Library\\PackageCache\\com.unity.test-framework@1.3.9\\UnityEditor.TestRunner\\TestLaunchers\\PlatformSetup\\AndroidPlatformSetup.cs",
-              "RelativeToolTip": "Library\\PackageCache\\com.unity.test-framework@1.3.9\\UnityEditor.TestRunner\\TestLaunchers\\PlatformSetup\\AndroidPlatformSetup.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAIwCoAAAAVAAAA",
+              "Title": "AudioAnalyser.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "ViewState": "AQIAAC4BAAAAAAAAAAAAAEIBAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T22:05:56.066Z",
+              "WhenOpened": "2024-03-28T16:47:12.308Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AudioFileInput.cs",
-              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioFileInput.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioFileInput.cs",
-              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioFileInput.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioFileInput.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T21:30:37.011Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "AudioComponents.cs",
               "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
               "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAASAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAqwCcAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-28T21:09:44.019Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "NotesSO.cs",
               "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
@@ -89,8 +68,7 @@
               "RelativeToolTip": "Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T18:44:40.998Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-28T18:44:40.998Z"
             },
             {
               "$type": "Document",
@@ -100,28 +78,15 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\CustomLogger.cs",
               "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\CustomLogger.cs",
               "RelativeToolTip": "Assets\\Scripts\\CustomLogger.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAUwD4AAAAtAAAA",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAmwH4AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-28T16:48:20.235Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AudioAnalyser.cs",
-              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
-              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
-              "ViewState": "AQIAALAAAAAAAAAAAAD4v8cAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T16:47:12.308Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 511,
+          "DockedWidth": 250,
           "SelectedChildIndex": -1,
           "Children": [
             {

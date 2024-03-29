@@ -12,13 +12,10 @@ colors = [
     (0  , 0  , 255),
     
     (255, 255, 0  ),
+    (255  , 0  , 255),
     (0  , 255, 255),
     
-    (255  , 255, 0  ),
-    (255  , 0  , 255),
     
-    (255, 0  , 255  ),
-    (0  , 255, 255  ),
 ]
 
 global data
@@ -28,29 +25,43 @@ WIDTH = 800
 HEIGHT = 800
 
 
-def get_scaling(group_scalings, arr, name):
-    width_scaling = None
-    height_scaling = None
-    for groupname in group_scalings.keys():
-        if name in json.loads(groupname):
-            width_scaling = group_scalings[groupname][0]
-            height_scaling = group_scalings[groupname][1]
-            break
-    
+
+
+def fix(arr):
     if not isinstance(arr, list):
-        arr = [arr]
+        arr = [arr, arr]
     if len(arr) == 0:
-        return None, None
+        arr = [0, 0]
     if len(arr) == 1:
-        arr.append(arr[0])
-    if width_scaling == None:
-        width_scaling = WIDTH / (len(arr) - 1)
-    if height_scaling == None:
-        if (max(arr)-min(arr)) == 0:
-            height_scaling = 1
-        else:
-            height_scaling = (HEIGHT-20) / (max(max(arr),-min(arr)) * 2)
-    return width_scaling, height_scaling
+        arr = [arr[0], arr[0]]
+    return arr
+
+
+def get_groupname_from_name(arr_name, scaling_groups):
+    for group in scaling_groups:
+        if arr_name in group:
+            return json.dumps(group)
+    return arr_name
+
+def get_scaling(arr_name, scaling_groups, group_scalings):
+    groupname = get_groupname_from_name(arr_name, scaling_groups)
+    return group_scalings.get(groupname)
+    
+def eval_scaling(arr):
+    arr = fix(arr)
+    if max(arr) == min(arr) == 0:
+        height_scaling = None
+    else:
+        height_scaling = (HEIGHT-20) / (max(max(arr), - min(arr)) * 2)
+    width_scaling = (WIDTH-20) / len(arr)
+    return [width_scaling, height_scaling]
+
+def get_tighter_scaling(a, b):
+    if a == None:
+        return b
+    if b == None:
+        return a
+    return min(a, b)
 
 
 def animate():
@@ -61,50 +72,45 @@ def animate():
             continue
         y_data_s, scaling_groups, time = data["y_data_s"], data["common_scaling_groups"], data["time"]
         canvas = np.zeros((WIDTH, HEIGHT, 3), dtype=np.uint8)
-        group_scalings = {}
-        for group in scaling_groups:
-            group_name = json.dumps(group)
-            group_scalings[group_name] = [None, None]
-            for group_member_name in group:
-                
-                group_member = y_data_s.get(group_member_name)
-                if not group_member:
-                    continue
-                if not isinstance(group_member, list):
-                    group_member = [group_member]
-                if len(group_member) == 0:
-                    continue
-                if len(group_member) == 1:
-                    group_member.append(group_member[0])
-                width_scaling = WIDTH / (len(group_member) - 1)
-                if max(group_member) == min(group_member):
-                    height_scaling = 1
-                else:
-                    height_scaling = (HEIGHT-20) / (max(max(group_member),-min(group_member)) * 2)
-                
-                if group_scalings[group_name][0] is None or width_scaling < group_scalings[group_name][0]:
-                    group_scalings[group_name][0] = width_scaling
-                if group_scalings[group_name][1] is None or height_scaling < group_scalings[group_name][1]:
-                    if max(group_member) != min(group_member):
-                        group_scalings[group_name][1] = height_scaling                
-            
         
-        for idx, (name, arr) in enumerate(y_data_s.items()):
-            width_scaling, height_scaling = get_scaling(group_scalings, arr, name)
-            if not isinstance(arr, list):
-                arr = [arr]
-            if len(arr) == 1:
-                arr.append(arr[0])
+        group_scalings = {}
+               
+        for idx, (arr_name, arr) in enumerate(y_data_s.items()):
+            group_name = get_groupname_from_name(arr_name, scaling_groups)
+            scaling = eval_scaling(arr)
+            if group_name:
+                if group_name not in group_scalings:
+                    group_scalings[group_name] = scaling
+                else:
+                    if scaling[0]:
+                        group_scalings[group_name][0] = get_tighter_scaling(group_scalings[group_name][0], scaling[0])
+                    group_scalings[group_name][1] = get_tighter_scaling(group_scalings[group_name][1], scaling[1])
+            else:
+                if not scaling[0]:
+                    scaling[0] = 1
+                group_scalings[json.dumps([arr_name])] = scaling
+                    
+        for idx, (arr_name, arr) in enumerate(y_data_s.items()):
+            arr = fix(arr)
+            width_scaling, height_scaling = get_scaling(arr_name, scaling_groups, group_scalings)
+            if width_scaling is None:
+                width_scaling = 1
+            if height_scaling is None:
+                height_scaling = 1
+            
             color = colors[idx % len(colors)]
+            # put text on the canvas based on the name
+            cv2.putText(canvas, arr_name, (10, 10 + idx * 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
+            thickness = (len(list(y_data_s.keys())) - idx)
             for x, y in enumerate(arr):
                 if x < len(arr) - 1:
-                    cv2.line(canvas, (int(x * width_scaling), int(arr[x] * height_scaling + HEIGHT/2),),
-                                     (int((x + 1) * width_scaling), int(arr[x + 1] * height_scaling + HEIGHT/2)),
-                                     color, 2)
-                cv2.circle(canvas, (int(x * width_scaling), int(y * height_scaling + HEIGHT/2)), 6, color, -1)
+                    cv2.line(canvas, (int(x * width_scaling), int(-arr[x] * height_scaling + HEIGHT/2),),
+                                     (int((x + 1) * width_scaling), int(-arr[x + 1] * height_scaling + HEIGHT/2)),
+                                     color, thickness)
+                cv2.circle(canvas, (int(x * width_scaling), int(-y * height_scaling + HEIGHT/2)), thickness*2, color, -1)
         
         cv2.imshow("plot", canvas)
-        cv2.waitKey(50)
+        cv2.waitKey(1)
 
 app = FastAPI()
 
@@ -114,14 +120,15 @@ async def plot_data(_data: dict):
     data = _data
     return "ok", 200
 
-import threading
 
 def start_cv2():
     while True:
         animate()
-threading.Thread(target=start_cv2).start()
 
 if __name__ == "__main__":
     import uvicorn
+    import threading
+    threading.Thread(target=start_cv2).start()
+    print("starting")
     uvicorn.run(app, host="0.0.0.0", port=5001)
     
