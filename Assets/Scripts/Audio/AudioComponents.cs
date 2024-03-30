@@ -42,7 +42,7 @@ public class AudioComponents : MonoBehaviour
     public bool DetectPickStroke(float maxDisplacement, string noteName)
     {
         earlyreturnCounter = 0;
-        if (maxDisplacement < 0.001f) {
+        if (maxDisplacement < 0.005f) {
             CL.Log("too low level");
             return false;
         }

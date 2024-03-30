@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 
 public class CustomLogger
 {
@@ -106,6 +107,17 @@ public class CustomLogger
 
             case Type t when t.FullName.StartsWith("System.Tuple"):
                 temp += obj.ToString();
+                break;
+            case Type t when t.FullName.StartsWith("System.ValueTuple"):
+                var tuple = obj;
+                var fields = tuple.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+                foreach (var field in fields)
+                {
+                    var value = field.GetValue(tuple);
+                    temp += $"{UnfoldObject(value)} ,";
+                }
+                
                 break;
             default:
                 temp += "UNSUPPORTED " + obj.GetType().FullName + " " + obj.ToString() + " ";

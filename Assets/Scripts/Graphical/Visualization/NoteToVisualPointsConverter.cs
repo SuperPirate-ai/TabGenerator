@@ -19,13 +19,18 @@ public class NoteToVisualPointsConverter : MonoBehaviour
     }
     public Vector3[] GetNotePositions(List<Tuple<int, string, int>> recognizedNotes)
     {
+        try
+        {
+            if (recognizedNotes.Count == 0) return new Vector3[] { };
+            int gtr_string = recognizedNotes[0].Item3;
+            int fret = recognizedNotes[0].Item1 - stringFret0NoteIndex[gtr_string];
 
-        if (recognizedNotes.Count == 0) return new Vector3[] { };
-        int gtr_string = recognizedNotes[0].Item3;
-        int fret = recognizedNotes[0].Item1 - stringFret0NoteIndex[6 + gtr_string];
-
-        if (fret < 0) return new Vector3[] { };
-        return new Vector3[] { new Vector3(0, gtr_string, fret) };
+            if (fret < 0) return new Vector3[] { };
+            return new Vector3[] { new Vector3(0, gtr_string-6, fret) };
+        } catch (Exception e) { 
+            print("Error: " + e.Message);
+            return new Vector3[] { };
+        }
     }
     public Vector3[] GetNotePositions(Vector3 _notepos)
     {

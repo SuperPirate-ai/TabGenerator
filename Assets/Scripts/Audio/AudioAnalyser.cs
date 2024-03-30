@@ -29,6 +29,9 @@ public class AudioAnalyser : MonoBehaviour
     [URange(1f, 30f)]
     [SerializeField] public float maxRelativeLoudnessToOvertoneFrequency = 2.0f;
 
+    private int temptrainingcounter = 0;
+    private DateTime templastTime = DateTime.Now;
+
     static double[] frequencies = { 27.5, 29.135, 30.868, 32.703, 34.648, 36.708, 38.891, 41.203, 43.654, 46.249, 48.999, 51.913,
                                  55.0, 58.27, 61.735, 65.406, 69.296, 73.416, 77.782, 82.407, 87.307, 92.499, 97.999, 103.826,
                                  110.0, 116.541, 123.471, 130.813, 138.591, 146.832, 155.563, 164.814, 174.614, 184.997, 195.998, 207.652,
@@ -222,7 +225,7 @@ public class AudioAnalyser : MonoBehaviour
         {
             averageLevel += fft[i];
             float freq = i / (float)fft.Length * (float)sampleRate;
-            if (freq > frequencies.Last()) { break; } // killing high frequencies
+            if (freq > frequencies.Last()*2) { break; } // killing high frequencies
             if (freq < frequencies[0]) { continue; }
             possibleNotes.Add(new Tuple<int, string, float, float>(-1, // note index
                                                                    null, // note name
@@ -233,16 +236,16 @@ public class AudioAnalyser : MonoBehaviour
         float clearReadoutNoiseGate = averageLevel * clearReadoutNoiseGateMultiplier;
         ; // the minimum level required to confidently consider a frequency as a note
 
-        List<Tuple<int, string, float, float>> clearReadoutFrequencies = possibleNotes.Where((a) => a.Item3 > clearReadoutNoiseGate && a.Item4 > clearReadoutMinimumFrequency).ToList();
-        CL.Log("here1");
-        if (clearReadoutFrequencies.Count == 0) return new List<Tuple<int, string, int>>();
+        List<Tuple<int, string, float, float>> clearReadoutNotes = possibleNotes.Where((a) => a.Item3 > clearReadoutNoiseGate && a.Item4 > clearReadoutMinimumFrequency).ToList();
+
+        if (clearReadoutNotes.Count == 0) return new List<Tuple<int, string, int>>();
 
         Dictionary<float, double> frequencyScores = new Dictionary<float, double>();
         float maxLevel = -1;
-        for (int i = 0; i < clearReadoutFrequencies.Count; i++)
+        for (int i = 0; i < clearReadoutNotes.Count; i++)
         {
-            float frequency = normalizeFrequency(clearReadoutFrequencies[i].Item4);
-            double loudness = (double)clearReadoutFrequencies[i].Item3;
+            float frequency = normalizeFrequency(clearReadoutNotes[i].Item4);
+            double loudness = (double)clearReadoutNotes[i].Item3;
             if (loudness > maxLevel) maxLevel = (float)loudness;
             if (frequencyScores.ContainsKey(frequency))
             {
@@ -254,15 +257,15 @@ public class AudioAnalyser : MonoBehaviour
             }
         }
 
-        CL.Log("here2");
+
         if (frequencyScores.Count == 0) return new List<Tuple<int, string, int>>();
 
         frequencyScores = frequencyScores.OrderByDescending((a) => a.Value).ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
         Dictionary<string, double> nameScores = new Dictionary<string, double>();
-        for (int i = 0; i < clearReadoutFrequencies.Count; i++)
+        for (int i = 0; i < clearReadoutNotes.Count; i++)
         {
-            float frequency = normalizeFrequency(clearReadoutFrequencies[i].Item4);
-            double loudness = (double)clearReadoutFrequencies[i].Item3;
+            float frequency = normalizeFrequency(clearReadoutNotes[i].Item4);
+            double loudness = (double)clearReadoutNotes[i].Item3;
             
             string noteName = GetNoteName(frequency);
             if (nameScores.ContainsKey(noteName))
@@ -279,29 +282,29 @@ public class AudioAnalyser : MonoBehaviour
 
         float loudestOvertoneFrequency = -1;
         float loudestOvertoneFrequencyLevel = -1;
-        for (int i=0; i<clearReadoutFrequencies.Count; i++)
+        List<Tuple<int, string, float, float>> allOvertoneNotes = new List<Tuple<int, string, float, float>>();
+        for (int i=0; i<possibleNotes.Count; i++)
         {
-            if (GetNoteName(normalizeFrequency(clearReadoutFrequencies[i].Item4)) == normalizedOvertoneFrequencyName) // get if its an overtone frequency
+            if (GetNoteName(normalizeFrequency(possibleNotes[i].Item4)) == normalizedOvertoneFrequencyName) // get if its an overtone frequency
             {
-                if (clearReadoutFrequencies[i].Item3 > loudestOvertoneFrequencyLevel)
+                if (possibleNotes[i].Item3 > loudestOvertoneFrequencyLevel)
                 {
-                    loudestOvertoneFrequencyLevel = clearReadoutFrequencies[i].Item3;
-                    loudestOvertoneFrequency = clearReadoutFrequencies[i].Item4;
+                    loudestOvertoneFrequencyLevel = possibleNotes[i].Item3;
+                    loudestOvertoneFrequency = possibleNotes[i].Item4;
                 }
+                allOvertoneNotes.Add(possibleNotes[i]);
             }
         }
 
-
-
-        
+                
         float actualFrequency = -1;
         Tuple<int, string, float, float> actualFrequencyNote = new Tuple<int, string, float, float>(
             -1, // note index
                                                                    null, // note name
                                                                    0, // level
                                                                    (float)frequencies[8]);
-        float minLoudnessForRealFrequency = maxLevel * minRelativeLoudnessToOvertoneFrequency;
-        float maxLoudnessForRealFrequency = maxLevel * maxRelativeLoudnessToOvertoneFrequency;
+        float minLoudnessForRealFrequency = loudestOvertoneFrequencyLevel * minRelativeLoudnessToOvertoneFrequency;
+        float maxLoudnessForRealFrequency = loudestOvertoneFrequencyLevel * maxRelativeLoudnessToOvertoneFrequency;
 
         for (int i = 0; i < possibleNotes.Count-1; i++)
         {
@@ -309,54 +312,78 @@ public class AudioAnalyser : MonoBehaviour
             if (!(possibleNotes[i].Item3 < maxLoudnessForRealFrequency)) continue;
             float factor = possibleNotes[i].Item4 / loudestOvertoneFrequency;
             actualFrequency = GetClosestPowerOfTwo(factor) * loudestOvertoneFrequency;
-            CL.Log(possibleNotes[i].Item4);
-            CL.Log(possibleNotes[i].Item3);
-            CL.Log(maxLevel);
             actualFrequencyNote = possibleNotes[i];
             break;
         }
-        CL.Log(averageLevel * minRelativeLoudnessToOvertoneFrequency);
-        CL.Log(averageLevel * maxRelativeLoudnessToOvertoneFrequency);
-        CL.Log("here3");
 
         if (actualFrequency == -1) return new List<Tuple<int, string, int>>();
 
         string actualNoteName = GetNoteName(actualFrequency);
         int actualNoteIndex = GetNoteIndex(actualNoteName);
 
-
+        if (!AudioComponents.Instance.DetectPickStroke(maxLevel, actualNoteName))
+        {
+            CL.Clear();
+            return new List<Tuple<int, string, int>>();
+        }
         DateTime currentTime = DateTime.Now;
-        var vis = new Dictionary<string, object>
+        //var vis = new Dictionary<string, object>
+        //    {
+        //        { "time" , currentTime.ToString("HH:mm:ss")},
+        //        { "common_scaling_groups", new string[][] {
+        //                new string [] { "possibleNotes" }
+        //            }
+        //        },
+        //        { "y_data_s", new Dictionary <string, object> {
+        //                //{ "clearReadoutNoiseGate", clearReadoutNoiseGate },
+        //                //{ "minLoudnessForRealFrequency", minLoudnessForRealFrequency },
+        //                //{ "maxLoudnessForRealFrequency", maxLoudnessForRealFrequency },
+        //                //{ "clearReadoutNotes", formatNotesBackToOriginalLength(clearReadoutNotes, possibleNotes).Select((a) => a.Item3).Take(150).ToList().ToArray()},
+        //                { "possibleNotes", possibleNotes.Select((a) => a.Item3).ToList().ToArray()},
+        //                //{ "loudestOvertoneFrequency", formatNotesBackToOriginalLength(new List<Tuple<int, string, float, float>>() { new Tuple<int, string, float, float>(-1, null, loudestOvertoneFrequencyLevel, loudestOvertoneFrequency) }, possibleNotes).Select((a) => a.Item3).Take(150).ToList().ToArray()},
+        //                //{ "possibleNotes", possibleNotes.Select((a) => a.Item3).Take(150).ToList().ToArray()},
+        //            }
+        //        }
+        //    };
+        //audio_visualization_interface.Instance.CallVisualisation(vis);
+
+
+        CL.Clear();
+        if (templastTime.AddSeconds(1) < DateTime.Now && actualFrequency > 80)
+        {
+            int currentFret = (int)(temptrainingcounter / 10f);
+            var training_data = new Dictionary<string, object>
+            {
+                { "currentfret", currentFret},
+                { "notename", actualNoteName },
+                { "frequency", actualFrequency },
+                { "maxlevel", maxLevel },
+                { "overtonefrequency", loudestOvertoneFrequency },
+                { "overtonelevel", loudestOvertoneFrequencyLevel },
+                { "fft_arr", possibleNotes.SkipWhile((a) => a.Item4 < actualFrequency).Select((a) => a.Item3).Take(500).ToList().ToArray()},
+            };
+            var vis = new Dictionary<string, object>
             {
                 { "time" , currentTime.ToString("HH:mm:ss")},
                 { "common_scaling_groups", new string[][] {
-                        new string [] { "clearReadoutNoiseGate", "minLoudnessForRealFrequency", "maxLoudnessForRealFrequency", "clearReadoutFrequencies", "possibleNotes", "loudestOvertoneFrequency" }
+                        new string [] { "maxlevel" , "overtonelevel", "fft_arr" }
                     }
                 },
-                { "y_data_s", new Dictionary <string, object> {
-                        { "clearReadoutNoiseGate", clearReadoutNoiseGate },
-                        { "minLoudnessForRealFrequency", minLoudnessForRealFrequency },
-                        { "maxLoudnessForRealFrequency", maxLoudnessForRealFrequency },
-                        { "clearReadoutFrequencies", formatNotesBackToOriginalLength(clearReadoutFrequencies, possibleNotes).Select((a) => a.Item3).Take(150).ToList().ToArray()},
-                        { "loudestOvertoneFrequency", formatNotesBackToOriginalLength(new List<Tuple<int, string, float, float>>() { new Tuple<int, string, float, float>(-1, null, loudestOvertoneFrequencyLevel, loudestOvertoneFrequency) }, possibleNotes).Select((a) => a.Item3).Take(150).ToList().ToArray()},
-                        { "possibleNotes", possibleNotes.Select((a) => a.Item3).Take(150).ToList().ToArray()},
-                    }
-                }
+                { "y_data_s", training_data }
+                
             };
-        audio_visualization_interface.Instance.CallVisualisation(vis);
-
-        CL.Log("here4");
-        if (!AudioComponents.Instance.DetectPickStroke(maxLevel, actualNoteName))
-        {
-            return new List<Tuple<int, string, int>>();
+            audio_visualization_interface.Instance.CallVisualisation(vis);
+            audio_visualization_interface.Instance.SaveAITrainingData(training_data);
+            temptrainingcounter++;
+            currentFret = (int)(temptrainingcounter / 10f);
+            CL.Log(currentFret);
+            CL.Log(actualNoteName);
+            templastTime = DateTime.Now;
         }
-        CL.Clear();
-        CL.Log(actualFrequency);
-        CL.Log(actualNoteName);
-        CL.Flush();
-        CL.Log("here5");
-        CL.Clear();
+        
 
-        return new List<Tuple<int, string, int>>() { new Tuple<int, string, int>(actualNoteIndex-19, actualNoteName, -6) };
+
+        CL.Flush();
+        return new List<Tuple<int, string, int>>() { new Tuple<int, string, int>(actualNoteIndex-19, actualNoteName, 4) };
     }
 }

@@ -21,7 +21,7 @@ colors = [
 global data
 data = {}
 
-WIDTH = 800
+WIDTH = 1500
 HEIGHT = 800
 
 
@@ -71,12 +71,15 @@ def animate():
         if data.get("y_data_s") == None:
             continue
         y_data_s, scaling_groups, time = data["y_data_s"], data["common_scaling_groups"], data["time"]
-        canvas = np.zeros((WIDTH, HEIGHT, 3), dtype=np.uint8)
+        canvas = np.zeros((HEIGHT, WIDTH, 3), dtype=np.uint8)
         
         group_scalings = {}
                
         for idx, (arr_name, arr) in enumerate(y_data_s.items()):
             group_name = get_groupname_from_name(arr_name, scaling_groups)
+            arr = fix(arr)
+            if (not isinstance(arr[0], int)) and (not isinstance(arr[0], float)):
+                continue
             scaling = eval_scaling(arr)
             if group_name:
                 if group_name not in group_scalings:
@@ -92,6 +95,8 @@ def animate():
                     
         for idx, (arr_name, arr) in enumerate(y_data_s.items()):
             arr = fix(arr)
+            if (not isinstance(arr[0], int)) and (not isinstance(arr[0], float)):
+                continue
             width_scaling, height_scaling = get_scaling(arr_name, scaling_groups, group_scalings)
             if width_scaling is None:
                 width_scaling = 1
