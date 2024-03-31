@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|d:\\aa_coding\\unityisascam\\tabgeneratorfork\\assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|solutionrelative:assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}|Scripts.Visualisation.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\graphical\\visualization\\audio_visualization_interface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\audio_visualization_interface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}|Scripts.Visualisation.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1F57FF-153C-5445-C1FA-64DBBC1B2F6D}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}|ScriptableObject.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\scriptableobjects\\notesso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D29B11EA-C79C-0FE4-AD78-0668CCB9A7D5}|ScriptableObject.csproj|solutionrelative:assets\\scripts\\scriptableobjects\\notesso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{261DC0E1-C62F-0524-D13E-72B15CF009AC}|Scripts.csproj|solutionrelative:assets\\scripts\\customlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 461,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,54 +42,77 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "AudioAnalyser.cs",
               "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
               "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
-              "ViewState": "AQIAAC4BAAAAAAAAAAAAAEIBAAAvAAAA",
+              "ViewState": "AQIAAHwBAAAAAAAAAAAIwJABAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-28T16:47:12.308Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AudioComponents.cs",
-              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAqwCcAAAAgAAAA",
+              "DocumentIndex": 2,
+              "Title": "NoteToVisualPointsConverter.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T21:09:44.019Z",
+              "WhenOpened": "2024-03-29T21:16:32.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "audio_visualization_interface.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\Visualization\\audio_visualization_interface.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\Visualization\\audio_visualization_interface.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\Visualization\\audio_visualization_interface.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\Visualization\\audio_visualization_interface.cs",
+              "ViewState": "AQIAADcAAAAAAAAAAAAQwEwAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-29T22:43:08.138Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "AudioComponents.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAUwC8AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-28T21:09:44.019Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "NotesSO.cs",
               "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
               "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
               "RelativeToolTip": "Assets\\Scripts\\ScriptableObjects\\NotesSO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAcwAkAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-28T18:44:40.998Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "CustomLogger.cs",
               "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\CustomLogger.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CustomLogger.cs",
               "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\CustomLogger.cs",
               "RelativeToolTip": "Assets\\Scripts\\CustomLogger.cs",
-              "ViewState": "AQIAAGkAAAAAAAAAAAAmwH4AAAAMAAAA",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAgwHUAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-28T16:48:20.235Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-28T16:48:20.235Z"
             }
           ]
         },

@@ -79,7 +79,7 @@ public class LoadFromGP5 : MonoBehaviour
             float[,] notes = new float[NoteManager.Instance.PlayedNotes.Count, 3];
            
             int i = 0;
-            foreach(GameObject note in NoteManager.Instance.PlayedNotes)
+            foreach(Note note in NoteManager.Instance.PlayedNotes)
             {
                 Vector3 pos = note.transform.position;
                 notes[i,0] = pos.x;

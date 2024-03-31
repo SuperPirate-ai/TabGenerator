@@ -12,7 +12,7 @@ public class AudioComponents : MonoBehaviour
     private int buffersize;
     public static AudioComponents Instance;
     public float previousMaxDisplacement = Mathf.Infinity;
-    private string thenname;
+    private int then;
     public int earlyreturnCounter = 0;
 
     private void Awake()
@@ -39,32 +39,38 @@ public class AudioComponents : MonoBehaviour
         _clip.GetData(sample, _positionInClip);
         return sample;
     }
-    public bool DetectPickStroke(float maxDisplacement, string noteName)
+    public bool DetectPickStroke(float maxDisplacement, int noteIndex)
     {
         earlyreturnCounter = 0;
-        if (maxDisplacement < 0.005f) {
+        if (maxDisplacement < 0.0075f) {
             CL.Log("too low level");
             return false;
         }
         CL.Log("high enough level");
 
-        if (thenname != noteName) {
+        if (then *2 == noteIndex || noteIndex *2 == then) // octave confusion
+        {
+            noteIndex = then;
+        }
+
+
+        if (then != noteIndex) {
             previousMaxDisplacement = maxDisplacement;
-            thenname = noteName;
+            then = noteIndex;
             CL.Log("note change");
             return true;
         }
         CL.Log("no note change");
 
-        if (maxDisplacement > previousMaxDisplacement * 3) {
+        if (maxDisplacement > previousMaxDisplacement * 4) {
             previousMaxDisplacement = maxDisplacement;
-            thenname = noteName;
+            then = noteIndex;
             CL.Log("enough relative level");
             return true;
         }
         CL.Log("not enough relative level");
         previousMaxDisplacement = maxDisplacement;
-        thenname = noteName;
+        then = noteIndex;
         return false;
     }
 

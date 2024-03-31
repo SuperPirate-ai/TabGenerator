@@ -10,6 +10,11 @@ using UnityEngine;
 using SNVector2 = System.Numerics.Vector2;
 using CL = CustomLogger;
 using URange = UnityEngine.RangeAttribute;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net;
+using UnityEngine.Networking;
 //using static Codice.CM.WorkspaceServer.DataStore.WkTree.WriteWorkspaceTree;
 
 public class AudioAnalyser : MonoBehaviour
@@ -28,6 +33,7 @@ public class AudioAnalyser : MonoBehaviour
     [SerializeField] public float minRelativeLoudnessToOvertoneFrequency = .5f;
     [URange(1f, 30f)]
     [SerializeField] public float maxRelativeLoudnessToOvertoneFrequency = 2.0f;
+    public int[] stringFret0NoteIndex = new int[6] { 0, 5, 10, 15, 19, 24 };
 
     private int temptrainingcounter = 0;
     private DateTime templastTime = DateTime.Now;
@@ -134,16 +140,12 @@ public class AudioAnalyser : MonoBehaviour
         loudnessExpPower = 2;
         minRelativeLoudnessToOvertoneFrequency = .143f;
         maxRelativeLoudnessToOvertoneFrequency = 2f;
-
     }
 
     public void Analyse(float[] _rawSamples)
     {
         sampleRate = NoteManager.Instance.DefaultSamplerate;
-        List<Tuple<int, string, int>> recognizedNotes = getPlayedNotesAndStringInfo(_rawSamples);
-
-        visualizer.Visualize(recognizedNotes);
-
+        getPlayedNotesAndStringInfo(_rawSamples);
     }
 
     private float normalizeFrequency(float frequency)
@@ -308,6 +310,7 @@ public class AudioAnalyser : MonoBehaviour
 
         for (int i = 0; i < possibleNotes.Count-1; i++)
         {
+            if (possibleNotes[i].Item4 < 80f) continue; // filter for low frequencies, remove for 7 string
             if (!(possibleNotes[i].Item3 > minLoudnessForRealFrequency)) continue;
             if (!(possibleNotes[i].Item3 < maxLoudnessForRealFrequency)) continue;
             float factor = possibleNotes[i].Item4 / loudestOvertoneFrequency;
@@ -321,7 +324,7 @@ public class AudioAnalyser : MonoBehaviour
         string actualNoteName = GetNoteName(actualFrequency);
         int actualNoteIndex = GetNoteIndex(actualNoteName);
 
-        if (!AudioComponents.Instance.DetectPickStroke(maxLevel, actualNoteName))
+        if (!AudioComponents.Instance.DetectPickStroke(maxLevel, actualNoteIndex))
         {
             CL.Clear();
             return new List<Tuple<int, string, int>>();
@@ -349,41 +352,108 @@ public class AudioAnalyser : MonoBehaviour
 
 
         CL.Clear();
-        if (templastTime.AddSeconds(1) < DateTime.Now && actualFrequency > 80)
+
+        //if (templastTime.AddSeconds(0) < DateTime.Now && actualFrequency > 80)
+        //{
+        //    int currentFret = (int)(temptrainingcounter / 10f);
+        //    var training_data = new Dictionary<string, object>
+        //    {
+        //        { "currentfret", currentFret},
+        //        { "notename", actualNoteName },
+        //        { "frequency", actualFrequency },
+        //        { "maxlevel", maxLevel },
+        //        { "overtonefrequency", loudestOvertoneFrequency },
+        //        { "overtonelevel", loudestOvertoneFrequencyLevel },
+        //        { "fft_arr", possibleNotes.SkipWhile((a) => a.Item4 < actualFrequency).Select((a) => a.Item3).Take(500).ToList().ToArray()},
+        //    };
+        //    var vis = new Dictionary<string, object>
+        //    {
+        //        { "time" , currentTime.ToString("HH:mm:ss")},
+        //        { "common_scaling_groups", new string[][] {
+        //                new string [] { "maxlevel" , "overtonelevel", "fft_arr" }
+        //            }
+        //        },
+        //        { "y_data_s", training_data }
+
+        //    };
+        //    //audio_visualization_interface.Instance.CallVisualisation(vis);
+        //    audio_visualization_interface.Instance.TestAITrainingData(training_data);
+        //    temptrainingcounter++;
+        //    currentFret = (int)(temptrainingcounter / 10f);
+        //    CL.Log(currentFret);
+        //    CL.Log(actualNoteName);
+        //    templastTime = DateTime.Now;
+        //}
+
+
+
+        var recognizedNote = new Tuple<int, string, int>(actualNoteIndex - 19, actualNoteName, 4);
+
+        var testing_data = new Dictionary<string, object>
         {
-            int currentFret = (int)(temptrainingcounter / 10f);
-            var training_data = new Dictionary<string, object>
-            {
-                { "currentfret", currentFret},
                 { "notename", actualNoteName },
                 { "frequency", actualFrequency },
                 { "maxlevel", maxLevel },
                 { "overtonefrequency", loudestOvertoneFrequency },
                 { "overtonelevel", loudestOvertoneFrequencyLevel },
                 { "fft_arr", possibleNotes.SkipWhile((a) => a.Item4 < actualFrequency).Select((a) => a.Item3).Take(500).ToList().ToArray()},
-            };
-            var vis = new Dictionary<string, object>
+        };
+        
+        IEnumerator invokeTestAITrainingData(Dictionary<string, object> testing_data, Note noteGameObject)
+        {
+
+            var json = JsonConvert.SerializeObject(testing_data);
+            byte[] jsonData = System.Text.Encoding.UTF8.GetBytes(json);
+            UnityWebRequest webRequest = UnityWebRequest.PostWwwForm("http://localhost:5002/predict", "POST");
+
+            // Set the upload handler to upload JSON data
+            webRequest.uploadHandler = new UploadHandlerRaw(jsonData);
+
+            // Set the content type to application/json
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return webRequest.SendWebRequest();
+            if (webRequest.result == UnityWebRequest.Result.Success)
             {
-                { "time" , currentTime.ToString("HH:mm:ss")},
-                { "common_scaling_groups", new string[][] {
-                        new string [] { "maxlevel" , "overtonelevel", "fft_arr" }
+                string response = webRequest.downloadHandler.text.Trim('"');
+                int AI_fret = int.Parse(response);
+                int maxFretDistance = int.MaxValue;
+                int idealFret = -1;
+                int idealGtrString = -1;
+                for (int gtrString = 0; gtrString < stringFret0NoteIndex.Length; gtrString++)
+                {
+                    int testfret = recognizedNote.Item1 - stringFret0NoteIndex[gtrString];
+                    if (Math.Abs(testfret - AI_fret) < maxFretDistance)
+                    {
+                        maxFretDistance = Math.Abs(testfret - AI_fret);
+                        idealFret = testfret;
+                        idealGtrString = gtrString;
                     }
-                },
-                { "y_data_s", training_data }
-                
-            };
-            audio_visualization_interface.Instance.CallVisualisation(vis);
-            audio_visualization_interface.Instance.SaveAITrainingData(training_data);
-            temptrainingcounter++;
-            currentFret = (int)(temptrainingcounter / 10f);
-            CL.Log(currentFret);
-            CL.Log(actualNoteName);
-            templastTime = DateTime.Now;
+                }
+                NoteManager.Instance.UpdatePositionOnFretboard(noteGameObject, new UnityEngine.Vector2(idealGtrString - 6, idealFret));
+            }
         }
         
 
-
+        CL.Log(actualNoteName);
         CL.Flush();
-        return new List<Tuple<int, string, int>>() { new Tuple<int, string, int>(actualNoteIndex-19, actualNoteName, 4) };
+
+        
+
+
+        try
+        {
+            int gtr_string = recognizedNote.Item3;
+            int fret = recognizedNote.Item1 - stringFret0NoteIndex[gtr_string];
+
+
+            Note noteGameObject = NoteManager.Instance.InstantiateNote(new UnityEngine.Vector3(0, gtr_string - 6, fret));
+            StartCoroutine(invokeTestAITrainingData(testing_data, noteGameObject));
+        }
+        catch (Exception e)
+        {
+            print("Error: " + e.Message);
+        }
+
+        return new List<Tuple<int, string, int>>() {  };
     }
 }

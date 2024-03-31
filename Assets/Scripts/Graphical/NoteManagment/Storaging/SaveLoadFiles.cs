@@ -48,7 +48,7 @@ public class SaveLoadFiles : MonoBehaviour
     void SaveAsStandartFile()
     {
         string file = $"{noteManager.BPM}";
-        foreach (GameObject note in noteManager.PlayedNotes)
+        foreach (Note note in noteManager.PlayedNotes)
         {
             file += $";{note.transform.position.y},{note.transform.position.z},{note.transform.position.x}";
         }

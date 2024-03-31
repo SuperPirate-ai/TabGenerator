@@ -4,6 +4,9 @@ import numpy as np
 from keras.models import load_model
 import requests
 from sbNative.runtimetools import get_path
+from sklearn.preprocessing import StandardScaler
+import joblib
+
 
 global df
 df = None
@@ -29,7 +32,6 @@ async def put_data_in_file():
 
 
 # Load the model from the file
-loaded_model = load_model(get_path() / 'fret_position_model.h5')
 
 # Make predictions
 
@@ -47,17 +49,21 @@ def idxmax(arr):
 async def test_data(_data: dict):
     global loaded_model
     global df
-    fft_arr = np.array(_data["fft_arr"])
-    print(fft_arr)
-    raw_prediction = loaded_model.predict(fft_arr.reshape(-1, fft_arr.shape[0]))[0]
-    prediction = idxmax(raw_prediction)
-    print(raw_prediction, prediction)
-    requests.post("http://localhost:5001/plot_data", json={"y_data_s": {"fret": [float(x) for x in raw_prediction]}, "time": -1, "common_scaling_groups": []})
+    in_keys = ["frequency","maxlevel","overtonefrequency","overtonelevel"]
+    in_arr = np.array([[_data[k] for k in in_keys] + _data["fft_arr"]])
+    x = loaded_scaler.transform(in_arr)
     
-    return "ok", 200
+    raw_prediction = loaded_model.predict(x.reshape(-1, 504))[0]
+    prediction = idxmax(raw_prediction)
+    print(prediction)
+    # requests.post("http://localhost:5001/plot_data", json={"y_data_s": {"fret": [float(x) for x in raw_prediction]}, "time": -1, "common_scaling_groups": []})
+
+    return f"{prediction}"
 
 
 
 if __name__ == "__main__":
+    loaded_model = load_model(get_path() / 'fret_position_model2.h5')
+    loaded_scaler = joblib.load(get_path() / 'fret_position_scaler.pkl')
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5002)

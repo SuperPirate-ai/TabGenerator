@@ -9,7 +9,7 @@ public class Note : MovingObject
    
     new void Update()
     {
-        if (!manager.PlayedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
+        if (!manager.PlayedNotes.Contains(this)) Destroy(this.gameObject);
 
         if (this.gameObject == NoteManager.Instance.PlayedNotes.Last() && this.transform.position.x < 0 && !NoteManager.Instance.IsRecording && !NoteManager.Instance.PlayPaused)
         {
@@ -23,5 +23,7 @@ public class Note : MovingObject
     {
         //clickedOnMouse.Invoke(this.gameObject);
     }
+
+    
 
 }

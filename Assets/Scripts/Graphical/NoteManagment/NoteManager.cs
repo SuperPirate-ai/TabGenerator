@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class NoteManager : MonoBehaviour
 {
-    public static NoteManager Instance { get; private set; }
+    public static NoteManager Instance;
 
-    public GameObject NoteObj;
-    public List<GameObject> PlayedNotes;
+    public Note NoteObj;
+    public List<Note> PlayedNotes;
     public List<GameObject> MeasureBars;
     public int BPM = 100;
     public int NoteSpeed = 10;
@@ -18,7 +18,7 @@ public class NoteManager : MonoBehaviour
     public float HighestPossibleFrequency;
     public bool IsRecording = false;
 
-    [SerializeField] TMP_Text PlaybtnText;
+    [SerializeField] public TMP_Text PlaybtnText;
     [SerializeField] TMP_InputField BPMInput;
     [HideInInspector] public int MaxBMP;
     private void Awake()
@@ -41,10 +41,18 @@ public class NoteManager : MonoBehaviour
             InstantiateNote(position);
         }
     }
-    public void InstantiateNote(Vector3 _notePosition)
+    public Note InstantiateNote(Vector3 _notePosition)
     {
-        GameObject go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
+        Note go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
         go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePosition.z.ToString();
         Instance.PlayedNotes.Add(go);
+        return go;
+    }
+
+    public void UpdatePositionOnFretboard(Note note, Vector2 newPosition)
+    {
+        var newpos = new Vector3(note.transform.position.x, newPosition.x, newPosition.y);
+        note.transform.position = newpos;
+        note.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = newPosition.y.ToString();
     }
 }
