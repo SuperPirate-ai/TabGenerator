@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{AD51FE32-77CB-68C8-054D-78F1A19676F3}</ProjectGuid>
+    <ProjectGuid>{CD840327-5270-A208-FB3B-6D366F5F6A4A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Scripts.Tools</AssemblyName>
@@ -989,27 +989,27 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Scripts.Graphical.NoteManagement.csproj">
-      <Project>{A6AD9F08-A239-C71B-2A23-AC519EBA433F}</Project>
+      <Project>{16DA9A76-7C5D-2014-D886-E02FAE48586E}</Project>
       <Name>Scripts.Graphical.NoteManagement</Name>
     </ProjectReference>
-    <ProjectReference Include="Skripts.csproj">
-      <Project>{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}</Project>
-      <Name>Skripts</Name>
+    <ProjectReference Include="Unity.TextMeshPro.csproj">
+      <Project>{446AFD12-3E86-2258-9517-CB396A648012}</Project>
+      <Name>Unity.TextMeshPro</Name>
+    </ProjectReference>
+    <ProjectReference Include="Scripts.csproj">
+      <Project>{261DC0E1-C62F-0524-D13E-72B15CF009AC}</Project>
+      <Name>Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{7C51B740-3C24-1F80-13F9-9A47F6A3898A}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{447C6458-97E7-B721-E120-0B3EBF553E07}</Project>
+      <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

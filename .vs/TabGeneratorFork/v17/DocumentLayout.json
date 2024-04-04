@@ -1,0 +1,106 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0532F624-EF8F-4B66-623A-C3255174BE6A}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{446AFD12-3E86-2258-9517-CB396A648012}|Unity.TextMeshPro.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\library\\packagecache\\com.unity.textmeshpro@3.0.6\\scripts\\runtime\\tmp_text.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{446AFD12-3E86-2258-9517-CB396A648012}|Unity.TextMeshPro.csproj|solutionrelative:library\\packagecache\\com.unity.textmeshpro@3.0.6\\scripts\\runtime\\tmp_text.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16DA9A76-7C5D-2014-D886-E02FAE48586E}|Scripts.Graphical.NoteManagement.csproj|D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16DA9A76-7C5D-2014-D886-E02FAE48586E}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 344,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AudioAnalyser.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyser.cs",
+              "ViewState": "AQIAAJsBAAAAAAAAAAAIwLkBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-28T16:47:12.308Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NoteManager.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAYwC4AAABJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-30T22:29:22.8Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TMP_Text.cs",
+              "DocumentMoniker": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Library\\PackageCache\\com.unity.textmeshpro@3.0.6\\Scripts\\Runtime\\TMP_Text.cs",
+              "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.textmeshpro@3.0.6\\Scripts\\Runtime\\TMP_Text.cs",
+              "ToolTip": "D:\\AA_CODING\\UnityIsAScam\\TabGeneratorFork\\Library\\PackageCache\\com.unity.textmeshpro@3.0.6\\Scripts\\Runtime\\TMP_Text.cs",
+              "RelativeToolTip": "Library\\PackageCache\\com.unity.textmeshpro@3.0.6\\Scripts\\Runtime\\TMP_Text.cs",
+              "ViewState": "AQIAAF8CAAAAAAAAAAD4v2ECAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-04T14:58:00.285Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 367,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 2393,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

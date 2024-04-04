@@ -1,11 +1,19 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using System;
+using CL = CustomLogger;
+using UnityEditor.Experimental.GraphView;
 
 public class AudioComponents : MonoBehaviour
 {
+    [SerializeField] NotesSO notes;
     private int buffersize;
     public static AudioComponents Instance;
-    private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+    public float previousMaxDisplacement = Mathf.Infinity;
+    private int then;
+    public int earlyreturnCounter = 0;
 
     private void Awake()
     {
@@ -22,74 +30,63 @@ public class AudioComponents : MonoBehaviour
     {
         if (NoteManager.Instance.PlayPaused)
         {
-            lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            previousMaxDisplacement = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
-        float[] samples = new float[buffersize];
-
-        _clip.GetData(samples, _positionInClip);
-
-        return samples;
+        float[] sample = new float[buffersize];
+        _clip.GetData(sample, _positionInClip);
+        return sample;
     }
-    public bool DetectPickStroke(float[] _samples,float _frequency)
+    public bool DetectPickStroke(float maxDisplacement, int noteIndex)
     {
-        int subsamples = _frequency > 150 ? 64 : 16; // => needs to be a power of 2 || 128 -> 2^7
-        int subsampleSize = _samples.Length / subsamples;
-        float[] subsampleLoudnesses = new float[subsamples];
-        
+        earlyreturnCounter = 0;
+        if (maxDisplacement < 0.0075f) {
+            CL.Log("too low level");
+            return false;
+        }
+        CL.Log("high enough level");
 
-        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        if (then *2 == noteIndex || noteIndex *2 == then) // octave confusion
         {
-            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
-            {
-                if (Mathf.Abs(_samples[j]) > subsampleLoudnesses[i])
-                {
-                    subsampleLoudnesses[i] = Mathf.Abs(_samples[j]);
-                }
-            }
+            noteIndex = then;
         }
 
-        bool stroke = false;
 
-        for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
-        {
-
-            if (subsampleLoudnesses[i] * 2f < subsampleLoudnesses[i + 1])
-            {
-                stroke = true;
-                break;
-            }
+        if (then != noteIndex) {
+            previousMaxDisplacement = maxDisplacement;
+            then = noteIndex;
+            CL.Log("note change");
+            return true;
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleLoudnesses[0])
-        {
-            stroke = true;
+        CL.Log("no note change");
 
+        if (maxDisplacement > previousMaxDisplacement * 4) {
+            previousMaxDisplacement = maxDisplacement;
+            then = noteIndex;
+            CL.Log("enough relative level");
+            return true;
         }
-
-        lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
-        return stroke;
+        CL.Log("not enough relative level");
+        previousMaxDisplacement = maxDisplacement;
+        then = noteIndex;
+        return false;
     }
 
-    public float DetectOctaveInterference(float _frequnecy, float[] _fftReal, int _freqBin)
-    {
-        float lowerOctaveFrequency = _frequnecy / 2;
-        int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
-
-        float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
-        float freqAmplitudedReduced = _fftReal[_freqBin] * 0.60f;
-
-        if (freqAmplitudedReduced < lowerOctaveAmplitude)
+    public void ListenForEarlyReturn() {
+        if (earlyreturnCounter > 0)
         {
-            return lowerOctaveFrequency;
+            CL.Log("resetting previousMaxDisplacement");
+            previousMaxDisplacement = 0;
         }
-        return _frequnecy;
-
+        earlyreturnCounter++;
     }
+
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];
+        float[] phase = new float[_data.Length];
         System.Numerics.Complex[] fftComplex = new System.Numerics.Complex[_data.Length];
 
         for (int i = 0; i < _data.Length; i++)
@@ -102,6 +99,7 @@ public class AudioComponents : MonoBehaviour
         for (int i = 0; i < _data.Length; i++)
         {
             fft[i] = (float)fftComplex[i].Magnitude;
+            phase[i] = (float)fftComplex[i].Phase;
         }
 
         return fft;

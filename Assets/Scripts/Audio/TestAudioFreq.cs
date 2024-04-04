@@ -101,6 +101,4 @@ public class TestAudioFreq : MonoBehaviour
         }
         return fft;
     }
-
-
 }
