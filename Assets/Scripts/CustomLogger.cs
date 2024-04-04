@@ -86,6 +86,15 @@ public class CustomLogger
                 }
                 temp += "]";
                 break;
+            case Type t when t.FullName.StartsWith("System.Collections.Generic.Dictionary"):
+                temp += "{";
+                var casted = (System.Collections.IDictionary)obj;
+                foreach (object value in casted.Values)
+                {
+                    temp += UnfoldObject(value) + ", ";
+                }
+                temp += "}";
+                break;
             case Type t when t == typeof(Vector2):
                 temp += "(";
                 temp += UnfoldObject(((Vector2)obj).X) + ", " + UnfoldObject(((Vector2)obj).Y);

@@ -60,7 +60,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\visual_debugger_interface.cs" />
+    <Compile Include="Assets\FretboardCalibrationRangeScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -877,9 +877,9 @@
       <Project>{72E73972-2B9D-F849-970D-DE985EAB0D20}</Project>
       <Name>Unity.RenderPipelines.Universal.2D.Runtime.Player</Name>
     </ProjectReference>
-    <ProjectReference Include="Skripts.Player.csproj">
-      <Project>{CD67A027-F829-86BE-D368-C2BF69CC2E64}</Project>
-      <Name>Skripts.Player</Name>
+    <ProjectReference Include="Scripts.Player.csproj">
+      <Project>{E488C682-64CE-1398-1BB7-9088DE224187}</Project>
+      <Name>Scripts.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.Player.csproj">
       <Project>{2C0124BE-F284-5683-C07E-0383225D286A}</Project>

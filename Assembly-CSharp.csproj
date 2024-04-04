@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{04337665-1BE2-42C9-4276-1E0C41790A4D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,6 +58,9 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\FretboardCalibrationRangeScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -951,9 +953,9 @@
       <Project>{2FF04E42-DCC0-C0BC-0C19-EE73FB031A5D}</Project>
       <Name>Unity.RenderPipelines.Universal.2D.Runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="Skripts.csproj">
-      <Project>{D58F0A8E-86C7-F958-2B14-5AEDCE3138F2}</Project>
-      <Name>Skripts</Name>
+    <ProjectReference Include="Scripts.csproj">
+      <Project>{261DC0E1-C62F-0524-D13E-72B15CF009AC}</Project>
+      <Name>Scripts</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Searcher.Editor.csproj">
       <Project>{744E430C-FAB9-EBE7-9952-0F657EBBFE75}</Project>

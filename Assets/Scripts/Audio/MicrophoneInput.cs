@@ -10,18 +10,21 @@ public class MicrophoneInput : MonoBehaviour
     public string microphone;
     [SerializeField] AudioAnalyser analyser;
     [SerializeField] TMP_Dropdown microInputDropDown;
-
+    public static MicrophoneInput Instance;
 
     private bool recording = false;
+    public bool calibrating = false;
     private AudioSource audioSource;
     private int sampleRate;
     private int buffersize;
     private float actualRecordingLength;
     private int positionInClip = 0;
+    
 
     void Awake()
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
+        Instance = this;
     }
 
     void Start()
@@ -41,6 +44,11 @@ public class MicrophoneInput : MonoBehaviour
 
     public void StartStopRecording(TMP_Text _bntText)
     {
+        if (calibrating)
+        {
+            return;
+        }
+
         recording = !recording;
         if (!recording)
         {
@@ -58,11 +66,44 @@ public class MicrophoneInput : MonoBehaviour
         }
         NoteManager.Instance.IsRecording = recording;
         NoteManager.Instance.PlayPaused = !NoteManager.Instance.PlayPaused;
-        ChangeRecordBtnText(_bntText);
+        ChangeRecordBtnText();
     }
-    private void ChangeRecordBtnText(TMP_Text _bntText)
+
+    public void StartStopCalibrating(TMP_Text _bntText)
     {
+        if (recording)
+        {
+            return;
+        }
+        calibrating = !calibrating;
+        if (!calibrating)
+        {
+            Microphone.End(microphone);
+            EventManager.TriggerEvent("StopedRecording", null);
+        }
+        else
+        {
+
+            StartCoroutine(GrapMicrophoneBuffer());
+            StartMicrophone();
+            positionInClip = 0;
+
+            EventManager.TriggerEvent("StartedRecording", null);
+        }
+        NoteManager.Instance.IsRecording = calibrating;
+        NoteManager.Instance.PlayPaused = !NoteManager.Instance.PlayPaused;
+        ChangeCalibrateBtnText();
+    }
+
+    private void ChangeRecordBtnText()
+    {
+        TMP_Text _bntText = GameObject.Find("RecordBtn").GetComponentInChildren<TMP_Text>();
         _bntText.text = recording ? "Stop" : "Record";
+    }
+    private void ChangeCalibrateBtnText()
+    {
+        TMP_Text _bntText = GameObject.Find("CalibrateBtn").GetComponentInChildren<TMP_Text>();
+        _bntText.text = calibrating ? "Stop" : "Calibrate";
     }
     void StartMicrophone()
     {

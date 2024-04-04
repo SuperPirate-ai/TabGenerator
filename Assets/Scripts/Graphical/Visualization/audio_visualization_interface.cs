@@ -65,26 +65,4 @@ public class audio_visualization_interface : MonoBehaviour
         }
 
     }
-    public async Task<string> TestAITrainingData(Dictionary<string, object> values, Action<int> callback)
-    {
-        print("calling");
-        var content = JsonConvert.SerializeObject(values);
-        var httpContent = new StringContent(content, System.Text.Encoding.UTF8, "application/json");
-
-        try
-        {
-            var response = await httpClient.PostAsync("http://localhost:5002/predict", httpContent);
-            var responseString = await response.Content.ReadAsStringAsync();
-            print("doing callback with " + responseString);
-            callback(int.Parse(responseString));
-            print("done callback");
-            return responseString;
-        }
-        catch (WebException webEx)
-        { }
-        catch (SocketException sockEx)
-        {
-        }
-        return "error";
-    }
 }
