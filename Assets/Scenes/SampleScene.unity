@@ -3585,7 +3585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f577200ed54c45d4589d7b6e2a317dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoteObj: {fileID: 0}
+  NoteObj: {fileID: 4403095215134486680, guid: d8508db6a1be51d40a54bff388f0a45d, type: 3}
   PlayedNotes: []
   MeasureBars: []
   BPM: 100
@@ -3625,7 +3625,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4dc3942cab61440b48ed1c42c76c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Filepath: C://Users//peer//UnityProjects//TabGenerator//Assets//AudioFiles//the-eagles-hotel_california.gp3
 --- !u!1 &972106459
 GameObject:
   m_ObjectHideFlags: 0
@@ -5904,7 +5903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4dc3942cab61440b48ed1c42c76c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Filepath: C://Users//peer//UnityProjects//TabGenerator//Assets//AudioFiles//the-eagles-hotel_california.gp3
 --- !u!1 &1559014347
 GameObject:
   m_ObjectHideFlags: 0

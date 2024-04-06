@@ -1,5 +1,4 @@
-//using Unity.Plastic.Newtonsoft.Json;
-//using Unity.Plastic.Newtonsoft.Json.Serialization;
+using Codice.Client.Common.GameUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,20 +19,28 @@ public class LoadFromGP5 : MonoBehaviour
 {
     public static LoadFromGP5 Instance;
 
-    string apiPath = "http://localhost:5000";
+    string apiAddr = "http://localhost:5000";
     string readFileExtension = "/readfile?path=";
     string shutdownFileExtension = "/shutdown";
     string writeFileExtension = "/writefile?path=";
-    
-    public string Filepath = "C://Users//peer//UnityProjects//TabGenerator//Assets//AudioFiles//the-eagles-hotel_california.gp3";
 
+    private string apiPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\main.py";
+    [HideInInspector] private string Filepath = Environment.CurrentDirectory + "//AudioFiles//the-eagles-hotel_california.gp3";
+    
     GTPFileContent content;
 
     private void Awake()
     {
         if (Instance != null) Destroy(this);
         Instance = this;
+        if(PlayerPrefs.GetInt("API") != 1)
+        {
+            PlayerPrefs.SetInt("API", 1);
+            CheckAPIDependencies();
+        }
+
         StartAPI();
+
     }
     private void OnApplicationQuit()
     {
@@ -41,13 +48,18 @@ public class LoadFromGP5 : MonoBehaviour
         try
         {
             httpClient.BaseAddress = new Uri("http://0.0.0.0:5000");
-            var httpResponseMessage = httpClient.GetAsync(apiPath + shutdownFileExtension).Result;
+            var httpResponseMessage = httpClient.GetAsync(apiAddr + shutdownFileExtension).Result;
         }
         catch { }
     }
+    void CheckAPIDependencies()
+    {
+        string checkDependencies = "/C pip install -r " + System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\requirements.txt";
+        Process.Start("cmd.exe", checkDependencies);
+    }
     void StartAPI()
     {
-        string command = "/C python C:\\Ben\\Programs\\PyAPI_Tabgen\\main.py";
+        string command = "/C python " + apiPath;
         Process.Start("cmd.exe", command);
     }
 
@@ -61,7 +73,7 @@ public class LoadFromGP5 : MonoBehaviour
         try
         {
             httpClient.BaseAddress = new Uri("http://0.0.0.0:5000");
-            var httpResponseMessage = httpClient.GetAsync(apiPath + readFileExtension + _filepath).Result;
+            var httpResponseMessage = httpClient.GetAsync(apiAddr + readFileExtension + _filepath).Result;
             string jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
             content = JsonConvert.DeserializeObject<GTPFileContent>(jsonResponse);
             print(content.message);
@@ -94,7 +106,7 @@ public class LoadFromGP5 : MonoBehaviour
             var content = JsonConvert.SerializeObject(values);
             var httpContent = new StringContent(content,System.Text.Encoding.UTF8,"application/json");
 
-            var response = await httpClient.PostAsync(apiPath + writeFileExtension +_filepath, httpContent);
+            var response = await httpClient.PostAsync(apiAddr + writeFileExtension +_filepath, httpContent);
 
             var responseString = await response.Content.ReadAsStringAsync();
         }
