@@ -20,15 +20,11 @@ public class MovingObject : MonoBehaviour
     public void Update()
     {
         Move();
-
-        // change the speed according to the BPM set in NoteManager.Instace.BPM and set 100 BPM as a speed of 10
-        speed = (int)(manager.NoteSpeed * (manager.BPM / 100f));
-        print("Speed: " +speed);
     }
     public void Move()
     {
-
         if (manager.PlayPaused) return;
+        speed = (int)(manager.NoteSpeed * (manager.BPM / 100f));
 
         Vector3 velocity = new Vector3(-speed * Time.deltaTime, 0);
         this.transform.Translate(velocity);

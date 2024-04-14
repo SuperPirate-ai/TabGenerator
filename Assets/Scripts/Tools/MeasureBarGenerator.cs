@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MeasureBarGenerator : MonoBehaviour
@@ -12,11 +13,12 @@ public class MeasureBarGenerator : MonoBehaviour
     [SerializeField] GameObject Pointer;
 
     bool instatiateMeasureBar = false;
+    
     private void Start()
     {
-        Metronome.metronome.Elapsed += OnNewBeat;
+        EventManager.StartListening("NewBeat", OnNewBeat);
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if(instatiateMeasureBar)
         {
@@ -24,10 +26,9 @@ public class MeasureBarGenerator : MonoBehaviour
             instatiateMeasureBar = false;
         }
     }
-    void OnNewBeat(object _sender, EventArgs _e)
+    void OnNewBeat(Dictionary<string,object> _message)
     {
         beatcount++;
-        //print(beatcount);
         if(beatcount % TimeSignitureNoteCount == 0) 
         {
             print("New Measure");
@@ -40,11 +41,8 @@ public class MeasureBarGenerator : MonoBehaviour
 
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
+        print("Distance from last measure bar: " + (NoteManager.Instance.MeasureBars[NoteManager.Instance.MeasureBars.Count - 2].gameObject.transform.position.x - go.transform.position.x));
     }
-    void InstanciateMeasureBar(GameObject _measureBar, Vector3 _position)
-    {
-        GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
-        NoteManager.Instance.MeasureBars.Add(go);
-    }
+    
     
 }
