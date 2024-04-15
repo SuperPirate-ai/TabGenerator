@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --name BACKENDAPI.exe main.py

@@ -25,7 +25,8 @@ public class LoadFromGP5 : MonoBehaviour
     string shutdownFileExtension = "/shutdown";
     string writeFileExtension = "/writefile?path=";
 
-    private string apiPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\main.py";
+    private string nativePythonAPIPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\main.py";
+    private string compiledAPIPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\dist\\BACKENDAPI.exe";
     [HideInInspector] private string Filepath = Environment.CurrentDirectory + "//AudioFiles//the-eagles-hotel_california.gp3";
     
     GTPFileContent content;
@@ -37,7 +38,6 @@ public class LoadFromGP5 : MonoBehaviour
             PlayerPrefs.SetInt("API", 1);
         }
         print(this.gameObject);
-        CheckAPIDependencies();
         StartAPI();
 
     }
@@ -56,19 +56,27 @@ public class LoadFromGP5 : MonoBehaviour
         }
         catch { }
     }
-    void CheckAPIDependencies()
-    {
-        //string checkDependencies = "/C python -m pip install -r " + System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\requirements.txt";
-        //Process process = new Process();
-        //process.StartInfo.FileName = "cmd.exe";
-        //process.StartInfo.Arguments = checkDependencies;
-    }
+    
     void StartAPI()
     {
-        print(apiPath);
-        string arguments = "/C python.exe " + apiPath;
+        print(nativePythonAPIPath);
         Process process = new Process();
-        process.StartInfo.FileName = "cmd.exe";
+        string arguments = "";
+        
+        if(System.IO.File.Exists(compiledAPIPath))
+        {
+            if(Application.isEditor)
+            {
+                UnityEngine.Debug.LogWarning("API is compiled, but you are running in editor.");
+            }
+            process.StartInfo.FileName = compiledAPIPath;
+        }
+        else
+        {
+            process.StartInfo.FileName = "cmd.exe";
+            arguments = "/C python.exe " + nativePythonAPIPath;
+        }
+        
         process.StartInfo.Arguments = arguments;
         process.Start(); 
     }

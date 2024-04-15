@@ -1,3 +1,6 @@
+import multiprocessing
+import sys
+from io import StringIO
 import fastapi
 from fastapi import FastAPI
 import uvicorn
@@ -6,6 +9,10 @@ import signal
 import guitarpro 
 from pathlib import Path as P_Path
 from guitarpro import Song
+
+print(sys.stdout)
+if sys.stdout is None:
+    sys.stdout = StringIO()
 
 app = FastAPI()
 
@@ -80,6 +87,7 @@ def add_new_measure(t:guitarpro.Track,fret,string):
     t.song.addMeasureHeader(h)
     
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")
 
 

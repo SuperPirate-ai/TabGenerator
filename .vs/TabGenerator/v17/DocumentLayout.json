@@ -62,8 +62,7 @@
               "RelativeToolTip": "Assets\\Scripts\\EventManager.cs",
               "ViewState": "AQIAACQAAAAAAAAAAAAowCoAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-14T12:29:51.671Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-14T12:29:51.671Z"
             },
             {
               "$type": "Document",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\Storaging\\SaveLoadFiles.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-06T22:33:05.42Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-06T22:33:05.42Z"
             },
             {
               "$type": "Document",
@@ -86,7 +84,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\Storaging\\LoadFromGP5.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Storaging\\LoadFromGP5.cs",
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\Storaging\\LoadFromGP5.cs",
-              "ViewState": "AQIAADQAAAAAAAAAAAAYwEsAAAAdAAAA",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAUwEcAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-06T22:09:26.491Z",
               "EditorCaption": ""
@@ -101,8 +99,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\MovingObject.cs",
               "ViewState": "AQIAAAUAAAAAAAAAAAAAAA0AAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-18T18:30:31.114Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-18T18:30:31.114Z"
             },
             {
               "$type": "Document",
@@ -114,8 +111,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "ViewState": "AQIAAAQAAAAAAAAAAAAAwAsAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-17T21:42:25.414Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-17T21:42:25.414Z"
             },
             {
               "$type": "Document",
@@ -127,8 +123,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\Metronome.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAAAAACUAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T17:35:15.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T17:35:15.706Z"
             },
             {
               "$type": "Document",
@@ -140,8 +135,7 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\Scroller.cs",
               "ViewState": "AQIAACEAAAAAAAAAAAAAACUAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-17T21:41:55.884Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-17T21:41:55.884Z"
             },
             {
               "$type": "Document",
@@ -153,8 +147,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\MetronomeSound.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-17T10:52:12.71Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-17T10:52:12.71Z"
             },
             {
               "$type": "Document",
@@ -166,8 +159,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\MeasureBarGenerator.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAUwB8AAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-17T10:20:33.458Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-17T10:20:33.458Z"
             },
             {
               "$type": "Document",
@@ -179,8 +171,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\BPM.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T17:35:17.183Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T17:35:17.183Z"
             }
           ]
         }
