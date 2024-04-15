@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class MeasureBarGenerator : MonoBehaviour
 {
-    int beatcount = 0;
     [SerializeField] int TimeSignitureNoteCount;
     [SerializeField] int TimeSignitureNoteValue;
     [SerializeField] GameObject MeasureBar;
     [SerializeField] GameObject Pointer;
 
+    int beatcount = 0;
     bool instatiateMeasureBar = false;
-    
+  
     private void Start()
     {
         EventManager.StartListening("NewBeat", OnNewBeat);
