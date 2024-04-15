@@ -1,22 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MeasureBarGenerator : MonoBehaviour
 {
-    int beatcount = 0;
     [SerializeField] int TimeSignitureNoteCount;
     [SerializeField] int TimeSignitureNoteValue;
     [SerializeField] GameObject MeasureBar;
     [SerializeField] GameObject Pointer;
 
+    int beatcount = 0;
     bool instatiateMeasureBar = false;
+  
     private void Start()
     {
-        Metronome.metronome.Elapsed += OnNewBeat;
+        EventManager.StartListening("NewBeat", OnNewBeat);
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if(instatiateMeasureBar)
         {
@@ -24,10 +26,9 @@ public class MeasureBarGenerator : MonoBehaviour
             instatiateMeasureBar = false;
         }
     }
-    void OnNewBeat(object _sender, EventArgs _e)
+    void OnNewBeat(Dictionary<string,object> _message)
     {
         beatcount++;
-        //print(beatcount);
         if(beatcount % TimeSignitureNoteCount == 0) 
         {
             print("New Measure");
@@ -36,15 +37,9 @@ public class MeasureBarGenerator : MonoBehaviour
     }
     void CreateNewMeasureBar()
     {
-        Debug.Log("Instantiating...");
-
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
     }
-    void InstanciateMeasureBar(GameObject _measureBar, Vector3 _position)
-    {
-        GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
-        NoteManager.Instance.MeasureBars.Add(go);
-    }
+    
     
 }
