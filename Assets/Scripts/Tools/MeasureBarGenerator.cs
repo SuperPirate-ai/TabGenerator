@@ -37,11 +37,8 @@ public class MeasureBarGenerator : MonoBehaviour
     }
     void CreateNewMeasureBar()
     {
-        Debug.Log("Instantiating...");
-
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
-        print("Distance from last measure bar: " + (NoteManager.Instance.MeasureBars[NoteManager.Instance.MeasureBars.Count - 2].gameObject.transform.position.x - go.transform.position.x));
     }
     
     
