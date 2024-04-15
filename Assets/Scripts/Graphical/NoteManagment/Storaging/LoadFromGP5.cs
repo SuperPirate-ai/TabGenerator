@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.DedicatedServer;
 
 
 public class GTPFileContent
@@ -24,23 +25,26 @@ public class LoadFromGP5 : MonoBehaviour
     string shutdownFileExtension = "/shutdown";
     string writeFileExtension = "/writefile?path=";
 
-    private string apiPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\main.py";
+    private string nativePythonAPIPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\main.py";
+    private string compiledAPIPath = System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\dist\\BACKENDAPI.exe";
     [HideInInspector] private string Filepath = Environment.CurrentDirectory + "//AudioFiles//the-eagles-hotel_california.gp3";
     
     GTPFileContent content;
 
     private void Awake()
     {
-        if (Instance != null) Destroy(this);
-        Instance = this;
         if(PlayerPrefs.GetInt("API") != 1)
         {
             PlayerPrefs.SetInt("API", 1);
-            CheckAPIDependencies();
         }
-
+        print(this.gameObject);
         StartAPI();
 
+    }
+    private void Start()
+    {
+        if (Instance != null) Destroy(this);
+        Instance = this;
     }
     private void OnApplicationQuit()
     {
@@ -52,15 +56,29 @@ public class LoadFromGP5 : MonoBehaviour
         }
         catch { }
     }
-    void CheckAPIDependencies()
-    {
-        string checkDependencies = "/C pip install -r " + System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\requirements.txt";
-        Process.Start("cmd.exe", checkDependencies);
-    }
+    
     void StartAPI()
     {
-        string command = "/C python " + apiPath;
-        Process.Start("cmd.exe", command);
+        print(nativePythonAPIPath);
+        Process process = new Process();
+        string arguments = "";
+        
+        if(System.IO.File.Exists(compiledAPIPath))
+        {
+            if(Application.isEditor)
+            {
+                UnityEngine.Debug.LogWarning("API is compiled, but you are running in editor.");
+            }
+            process.StartInfo.FileName = compiledAPIPath;
+        }
+        else
+        {
+            process.StartInfo.FileName = "cmd.exe";
+            arguments = "/C python.exe " + nativePythonAPIPath;
+        }
+        
+        process.StartInfo.Arguments = arguments;
+        process.Start(); 
     }
 
     public void ReadFromAPI()
