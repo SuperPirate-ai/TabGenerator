@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.DedicatedServer;
 
 
 public class GTPFileContent
@@ -31,16 +32,19 @@ public class LoadFromGP5 : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) Destroy(this);
-        Instance = this;
         if(PlayerPrefs.GetInt("API") != 1)
         {
             PlayerPrefs.SetInt("API", 1);
-            CheckAPIDependencies();
         }
-
+        print(this.gameObject);
+        CheckAPIDependencies();
         StartAPI();
 
+    }
+    private void Start()
+    {
+        if (Instance != null) Destroy(this);
+        Instance = this;
     }
     private void OnApplicationQuit()
     {
@@ -54,13 +58,19 @@ public class LoadFromGP5 : MonoBehaviour
     }
     void CheckAPIDependencies()
     {
-        string checkDependencies = "/C pip install -r " + System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\requirements.txt";
-        Process.Start("cmd.exe", checkDependencies);
+        //string checkDependencies = "/C python -m pip install -r " + System.IO.Directory.GetParent(Application.dataPath).FullName + "\\PythonAPI\\requirements.txt";
+        //Process process = new Process();
+        //process.StartInfo.FileName = "cmd.exe";
+        //process.StartInfo.Arguments = checkDependencies;
     }
     void StartAPI()
     {
-        string command = "/C python " + apiPath;
-        Process.Start("cmd.exe", command);
+        print(apiPath);
+        string arguments = "/C python.exe " + apiPath;
+        Process process = new Process();
+        process.StartInfo.FileName = "cmd.exe";
+        process.StartInfo.Arguments = arguments;
+        process.Start(); 
     }
 
     public void ReadFromAPI()

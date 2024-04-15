@@ -279,7 +279,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 947617754}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LoadFromGP5, Scripts.Graphical.NoteManagment.Storaging
         m_MethodName: ReadFromAPI
         m_Mode: 1
@@ -3565,7 +3565,6 @@ GameObject:
   m_Component:
   - component: {fileID: 947617753}
   - component: {fileID: 947617752}
-  - component: {fileID: 947617754}
   m_Layer: 0
   m_Name: NoteManager
   m_TagString: Untagged
@@ -3613,18 +3612,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &947617754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 947617751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa4dc3942cab61440b48ed1c42c76c53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &972106459
 GameObject:
   m_ObjectHideFlags: 0
