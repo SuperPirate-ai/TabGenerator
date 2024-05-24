@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Tools", "Scripts.To
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skripts", "Skripts.csproj", "{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.API", "Scripts.API.csproj", "{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts.Graphical.NoteManagment.Storaging", "Scripts.Graphical.NoteManagment.Storaging.csproj", "{7F099656-C88B-7038-B910-8823C9F66B2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptableObject", "ScriptableObject.csproj", "{CF443B26-1A41-4E03-91B3-0529782103D3}"
@@ -47,6 +49,10 @@ Global
 		{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F099656-C88B-7038-B910-8823C9F66B2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F099656-C88B-7038-B910-8823C9F66B2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F099656-C88B-7038-B910-8823C9F66B2C}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -6,6 +6,7 @@ public class AudioComponents : MonoBehaviour
     private int buffersize;
     public static AudioComponents Instance;
     private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+    public int earlyReturnCounter = 0;
 
     private void Awake()
     {
@@ -35,7 +36,8 @@ public class AudioComponents : MonoBehaviour
     }
     public bool DetectPickStroke(float[] _samples,float _frequency)
     {
-        int subsamples = _frequency > 150 ? 64 : 16; // => needs to be a power of 2 || 128 -> 2^7
+        earlyReturnCounter = 0;
+        int subsamples = /*_frequency > 150 ?*/ 64/* : 16*/; // => needs to be a power of 2 || 128 -> 2^7
         int subsampleSize = _samples.Length / subsamples;
         float[] subsampleLoudnesses = new float[subsamples];
         
@@ -71,7 +73,14 @@ public class AudioComponents : MonoBehaviour
         lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
         return stroke;
     }
-
+    public void ListenForEarlyReturn()
+    {
+        if (earlyReturnCounter > 0)
+        {
+            lastSubsampleLoudnessOfPreviousBuffer = 0;
+        }
+        earlyReturnCounter++;
+    }
     public float DetectOctaveInterference(float _frequnecy, float[] _fftReal, int _freqBin)
     {
         float lowerOctaveFrequency = _frequnecy / 2;

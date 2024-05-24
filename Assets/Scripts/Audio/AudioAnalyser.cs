@@ -47,6 +47,7 @@ public class AudioAnalyser : MonoBehaviour
 
     private float CalculateFrequency(float[] _samples)
     {
+        AudioComponents.Instance.ListenForEarlyReturn();
         fftReal = new float[numberOfSamples];
         float[] samples = _samples;
 
@@ -78,7 +79,7 @@ public class AudioAnalyser : MonoBehaviour
         if (!AudioComponents.Instance.DetectPickStroke(samples,frequency)) return -1;
 
 
-        // ocatve Detection
+        // octave Detection
         float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftReal, highestFFTBin);
         if (octaveFreq != frequency)
         {
