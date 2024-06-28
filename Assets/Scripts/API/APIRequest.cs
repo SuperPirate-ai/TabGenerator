@@ -9,19 +9,19 @@ using UnityEngine;
 
 public class APIRequest : MonoBehaviour
 {
-    public void SendPostRequest(string _json, string _apiPath,string _command, string _pathExtension = "")
+    public async void SendPostRequest(string _json, string _apiPath,string _command, string _pathExtension = "")
     {  
         string url = _apiPath + _command + _pathExtension;
-        PostRequest(url, _json).Wait();
+        await PostRequest(url, _json);
     }
     public void SendGETRequestTEST()
     {
        print(GetRequest($"http://localhost:5000/readfile?path=E:/Ben/UnityProjekts/GithubProjects/TabGenerator/GTP_Recordings/cool.gp5").Result);
     }
-    public string SendGetRequest(string _apiPath, string _command, string _pathExtension = "")
+    public async Task<string> SendGetRequest(string _apiPath, string _command, string _pathExtension = "")
     {
         string url = _apiPath + _command + _pathExtension;
-        return GetRequest(url).Result;
+        return await GetRequest(url);
     }
     public void printer(string _message)
     {
@@ -50,11 +50,20 @@ public class APIRequest : MonoBehaviour
         {
             var httpContent = new StringContent(_json, System.Text.Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(_url, httpContent);
+
+            if(response.IsSuccessStatusCode)
+            {
+                print("Success");
+            }
+            else
+            {
+                print("Fail");
+            }
             var responseString = await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            UnityEngine.Debug.Log(e);
         }
     }
 }

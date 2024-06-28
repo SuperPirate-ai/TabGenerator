@@ -50,6 +50,7 @@ public class SaveLoadFiles : MonoBehaviour
         {
             string path = internalPathGTP + $"\\" + fileNameInput.text;
             LoadFromGP5.Instance.SendStandard(path);
+            return;
         }
         SaveAsStandartFile();
     }

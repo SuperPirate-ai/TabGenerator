@@ -47,7 +47,7 @@ public class LoadFromGP5 : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        apiRequest.SendGetRequest(apiAddr, shutdownFileExtension);
+        var result = apiRequest.SendGetRequest(apiAddr, shutdownFileExtension);
     }
     
     //void StartAPI()
@@ -78,7 +78,7 @@ public class LoadFromGP5 : MonoBehaviour
         print("ReadGuitarNotesFromAPI");
         try
         { 
-            string jsonResponse = apiRequest.SendGetRequest(apiAddr, readFileExtension + _filepath);
+            string jsonResponse = apiRequest.SendGetRequest(apiAddr, readFileExtension + _filepath).Result;
             print(jsonResponse);
             GTPFileContent content = JsonConvert.DeserializeObject<GTPFileContent>(jsonResponse);
             return content;
@@ -108,8 +108,6 @@ public class LoadFromGP5 : MonoBehaviour
         };
         var content = JsonConvert.SerializeObject(values);
         apiRequest.SendPostRequest(content, apiAddr, writeFileExtension, _filepath);
-        
-       
     }
 
     public string GetStandard(string _path)

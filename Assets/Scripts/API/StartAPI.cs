@@ -13,15 +13,15 @@ public class StartAPI : MonoBehaviour
         Process process = new Process();
         string arguments = "";
 
-        //if (System.IO.File.Exists(compiledAPIPath))
-        //{
-        //    if (Application.isEditor)
-        //    {
-        //        UnityEngine.Debug.LogWarning("API is compiled, but you are running in editor.");
-        //    }
-        //    process.StartInfo.FileName = compiledAPIPath;
-        //}
-        //else
+        if (System.IO.File.Exists(compiledAPIPath))
+        {
+            if (Application.isEditor)
+            {
+                UnityEngine.Debug.LogWarning("API is compiled, but you are running in editor.");
+            }
+            process.StartInfo.FileName = compiledAPIPath;
+        }
+        else
         {
             process.StartInfo.FileName = "cmd.exe";
             arguments = "/C python.exe " + nativePythonAPIPath;
