@@ -34,13 +34,13 @@ public class AudioComponents : MonoBehaviour
 
         return samples;
     }
-    public bool DetectPickStroke(float[] _samples,float _frequency)
+    public bool DetectPickStroke(float[] _samples, float _frequency)
     {
         earlyReturnCounter = 0;
         int subsamples = /*_frequency > 150 ?*/ 64/* : 16*/; // => needs to be a power of 2 || 128 -> 2^7
         int subsampleSize = _samples.Length / subsamples;
         float[] subsampleLoudnesses = new float[subsamples];
-        
+
 
         for (int i = 0; i < subsampleLoudnesses.Length; i++)
         {

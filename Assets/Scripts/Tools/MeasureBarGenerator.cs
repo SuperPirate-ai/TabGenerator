@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class MeasureBarGenerator : MonoBehaviour
@@ -13,23 +10,23 @@ public class MeasureBarGenerator : MonoBehaviour
 
     int beatcount = 0;
     bool instatiateMeasureBar = false;
-  
+
     private void Start()
     {
         EventManager.StartListening("NewBeat", OnNewBeat);
     }
     private void FixedUpdate()
     {
-        if(instatiateMeasureBar)
+        if (instatiateMeasureBar)
         {
             CreateNewMeasureBar();
             instatiateMeasureBar = false;
         }
     }
-    void OnNewBeat(Dictionary<string,object> _message)
+    void OnNewBeat(Dictionary<string, object> _message)
     {
         beatcount++;
-        if(beatcount % TimeSignitureNoteCount == 0) 
+        if (beatcount % TimeSignitureNoteCount == 0)
         {
             print("New Measure");
             instatiateMeasureBar = true;
@@ -40,6 +37,6 @@ public class MeasureBarGenerator : MonoBehaviour
         GameObject go = Instantiate(MeasureBar.gameObject, Pointer.transform.position, Quaternion.identity);
         NoteManager.Instance.MeasureBars.Add(go);
     }
-    
-    
+
+
 }

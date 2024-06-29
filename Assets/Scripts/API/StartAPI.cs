@@ -1,6 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.Net.Http;
 using UnityEngine;
 
 public class StartAPI : MonoBehaviour
@@ -29,8 +27,7 @@ public class StartAPI : MonoBehaviour
 
         process.StartInfo.Arguments = arguments;
         process.Start();
-        print("API started");
     }
 
-    
+
 }

@@ -20,10 +20,10 @@ public class Metronome : MonoBehaviour
     }
     private void Update()
     {
-        if(metronomeStarted)
+        if (metronomeStarted)
         {
             timeElapsed += Time.deltaTime;
-          
+
             if ((timeElapsed - Time.deltaTime) % timePerBeatInSeconds > timeElapsed % timePerBeatInSeconds || Time.deltaTime > timePerBeatInSeconds)
             {
                 EventManager.TriggerEvent("NewBeat", new Dictionary<string, object>());
@@ -50,4 +50,4 @@ public class Metronome : MonoBehaviour
     {
         metronomeStarted = false;
     }
-}  
+}

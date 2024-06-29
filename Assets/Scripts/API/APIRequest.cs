@@ -1,22 +1,18 @@
-using Codice.CM.Client.Differences.Merge;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class APIRequest : MonoBehaviour
 {
-    public async void SendPostRequest(string _json, string _apiPath,string _command, string _pathExtension = "")
-    {  
+    public async void SendPostRequest(string _json, string _apiPath, string _command, string _pathExtension = "")
+    {
         string url = _apiPath + _command + _pathExtension;
         await PostRequest(url, _json);
     }
     public void SendGETRequestTEST()
     {
-       print(GetRequest($"http://localhost:5000/readfile?path=E:/Ben/UnityProjekts/GithubProjects/TabGenerator/GTP_Recordings/cool.gp5").Result);
+        print(GetRequest($"http://localhost:5000/readfile?path=E:/Ben/UnityProjekts/GithubProjects/TabGenerator/GTP_Recordings/cool.gp5").Result);
     }
     public async Task<string> SendGetRequest(string _apiPath, string _command, string _pathExtension = "")
     {
@@ -51,7 +47,7 @@ public class APIRequest : MonoBehaviour
             var httpContent = new StringContent(_json, System.Text.Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(_url, httpContent);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 print("Success");
             }

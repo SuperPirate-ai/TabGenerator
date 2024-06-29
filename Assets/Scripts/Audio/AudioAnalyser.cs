@@ -76,7 +76,7 @@ public class AudioAnalyser : MonoBehaviour
         float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
         //peak gate
 
-        if (!AudioComponents.Instance.DetectPickStroke(samples,frequency)) return -1;
+        if (!AudioComponents.Instance.DetectPickStroke(samples, frequency)) return -1;
 
 
         // octave Detection
