@@ -6,8 +6,8 @@ public class Note : MovingObject
 {
     public delegate void MouseClickNote([Optional] GameObject _note);
     public static event MouseClickNote clickedOnMouse;
-   
-    new void  Update()
+
+    new void Update()
     {
         if (!manager.PlayedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
 
@@ -18,7 +18,7 @@ public class Note : MovingObject
         }
         Move();
     }
-   
+
 
     private void OnMouseDown()
     {

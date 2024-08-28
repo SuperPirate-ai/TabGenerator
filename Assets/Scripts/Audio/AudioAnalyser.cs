@@ -11,7 +11,7 @@ public class AudioAnalyser : MonoBehaviour
     [SerializeField] AudioVisualizer visualizer;
 
     private int sampleRate;
-    private float[] fftReal;
+    private float[] fftBuffer;
 
     private List<int> notesFrequencies;
 
@@ -19,7 +19,7 @@ public class AudioAnalyser : MonoBehaviour
 
     private void Awake()
     {
-        fftReal = new float[numberOfSamples];
+        fftBuffer = new float[numberOfSamples];
 
         notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
@@ -32,7 +32,7 @@ public class AudioAnalyser : MonoBehaviour
 
     }
 
-    public void Analyse(float[] _rawSamples)
+    public void Analyze(float[] _rawSamples)
     {
         float frequency = CalculateFrequency(_rawSamples);
         if (frequency == -1) return;
@@ -47,39 +47,39 @@ public class AudioAnalyser : MonoBehaviour
 
     private float CalculateFrequency(float[] _samples)
     {
-        fftReal = new float[numberOfSamples];
+        AudioComponents.Instance.ListenForEarlyReturn();
+        fftBuffer = new float[numberOfSamples];
         float[] samples = _samples;
 
-        var fft = AudioComponents.Instance.FFT(samples);
+        fftBuffer = AudioComponents.Instance.FFT(samples);
 
-        Array.Copy(fft, fftReal, fftReal.Length);
 
         float lowestFFTValue = 1;
         float highestFFTValue = 0;
         int highestFFTBin = 0;
-        for (int i = 0; i < fftReal.Length; i++)
+        for (int i = 0; i < fftBuffer.Length; i++)
         {
-            if (fftReal[i] > highestFFTValue)
+            if (fftBuffer[i] > highestFFTValue)
             {
-                highestFFTValue = fftReal[i];
+                highestFFTValue = fftBuffer[i];
                 highestFFTBin = i;
             }
 
-            if (fftReal[i] < lowestFFTValue)
+            if (fftBuffer[i] < lowestFFTValue)
             {
-                lowestFFTValue = fftReal[i];
+                lowestFFTValue = fftBuffer[i];
             }
         }
 
         //frequency Calculation
-        float frequency = (float)highestFFTBin / (float)fftReal.Length * (float)sampleRate;
+        float frequency = (float)highestFFTBin / (float)fftBuffer.Length * (float)sampleRate;
         //peak gate
 
-        if (!AudioComponents.Instance.DetectPickStroke(samples,frequency)) return -1;
+        if (!AudioComponents.Instance.DetectPickStroke(samples, frequency)) return -1;
 
 
-        // ocatve Detection
-        float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftReal, highestFFTBin);
+        // octave Detection
+        float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftBuffer, highestFFTBin);
         if (octaveFreq != frequency)
         {
             frequency = octaveFreq;

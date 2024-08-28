@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using UnityEngine;
 
 public class BPM : MonoBehaviour
 {
@@ -15,6 +12,6 @@ public class BPM : MonoBehaviour
     }
     public void BPMChange()
     {
-      EventManager.TriggerEvent("BPMChanged", new Dictionary<string, object> { {"BPM",inputField.text } });
+        EventManager.TriggerEvent("BPMChanged", new Dictionary<string, object> { { "BPM", inputField.text } });
     }
 }
