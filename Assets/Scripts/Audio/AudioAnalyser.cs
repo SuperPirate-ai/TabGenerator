@@ -32,7 +32,7 @@ public class AudioAnalyser : MonoBehaviour
 
     }
 
-    public void Analyse(float[] _rawSamples)
+    public void Analyze(float[] _rawSamples)
     {
         float frequency = CalculateFrequency(_rawSamples);
         if (frequency == -1) return;
@@ -54,6 +54,7 @@ public class AudioAnalyser : MonoBehaviour
         var fft = AudioComponents.Instance.FFT(samples);
 
         Array.Copy(fft, fftReal, fftReal.Length);
+
 
         float lowestFFTValue = 1;
         float highestFFTValue = 0;

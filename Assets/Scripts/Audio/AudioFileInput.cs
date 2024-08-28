@@ -8,7 +8,7 @@ public class AudioFileInput : MonoBehaviour
     public void StartAnalysingBtn()
     {
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip, 0);
-        analyser.Analyse(samples);
+        analyser.Analyze(samples);
     }
     public void TestPickStrokeDetectionbtn()
     {
