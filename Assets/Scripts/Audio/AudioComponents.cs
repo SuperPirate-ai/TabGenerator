@@ -37,7 +37,7 @@ public class AudioComponents : MonoBehaviour
     public bool DetectPickStroke(float[] _samples, float _frequency)
     {
         earlyReturnCounter = 0;
-        int subsamples = /*_frequency > 150 ?*/ 64/* : 16*/; // => needs to be a power of 2 || 128 -> 2^7
+        int subsamples = /*_frequency > 150 ?*/ 64 /*: 16*/; // => needs to be a power of 2 || 128 -> 2^7
         int subsampleSize = _samples.Length / subsamples;
         float[] subsampleLoudnesses = new float[subsamples];
 
@@ -81,9 +81,9 @@ public class AudioComponents : MonoBehaviour
         }
         earlyReturnCounter++;
     }
-    public float DetectOctaveInterference(float _frequnecy, float[] _fftReal, int _freqBin)
+    public float DetectOctaveInterference(float _frequency, float[] _fftReal, int _freqBin)
     {
-        float lowerOctaveFrequency = _frequnecy / 2;
+        float lowerOctaveFrequency = _frequency / 2;
         int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
 
         float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
@@ -93,7 +93,7 @@ public class AudioComponents : MonoBehaviour
         {
             return lowerOctaveFrequency;
         }
-        return _frequnecy;
+        return _frequency;
 
     }
     public float[] FFT(float[] _data)
