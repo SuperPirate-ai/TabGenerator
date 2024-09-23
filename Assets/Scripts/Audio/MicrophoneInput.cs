@@ -9,7 +9,7 @@ using UnityEngine;
 public class MicrophoneInput : MonoBehaviour
 {
     public string microphone;
-    [SerializeField] AudioAnalyser analyser;
+    [SerializeField] AudioAnalyzer analyzer;
     [SerializeField] TMP_Dropdown microInputDropDown;
 
 
@@ -73,7 +73,7 @@ public class MicrophoneInput : MonoBehaviour
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip = Microphone.GetPosition(microphone);
 
-        analyser.Analyze(samples);
+        analyzer.Analyze(samples);
         StartCoroutine(GrapMicrophoneBuffer());
 
      

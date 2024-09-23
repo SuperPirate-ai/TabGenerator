@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AudioAnalyser : MonoBehaviour
+public class AudioAnalyzer : MonoBehaviour
 {
     [SerializeField] int numberOfSamples = 8192;
     [SerializeField] NotesSO notesSO;

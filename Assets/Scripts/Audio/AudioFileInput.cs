@@ -3,7 +3,7 @@ using UnityEngine;
 public class AudioFileInput : MonoBehaviour
 {
     [SerializeField] AudioClip audioClip;
-    [SerializeField] AudioAnalyser analyser;
+    [SerializeField] AudioAnalyzer analyser;
 
     public void StartAnalysingBtn()
     {
