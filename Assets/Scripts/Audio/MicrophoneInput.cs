@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -73,6 +75,8 @@ public class MicrophoneInput : MonoBehaviour
 
         analyser.Analyze(samples);
         StartCoroutine(GrapMicrophoneBuffer());
+
+     
     }
     public void OnMicrophoneInputChanged()
     {

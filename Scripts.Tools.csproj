@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Tools\BPM.cs" />
     <Compile Include="Assets\Scripts\Tools\MetronomeSound.cs" />
     <Compile Include="Assets\Scripts\Tools\Metronome.cs" />
+    <Compile Include="Assets\Scripts\Tools\GraphPlotter.cs" />
     <Compile Include="Assets\Scripts\Tools\MeasureBarGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1026,6 +1027,10 @@
     <ProjectReference Include="Skripts.csproj">
       <Project>{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}</Project>
       <Name>Skripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="Scripts.API.csproj">
+      <Project>{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}</Project>
+      <Name>Scripts.API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -87,6 +87,25 @@ public class AudioAnalyser : MonoBehaviour
         // noise gate
         if (highestFFTValue < .001f) return -1;
 
+        DateTime currentTime = DateTime.Now;
+        var vis = new Dictionary<string, object>
+            {
+                { "time" , currentTime.ToString("HH:mm:ss")},
+                { "common_scaling_groups", new string[][] {
+                        new string [] { "samples" },
+                        new string [] { "FFT" }
+                    }
+                },
+                { "y_data_s", new Dictionary <string, object> {
+                        {"samples",samples },
+                        {"FFT", fftBuffer.Take(420).ToList().ToArray()  }
+                    
+                    }
+                }
+            };
+        GraphPlotter.Instance.PlotGraph(vis);
+
+
         return frequency;
     }
 
