@@ -3,27 +3,27 @@
   "WorkspaceRootPath": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\api\\startapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|solutionrelative:assets\\scripts\\api\\startapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\api\\apirequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|solutionrelative:assets\\scripts\\api\\apirequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\api\\startapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFDE7B57-CBDA-0711-0AD0-20BE28BCE3CD}|Scripts.API.csproj|solutionrelative:assets\\scripts\\api\\startapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\tools\\graphplotter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\graphplotter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,20 +70,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MicrophoneInput.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\MicrophoneInput.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAuwEsAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAowA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-23T18:00:30.888Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "StartAPI.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\API\\StartAPI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\API\\StartAPI.cs",
@@ -91,18 +91,17 @@
               "RelativeToolTip": "Assets\\Scripts\\API\\StartAPI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T09:13:12.544Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-29T09:13:12.544Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "APIRequest.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\API\\APIRequest.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\API\\APIRequest.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\API\\APIRequest.cs",
               "RelativeToolTip": "Assets\\Scripts\\API\\APIRequest.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwAcAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAcwDQAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-29T08:15:11.853Z",
               "EditorCaption": ""
@@ -117,8 +116,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\GraphPlotter.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAAABkAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T08:46:55.119Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-29T08:46:55.119Z"
             },
             {
               "$type": "Document",
@@ -130,8 +128,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
               "ViewState": "AgIAAGkAAAAAAAAAAAAcwIIAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T18:13:23.138Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-15T18:13:23.138Z"
             },
             {
               "$type": "Document",
@@ -159,13 +156,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "AudioAnalyzer.cs",
               "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAK8AAAAAAAAAAAAswLsAAAB1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-15T17:43:50.551Z",
               "EditorCaption": ""

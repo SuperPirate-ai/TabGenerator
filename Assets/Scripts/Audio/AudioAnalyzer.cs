@@ -34,7 +34,8 @@ public class AudioAnalyzer : MonoBehaviour
 
     public void Analyze(float[] _rawSamples)
     {
-        float frequency = CalculateFrequency(_rawSamples);
+        //float frequency = CalculateFrequency(_rawSamples);
+        float frequency = CalculateFreqeuncyWithOvertones(_rawSamples);
         if (frequency == -1) return;
 
         float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
@@ -109,6 +110,90 @@ public class AudioAnalyzer : MonoBehaviour
         return frequency;
     }
 
+
+    private float CalculateFreqeuncyWithOvertones(float[] _samples)
+    {
+        AudioComponents.Instance.ListenForEarlyReturn();
+        fftBuffer = new float[numberOfSamples];
+        float[] samples = _samples;
+        fftBuffer = AudioComponents.Instance.FFT(samples);
+
+        float medianAmplitude = 0;
+
+        float[] fftBufferSorting = new float[fftBuffer.Length];
+        Array.Copy(fftBuffer, fftBufferSorting, fftBuffer.Length);
+        Array.Sort(fftBufferSorting);
+        if (fftBufferSorting.Length % 2 == 0)
+        {
+            medianAmplitude = (fftBufferSorting[fftBuffer.Length / 2] + fftBufferSorting[fftBuffer.Length / 2 - 1]) / 2;
+        }
+        else
+        {
+            medianAmplitude = fftBufferSorting[fftBuffer.Length / 2];
+        }
+
+        //Debug.Log(medianAmplitude);
+        float highestValue = fftBuffer.Max();
+        if (highestValue < .001f) return -1;
+        float highestValueIndex = fftBuffer.ToList().IndexOf(highestValue);
+        Dictionary<int, float> overtones = new Dictionary<int, float>();
+        for (int i = 0; i < fftBuffer.Length; i++)
+        {
+            bool isOverAverage = fftBuffer[i] > medianAmplitude;
+            bool isLocalHigh = i > 0 ? fftBuffer[i] > fftBuffer[i - 1] : true && i + 1 < fftBuffer.Length ? fftBuffer[i] > fftBuffer[i + 1] : true;
+            bool HasHigherIndex = i > highestValueIndex;
+
+            bool isValidPeak = isOverAverage && isLocalHigh && HasHigherIndex;
+
+            if (isValidPeak)
+            {
+                overtones.Add(i, fftBuffer[i]);
+            }
+        }
+
+
+        DateTime currentTime = DateTime.Now;
+        var vis = new Dictionary<string, object>
+        {
+            { "time" , currentTime.ToString("HH:mm:ss")},
+            { "common_scaling_groups", new string[][] {
+              new string [] { "overtones" }
+
+            }
+            },
+            { "y_data_s", new Dictionary <string, object> {
+                //{"FFT", fftBuffer.Take(420).ToList().ToArray()  }
+                {"overtones", overtones.Select(x => x.Value).ToArray() }
+
+            }
+            }
+        };
+        GraphPlotter.Instance.PlotGraph(vis);
+        print(overtones.Count());
+
+        int averageDistanceBetweenOvertones = 0;
+        for (int i = 0; i < overtones.Count - 1; i++)
+        {
+            averageDistanceBetweenOvertones += overtones.ElementAt(i + 1).Key - overtones.ElementAt(i).Key;
+        }
+        if(overtones.Count == 0) return -1;
+        averageDistanceBetweenOvertones /= overtones.Count;
+
+
+        for (int i = 0; i < overtones.Count; i++)
+        {
+            float freqeuncy = (float)overtones.ElementAt(i).Key / (float)fftBuffer.Length * (float)sampleRate;
+            if (freqeuncy > 150)
+            {
+                float fundamentalFreqValue = (float)overtones.ElementAt(i).Key - averageDistanceBetweenOvertones * i;
+                float fundamentalFreq = fundamentalFreqValue / (float)fftBuffer.Length * (float)sampleRate;
+                if (!AudioComponents.Instance.DetectPickStroke(samples, fundamentalFreq)) return -1;
+                Debug.Log("Frequency: " + fundamentalFreq);
+                return fundamentalFreq;
+            }
+        }
+        return 0;
+    }
 
     private float GetFrequencyCoresbondingToNote(float _rawFrequency)
     {

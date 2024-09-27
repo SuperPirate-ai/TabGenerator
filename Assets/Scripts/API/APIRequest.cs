@@ -47,14 +47,11 @@ public class APIRequest : MonoBehaviour
             var httpContent = new StringContent(_json, System.Text.Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(_url, httpContent);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                print("Success");
+                print("Error: " + response.StatusCode);
             }
-            else
-            {
-                print("Fail");
-            }
+            
             var responseString = await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
