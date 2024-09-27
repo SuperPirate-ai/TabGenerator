@@ -10,9 +10,9 @@ import guitarpro
 from pathlib import Path as P_Path
 from guitarpro import Song
 import matplotlib.pyplot as plt
-import numpy as np
-from visual_debugger import DataHolder, start_cv2
+from visual_debugger import DataHolder, start_pg
 import threading
+
 
 print(sys.stdout)
 if sys.stdout is None:
@@ -76,8 +76,6 @@ async def stopProgram():
     os.kill(os.getpid(), signal.SIGTERM)
 
 
-
-
 def add_new_measure(t:guitarpro.Track,fret,string):
     h = guitarpro.models.MeasureHeader()
     m = guitarpro.Measure(t, h)
@@ -91,7 +89,6 @@ def add_new_measure(t:guitarpro.Track,fret,string):
     t.song.addMeasureHeader(h)
 
 
-
 #graphplotting
 
 fig = plt.figure()
@@ -100,13 +97,11 @@ ax = fig.add_subplot(1,1,1)
 @app.post("/plot_data")
 async def plot_data(_data: dict):
     print("plotting")
-    DataHolder.data = _data
+    DataHolder.data = _data.get("plotting_data")
     return "ok", 200
 
 
 if __name__ == "__main__":
-    threading.Thread(target=start_cv2).start()
+    threading.Thread(target=start_pg).start()
     multiprocessing.freeze_support()
     uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")
-
-
