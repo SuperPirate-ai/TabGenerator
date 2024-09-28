@@ -114,43 +114,96 @@ public class AudioAnalyzer : MonoBehaviour
 
     private float CalculateFreqeuncyWithOvertones(float[] _samples)
     {
+        float thresholdFactor = .15f;
         AudioComponents.Instance.ListenForEarlyReturn();
+
         fftBuffer = new float[numberOfSamples];
         float[] samples = _samples;
         fftBuffer = AudioComponents.Instance.FFT(samples);
 
-        float avgAmplitude = fftBuffer.Average();
-        //float medianAmplitude = 0;
+        List<(float,int)> allovertones = CalculateOvertones(thresholdFactor);
+        if (allovertones == null) return -1;
 
-        //float[] fftBufferSorting = new float[fftBuffer.Length];
-        //Array.Copy(fftBuffer, fftBufferSorting, fftBuffer.Length);
-        //Array.Sort(fftBufferSorting);
-        //if (fftBufferSorting.Length % 2 == 0)
-        //{
-        //    medianAmplitude = (fftBufferSorting[fftBuffer.Length / 2] + fftBufferSorting[fftBuffer.Length / 2 - 1]) / 2;
-        //}
-        //else
-        //{
-        //    medianAmplitude = fftBufferSorting[fftBuffer.Length / 2];
-        //}
+        List<float> overtones = allovertones.Select(x => x.Item1).ToList();
+        List<int> overtonesIndecies = allovertones.Select(x => x.Item2).ToList();
+
+        
+        List<float> overtoneFreq = new List<float>();
+        string freqOutput = "";
+        for (int i = 0; i < overtones.Count; i++)
+        {
+            float freq = (float)overtonesIndecies[i] / (float)fftBuffer.Length * (float)sampleRate;
+            //if(freq > 1300 || freq < 150) continue;
+            overtoneFreq.Add(freq);
+            freqOutput += $"{overtoneFreq.Count - 1}. overtone: " + overtoneFreq.Last() + " ";
+        }
+
+        Debug.Log(freqOutput + " COUNT: " + overtones.Count);
+
+        float avgDistance = 0;
+        int overtoneCount = overtoneFreq.Count;
+        for (int i = 0; i < overtoneFreq.Count - 1; i++)
+        {
+            if(overtoneFreq[i] < 150)
+            {
+                overtoneCount--;
+                continue;
+            }
+            avgDistance += overtoneFreq[i + 1] - overtoneFreq[i];
+        }
+        avgDistance /= overtoneCount - 1;
+        
+        Debug.Log("avgDistance: " + avgDistance);
 
 
+         
+        
+
+        if (!AudioComponents.Instance.DetectPickStroke(samples) || avgDistance < 70)
+        {
+            return -1;
+        }
+
+
+        //Plotting Graph
+
+
+        DateTime currentTime = DateTime.Now;
+        var vis = new Dictionary<string, object>
+        {
+            { "plotting_data", new List<object> {
+                    new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},new List<object> { 1, 1, fftBuffer.Max() *thresholdFactor},
+                    new List<object> { 2, 1, overtones.ToArray()}
+
+                }
+            }
+        };
+        GraphPlotter.Instance.PlotGraph(vis);
+
+
+        //
+        return avgDistance; 
+    }
+
+    private List<(float,int)> CalculateOvertones(float _threasholdFactor)
+    {
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return -1;
+        if (highestValue < .001f) return null;
 
-        float highestValueIndex = fftBuffer.ToList().IndexOf(highestValue);
         List<float> overtones = new List<float>();
         List<int> overtonesIndecies = new List<int>();
-        float threashold = 0.05f * highestValue;
 
-        for (int i = 1; i < fftBuffer.Length -1; i++)
+        float threashold = _threasholdFactor * highestValue;
+
+        for (int i = 1; i < fftBuffer.Length - 1; i++)
         {
-            bool isOverAverage = fftBuffer[i] > threashold;
-            bool isLocalHigh =  fftBuffer[i] > fftBuffer[i - 1]  && fftBuffer[i] > fftBuffer[i + 1];
+            bool isOverThreshold = fftBuffer[i] > threashold;
+            bool isLocalHigh = fftBuffer[i] > fftBuffer[i - 1] && fftBuffer[i] > fftBuffer[i + 1];
+            float freq = GetFreqency(i);
+            bool isInImportantSpectrum = freq < 10000;
             
-
-            bool isValidPeak = isOverAverage && isLocalHigh;
+            bool isValidPeak = isOverThreshold && isLocalHigh && isInImportantSpectrum;
 
             if (isValidPeak)
             {
@@ -159,50 +212,15 @@ public class AudioAnalyzer : MonoBehaviour
             }
         }
 
-        float fundamentalfreq = (float)overtonesIndecies[0] / (float)fftBuffer.Length * (float)sampleRate;
-        float firstovertone = (float)overtonesIndecies[1] / (float)fftBuffer.Length * (float)sampleRate;
-        float secondovertone = (float)overtonesIndecies[2] / (float)fftBuffer.Length * (float)sampleRate;
-        
-        Debug.Log("highestValfreq: " + fundamentalfreq + " 1.overtonefreq: " + firstovertone + " 2.OvertoneFreq: " + secondovertone + " COUNT: " + overtones.Count);
 
+       
 
-        DateTime currentTime = DateTime.Now;
-        var vis = new Dictionary<string, object>
-        {
-            { "plotting_data", new List<object> {
-                    new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},new List<object> { 1, 1, threashold},
-                    new List<object> { 2, 1, overtones.ToArray().Reverse()}
-
-                }
-            }
-        };
-        GraphPlotter.Instance.PlotGraph(vis);
-        //print(overtones.Count());
-
-        int averageDistanceBetweenOvertones = 0;
-        for (int i = 0; i < overtones.Count - 1; i++)
-        {
-            averageDistanceBetweenOvertones += overtonesIndecies[i + 1] - overtonesIndecies[i];
-        }
-        if(overtones.Count == 0) return -1;
-        averageDistanceBetweenOvertones /= overtones.Count - 1;
-
-
-        for (int i = 0; i < overtones.Count; i++)
-        {
-            float freqeuncy = (float)(overtonesIndecies[i] / (float)(fftBuffer.Length * (float)sampleRate));
-            if (freqeuncy > 150)
-            {
-                float fundamentalFreqValue = (float)overtonesIndecies[i] - averageDistanceBetweenOvertones * i;
-                float fundamentalFreq = fundamentalFreqValue / (float)fftBuffer.Length * (float)sampleRate;
-                if (!AudioComponents.Instance.DetectPickStroke(samples, fundamentalFreq)) return -1;
-                Debug.Log("Frequency: " + fundamentalFreq);
-                return fundamentalFreq;
-            }
-        }
-        return 0;
+        return overtones.Select((value, index) => (value, overtonesIndecies[index])).ToList();
     }
-
+    private float GetFreqency(int _i)
+    {
+        return (float)_i / (float)fftBuffer.Length * (float)sampleRate;
+    }
     private float GetFrequencyCoresbondingToNote(float _rawFrequency)
     {
         float corespondingFrequency = 0;

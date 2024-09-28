@@ -37,20 +37,8 @@ public class AudioComponents : MonoBehaviour
         return samples;
     }
     int a = 0;
-    public bool DetectPickStroke(float[] _samples, float _frequency)
+    public bool DetectPickStroke(float[] _samples, float _frequency = 0)
     {
-        if(a == 0)
-        {
-            HilbertTransform(_samples);
-        }
-        if(a <=10)
-        {
-             a++;
-        }
-        if(a == 10)
-        {
-            HilbertTransform(_samples);
-        }
         earlyReturnCounter = 0;
         int subsamples = /*_frequency > 150 ?*/ 64 /*: 16*/; // => needs to be a power of 2 || 128 -> 2^7
         int subsampleSize = _samples.Length / subsamples;
