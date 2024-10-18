@@ -73,9 +73,18 @@ public class MicrophoneInput : MonoBehaviour
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip = Microphone.GetPosition(microphone);
 
+        analyzer.Analyze(samples);
         StartCoroutine(GrapMicrophoneBuffer());
 
-     
+        //var vis = new Dictionary<string, object>
+        //{
+        //    { "plotting_data", new List<object> {
+        //            new List<object> { 1, 1, samples.Take(500).ToArray()}
+        //        }
+        //    }
+        //};
+        //GraphPlotter.Instance.PlotGraph(vis);
+
     }
     public void OnMicrophoneInputChanged()
     {

@@ -6172,7 +6172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c65fcf424837ebc4094943eb52b95e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfSamples: 8192
   notesSO: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
   analysingDepth: 5
   visualizer: {fileID: 1774572596}
@@ -8421,7 +8420,7 @@ MonoBehaviour:
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 5
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1

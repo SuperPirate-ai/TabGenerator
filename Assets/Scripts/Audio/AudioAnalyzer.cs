@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+struct SNote
+{
+    public float frequency;
+    public float volume;
+    public int arridx;
+    public string name;
+}
+
 public class AudioAnalyzer : MonoBehaviour
 {
     [SerializeField] NotesSO notesSO;
     [SerializeField] int analysingDepth;
     [SerializeField] AudioVisualizer visualizer;
+
+
+    
 
     
     private int bufferSize;
@@ -40,194 +51,132 @@ public class AudioAnalyzer : MonoBehaviour
         float frequency = CalculateFreqeuncyWithOvertones(_rawSamples);
         if (frequency == -1) return;
 
-        float correspondingFrequney = GetFrequencyCoresbondingToNote(frequency);
+        float correspondingFrequney = GetFrequencyCorespondingToNote(frequency);
         if (correspondingFrequney == 0) return;
 
         visualizer.Visualize(correspondingFrequney);
 
     }
-
-
-    private float CalculateFrequency(float[] _samples)
+    private float[] SNotesToBuffer(List<SNote> _notes)
     {
-        AudioComponents.Instance.ListenForEarlyReturn();
-        fftBuffer = new float[bufferSize];
-        float[] samples = _samples;
-
-        fftBuffer = AudioComponents.Instance.FFT(samples);
-
-
-        float lowestFFTValue = 1;
-        float highestFFTValue = 0;
-        int highestFFTBin = 0;
-        for (int i = 0; i < fftBuffer.Length; i++)
+        float[] buffer = new float[bufferSize];
+        for (int i = 0; i < _notes.Count; i++)
         {
-            if (fftBuffer[i] > highestFFTValue)
-            {
-                highestFFTValue = fftBuffer[i];
-                highestFFTBin = i;
-            }
-
-            if (fftBuffer[i] < lowestFFTValue)
-            {
-                lowestFFTValue = fftBuffer[i];
-            }
+            buffer[_notes[i].arridx] = _notes[i].volume;
         }
-
-        //frequency Calculation
-        float frequency = (float)highestFFTBin / (float)fftBuffer.Length * (float)sampleRate;
-        //peak gate
-
-        if (!AudioComponents.Instance.DetectPickStroke(samples, frequency)) return -1;
-
-
-        // octave Detection
-        float octaveFreq = AudioComponents.Instance.DetectOctaveInterference(frequency, fftBuffer, highestFFTBin);
-        if (octaveFreq != frequency)
-        {
-            frequency = octaveFreq;
-        }
-        // noise gate
-        if (highestFFTValue < .001f) return -1;
-
-        DateTime currentTime = DateTime.Now;
-        var vis = new Dictionary<string, object>
-            {
-                { "time" , currentTime.ToString("HH:mm:ss")},
-                { "common_scaling_groups", new string[][] {
-                        new string [] { "samples" },
-                        new string [] { "FFT" }
-                       
-                    }
-                },
-                { "y_data_s", new Dictionary <string, object> {
-                        {"samples",samples },
-                        {"FFT", fftBuffer.Take(420).ToList().ToArray()  },
-                        
-                    }
-                }
-            };
-        GraphPlotter.Instance.PlotGraph(vis);
-
-
-        return frequency;
+        return buffer;
     }
-
-
+    
     private float CalculateFreqeuncyWithOvertones(float[] _samples)
     {
+        //AudioComponents.Instance.ListenForEarlyReturn();
+        fftBuffer = new float[bufferSize];
         
-        float thresholdFactor = .03f;
-        AudioComponents.Instance.ListenForEarlyReturn();
-
         float[] samples = _samples;
         float[] windowedSignal = AudioComponents.Instance.ApplyHannWindow(samples);
-        float[] fftBufferNOTWindowedSignal = AudioComponents.Instance.FFT(samples);
 
-        fftBuffer = new float[bufferSize];
         fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
-        
-        List<(float,int)> allovertones = CalculateOvertones(thresholdFactor);
-        if (allovertones == null) return -1;
-        //if (!AudioComponents.Instance.DetectPickStroke(samples))
-        //    return -1;
-
-
-        List<float> overtones = allovertones.Select(x => x.Item1).ToList();
-        List<int> overtonesIndecies = allovertones.Select(x => x.Item2).ToList();
-
-        
-        List<float> overtoneFreq = new List<float>();
-        string freqOutput = "";
-        for (int i = 0; i < overtones.Count; i++)
-        {
-            float freq = (float)overtonesIndecies[i] / (float)fftBuffer.Length * (float)sampleRate;
-            //if(freq > 1300 || freq < 150) continue;
-            overtoneFreq.Add(freq);
-            freqOutput += $"{overtoneFreq.Count - 1}. overtone: " + overtoneFreq.Last() + " ";
-        }
-
-        Debug.Log(freqOutput + " COUNT: " + overtones.Count);
-
-        //if (overtoneFreq[0] > 150)
-        //    return overtoneFreq[0];
-
-        float avgDistance = 0;
-        int overtoneCount = overtoneFreq.Count;
-        for (int i = 0; i < overtoneFreq.Count - 1; i++)
-        {
-            if (overtoneFreq[i] < 75)
-            {
-                overtoneCount--;
-                continue;
-            }
-            avgDistance += overtoneFreq[i + 1] - overtoneFreq[i];
-        }
-        avgDistance /= overtoneCount - 1;
-        
-        Debug.Log("avgDistance: " + avgDistance);
-
-
-       
-
-
-        //Plotting Graph
-
-
-        //DateTime currentTime = DateTime.Now;
-        //var vis = new Dictionary<string, object>
-        //{
-        //    { "plotting_data", new List<object> {
-        //            new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},new List<object> { 1, 1, fftBuffer.Max() *thresholdFactor},
-        //            new List<object> { 2, 2, windowedSignal.Take(1000).ToArray()}
-
-        //        }
-        //    }
-        //};
-        //GraphPlotter.Instance.PlotGraph(vis);
-
-
-        //
-        return avgDistance; 
-    }
-
-    private List<(float,int)> CalculateOvertones(float _threasholdFactor)
-    {
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return null;
+        if (highestValue < .001f) return -1;
 
-        List<float> overtones = new List<float>();
-        List<int> overtonesIndecies = new List<int>();
+        float highestValueIndex = fftBuffer.ToList().IndexOf(highestValue);
 
-        float threashold = _threasholdFactor * highestValue;
+        float frequencyThreshold = 250f;
+        float maxFrequency = 5000f;
+        float volumeThreshold = fftBuffer.Max() * .05f;
 
-        for (int i = 1; i < fftBuffer.Length - 1; i++)
+
+        List<SNote> overtones = CalculateOvertones(maxFrequency,volumeThreshold);
+
+        if (overtones.Count == 0) return -1;
+        float roughBaseFrequency = overtones[0].frequency;
+
+
+        // get the highest overtone in relationships
+        float targetFrequency = roughBaseFrequency;
+        foreach (var overtone in overtones)
         {
-            bool isOverThreshold = fftBuffer[i] > threashold;
-            bool isLocalHigh = fftBuffer[i] > fftBuffer[i - 1] && fftBuffer[i] > fftBuffer[i + 1];
-            float freq = GetFreqency(i);
-            bool isInImportantSpectrum = freq < 10000;
-            
-            bool isValidPeak = isOverThreshold && isLocalHigh && isInImportantSpectrum;
-
-            if (isValidPeak)
+            if (overtone.frequency < frequencyThreshold) continue;
+            if (overtone.frequency > maxFrequency) continue;
+            Debug.Log(overtone.frequency);
+            Debug.Log(roughBaseFrequency);
+            int i = 1;
+            float smallestFactor = 999999;
+            while (true)
             {
-                overtones.Add(fftBuffer[i]);
-                overtonesIndecies.Add(i);
+                float newFactor = (overtone.frequency / i) / targetFrequency;
+                if (newFactor < 1)
+                {
+                    newFactor = 1 / newFactor;
+                }
+                if (newFactor < smallestFactor)
+                {
+                    smallestFactor = newFactor;
+                    i++;
+                    continue;
+                }   
+                i--;
+                break;
+            }
+            targetFrequency = overtone.frequency / i;
+        }
+        
+
+        float exactBaseFrequency = targetFrequency;
+
+        
+        var vis = new Dictionary<string, object>
+        {
+           { "plotting_data", new List<object> {
+                   new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},
+                   new List<object> { 1, 1, SNotesToBuffer(overtones).Take(500).ToArray()},
+                   new List<object> { 1, 0, frequencyThreshold * (float)fftBuffer.Length / (float)sampleRate },
+                   new List<object> { 1, 0, maxFrequency * (float)fftBuffer.Length / (float)sampleRate },
+                   new List<object> { 1, 1, volumeThreshold },
+               }
+           }
+        };
+        GraphPlotter.Instance.PlotGraph(vis);
+        return exactBaseFrequency;
+    }
+
+
+    private List<SNote> CalculateOvertones( float _maxFrequency, float _volumeThreshold)
+    {
+        List<SNote> overtones = new List<SNote>();
+        for (int i = 3; i < Math.Clamp(fftBuffer.Length, 0, 500); i++)
+        {
+            float freq = GetFreqency(i);
+            if (fftBuffer[i] < _volumeThreshold) continue;
+            if (freq > _maxFrequency) break;
+            bool higherNearNeighbour = false;
+            for (int j = Math.Max(i - 2, 0); j <= i + 2; j++)
+            {
+                if (j == i) continue;
+                if (fftBuffer[i] < fftBuffer[j])
+                {
+                    higherNearNeighbour = true;
+                    break;
+                }
+            }
+
+            if (!higherNearNeighbour)
+            {
+                SNote note = new SNote();
+                note.frequency = freq;
+                note.arridx = i;
+                note.volume = fftBuffer[i];
+                overtones.Add(note);
             }
         }
-
-
-       
-
-        return overtones.Select((value, index) => (value, overtonesIndecies[index])).ToList();
+        return overtones;
     }
     private float GetFreqency(int _i)
     {
         return (float)_i / (float)fftBuffer.Length * (float)sampleRate;
     }
-    private float GetFrequencyCoresbondingToNote(float _rawFrequency)
+    private float GetFrequencyCorespondingToNote(float _rawFrequency)
     {
         float corespondingFrequency = 0;
 

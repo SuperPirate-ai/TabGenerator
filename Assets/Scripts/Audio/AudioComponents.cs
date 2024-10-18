@@ -25,8 +25,6 @@ public class AudioComponents : MonoBehaviour
     private void Start()
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
-
-        DetectPichStrokeV2(new float[0]);
     }
     private void Update()
     {
