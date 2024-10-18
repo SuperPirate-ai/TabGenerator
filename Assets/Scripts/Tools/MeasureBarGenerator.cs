@@ -28,7 +28,7 @@ public class MeasureBarGenerator : MonoBehaviour
         beatcount++;
         if (beatcount % TimeSignitureNoteCount == 0)
         {
-            print("New Measure");
+            //print("New Measure");
             instatiateMeasureBar = true;
         }
     }

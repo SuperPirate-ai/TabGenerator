@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class AudioAnalyzer : MonoBehaviour
 {
-    [SerializeField] int numberOfSamples = 8192;
     [SerializeField] NotesSO notesSO;
     [SerializeField] int analysingDepth;
     [SerializeField] AudioVisualizer visualizer;
 
+    
+    private int bufferSize;
     private int sampleRate;
     private float[] fftBuffer;
 
@@ -19,7 +20,8 @@ public class AudioAnalyzer : MonoBehaviour
 
     private void Awake()
     {
-        fftBuffer = new float[numberOfSamples];
+        bufferSize = NoteManager.Instance.DefaultBufferSize;
+        fftBuffer = new float[bufferSize];
 
         notesFrequencies = new List<int>();
         for (int i = 0; i < notesSO.frequnecys.Length; i++)
@@ -28,7 +30,7 @@ public class AudioAnalyzer : MonoBehaviour
         }
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
-        fftError = sampleRate / numberOfSamples;
+        fftError = sampleRate / bufferSize;
 
     }
 
@@ -49,7 +51,7 @@ public class AudioAnalyzer : MonoBehaviour
     private float CalculateFrequency(float[] _samples)
     {
         AudioComponents.Instance.ListenForEarlyReturn();
-        fftBuffer = new float[numberOfSamples];
+        fftBuffer = new float[bufferSize];
         float[] samples = _samples;
 
         fftBuffer = AudioComponents.Instance.FFT(samples);
@@ -114,15 +116,22 @@ public class AudioAnalyzer : MonoBehaviour
 
     private float CalculateFreqeuncyWithOvertones(float[] _samples)
     {
-        float thresholdFactor = .15f;
+        
+        float thresholdFactor = .03f;
         AudioComponents.Instance.ListenForEarlyReturn();
 
-        fftBuffer = new float[numberOfSamples];
         float[] samples = _samples;
-        fftBuffer = AudioComponents.Instance.FFT(samples);
+        float[] windowedSignal = AudioComponents.Instance.ApplyHannWindow(samples);
+        float[] fftBufferNOTWindowedSignal = AudioComponents.Instance.FFT(samples);
 
+        fftBuffer = new float[bufferSize];
+        fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
+        
         List<(float,int)> allovertones = CalculateOvertones(thresholdFactor);
         if (allovertones == null) return -1;
+        //if (!AudioComponents.Instance.DetectPickStroke(samples))
+        //    return -1;
+
 
         List<float> overtones = allovertones.Select(x => x.Item1).ToList();
         List<int> overtonesIndecies = allovertones.Select(x => x.Item2).ToList();
@@ -140,11 +149,14 @@ public class AudioAnalyzer : MonoBehaviour
 
         Debug.Log(freqOutput + " COUNT: " + overtones.Count);
 
+        //if (overtoneFreq[0] > 150)
+        //    return overtoneFreq[0];
+
         float avgDistance = 0;
         int overtoneCount = overtoneFreq.Count;
         for (int i = 0; i < overtoneFreq.Count - 1; i++)
         {
-            if(overtoneFreq[i] < 150)
+            if (overtoneFreq[i] < 75)
             {
                 overtoneCount--;
                 continue;
@@ -156,29 +168,23 @@ public class AudioAnalyzer : MonoBehaviour
         Debug.Log("avgDistance: " + avgDistance);
 
 
-         
-        
-
-        if (!AudioComponents.Instance.DetectPickStroke(samples) || avgDistance < 70)
-        {
-            return -1;
-        }
+       
 
 
         //Plotting Graph
 
 
-        DateTime currentTime = DateTime.Now;
-        var vis = new Dictionary<string, object>
-        {
-            { "plotting_data", new List<object> {
-                    new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},new List<object> { 1, 1, fftBuffer.Max() *thresholdFactor},
-                    new List<object> { 2, 1, overtones.ToArray()}
+        //DateTime currentTime = DateTime.Now;
+        //var vis = new Dictionary<string, object>
+        //{
+        //    { "plotting_data", new List<object> {
+        //            new List<object> { 1, 1, fftBuffer.Take(500).ToArray()},new List<object> { 1, 1, fftBuffer.Max() *thresholdFactor},
+        //            new List<object> { 2, 2, windowedSignal.Take(1000).ToArray()}
 
-                }
-            }
-        };
-        GraphPlotter.Instance.PlotGraph(vis);
+        //        }
+        //    }
+        //};
+        //GraphPlotter.Instance.PlotGraph(vis);
 
 
         //

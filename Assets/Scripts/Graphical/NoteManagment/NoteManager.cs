@@ -13,8 +13,8 @@ public class NoteManager : MonoBehaviour
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    public int DefaultSamplerate = 11025;
-    public int DefaultBufferSize = (int)Math.Pow(2, 14);
+    [HideInInspector]public int DefaultSamplerate = 44100;
+    [HideInInspector]public int DefaultBufferSize = (int)Math.Pow(2, 12);
     public float HighestPossibleFrequency;
     public bool IsRecording = false;
 

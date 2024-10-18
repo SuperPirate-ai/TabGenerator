@@ -2,12 +2,17 @@ using System.Linq;
 using UnityEngine;
 using System.Numerics;
 using System.Collections.Generic;
+using System;
+using Accord.Math;
+using static UnityEditor.ShaderData;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class AudioComponents : MonoBehaviour
 {
     private int buffersize;
     public static AudioComponents Instance;
     private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+    private float lastPeakLoudness = 0;
     public int earlyReturnCounter = 0;
 
     private void Awake()
@@ -20,6 +25,8 @@ public class AudioComponents : MonoBehaviour
     private void Start()
     {
         buffersize = NoteManager.Instance.DefaultBufferSize;
+
+        DetectPichStrokeV2(new float[0]);
     }
     private void Update()
     {
@@ -36,7 +43,21 @@ public class AudioComponents : MonoBehaviour
 
         return samples;
     }
-    int a = 0;
+    public float[] ApplyHannWindow(float[] signal)
+    {
+        int N = signal.Length;
+        float[] windowedSignal = new float[N];
+
+        for (int i = 0; i < N; i++)
+        {
+            // Hann window formula
+            float hannValue = 0.5f * (1 - (float)Math.Cos(2 * Math.PI * i / (N - 1)));
+            windowedSignal[i] = signal[i] * hannValue;
+        }
+
+        return windowedSignal;
+    }
+
     public bool DetectPickStroke(float[] _samples, float _frequency = 0)
     {
         earlyReturnCounter = 0;
@@ -76,49 +97,83 @@ public class AudioComponents : MonoBehaviour
         lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
         return stroke;
     }
-    private float[] HilbertTransform(float[] _samples)
+    bool DetectPichStrokeV2(float[] _samples)
     {
-        Complex[] fft = new Complex[_samples.Length];
+        float deltaX = 1 / (float)NoteManager.Instance.DefaultSamplerate;
 
-        for (int i = 0; i < _samples.Length; i++)
+        float[] samples = new float[_samples.Length + 1];
+        if(lastPeakLoudness == 0)
         {
-            fft[i] = new Complex(_samples[i], 0.0);
+            samples = _samples;
+        }
+        else
+        { 
+            samples[0] = lastPeakLoudness;
+            Array.Copy(_samples, 0, samples, 1, _samples.Length);
         }
 
-        Accord.Math.FourierTransform.FFT(fft,Accord.Math.FourierTransform.Direction.Forward);
 
-        for (int i = 1; i < (_samples.Length + 1) / 2; i++)
+        // Calculate the derivative using finite differences
+        double[] derivative = new double[_samples.Length];
+        for (int i = 1; i < _samples.Length - 1; i++)
         {
-            fft[i] *= 2;
-        }
-        for (int i = (_samples.Length + 1) / 2; i < _samples.Length; i++)
-        {
-            fft[i] = Complex.Zero;
-        }
-        Accord.Math.FourierTransform.FFT(fft, Accord.Math.FourierTransform.Direction.Backward);
-
-        float[] envelope = new float[_samples.Length];
-
-        for (int i = 0; i < _samples.Length; i++)
-        {
-            envelope[i] = (float)fft[i].Magnitude;
+            derivative[i] = (_samples[i + 1] - _samples[i - 1]) / deltaX;
         }
 
-        Dictionary<float, float> envelopeValues = new Dictionary<float, float>();
-        for (int i = 0; i < envelope.Length; i++)
+        List<float> maxPoints = new List<float>();
+        // Find the maximum points (where derivative changes sign from positive to negative)
+        for (int i = 0; i < derivative.Length - 1; i++)
         {
-            envelopeValues.Add(i, envelope[i]);
+            if (derivative[i] > 0 && derivative[i + 1] < 0)
+            {
+                maxPoints.Add( (float)derivative[i]);
+            }
+            
         }
-        //GraphPlotter.Instance.PlotGraph(envelopeValues);
-
-        Dictionary<float,float> normalValues = new Dictionary<float, float>();
-        for (int i = 0; i < _samples.Length; i++)
+        if(maxPoints.Average() < 0.1f)
         {
-            normalValues.Add(i, _samples[i]);
+            return false;
         }
-        //GraphPlotter.Instance.PlotGraph(normalValues);
 
-        return envelope;
+        for (int i = 0; i < maxPoints.Count; i++)
+        {
+            if (maxPoints[i] * 2f < maxPoints[i + 1])
+            {
+                return true;
+            }
+        }
+        //for(int i = 0; i < 100000000; i++)
+        //{
+        //    var vis = new Dictionary<string, object>
+        //    {
+        //        { "plotting_data", new List<object> {
+        //                new List<object> { 1, 1, derivative}
+
+
+        //            }
+        //        }
+        //    };
+        //    GraphPlotter.Instance.PlotGraph(vis);
+        //}
+        return false;
+    }
+    float[] ComputeDerivative(float[] _samples, float _deltaX)
+    {
+        int sampleLength = _samples.Length;
+        float[] derivative = new float[sampleLength];
+
+        // Compute central difference for interior points
+        for (int i = 0; i < sampleLength - 1; i++)
+        {
+            //print($"sample i+1: {_samples[i+1]} samples i: {_samples[i]} result: {(_samples[i + 1] - _samples[i]) / _deltaX}");
+            derivative[i] = (float)(_samples[i+1] - _samples[i])/ (float)_deltaX;
+        }
+
+
+
+        lastPeakLoudness = derivative[sampleLength - 1];
+
+        return derivative;
     }
     public void ListenForEarlyReturn()
     {

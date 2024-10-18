@@ -73,7 +73,6 @@ public class MicrophoneInput : MonoBehaviour
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip = Microphone.GetPosition(microphone);
 
-        analyzer.Analyze(samples);
         StartCoroutine(GrapMicrophoneBuffer());
 
      
