@@ -10,7 +10,7 @@ public class GraphPlotter : MonoBehaviour
     public static GraphPlotter Instance;
     [SerializeField] APIRequest apiRequest;
     string apiAddr = "http://localhost:5000";
-
+    List<object> graphs = new List<object>();
     private void Awake()
     {
         if (Instance != null) Destroy(this);
@@ -20,6 +20,7 @@ public class GraphPlotter : MonoBehaviour
 
     public void PlotGraph(Dictionary<string,object> _values)
     {
+        //Dictionary<string, object> graphData = new Dictionary<string, object>();
         try
         { 
             var content = JsonConvert.SerializeObject(_values);
@@ -34,4 +35,12 @@ public class GraphPlotter : MonoBehaviour
         }
 
     }
+    //public void AddGraph(List<object> _values,int layerX,int layerY)
+    //{
+    //    List<object> data = new List<object> {layerX,layerY,_values };
+    //    graphs.Add(data);
+
+
+
+    //}
 }

@@ -4,8 +4,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using System;
 using Accord.Math;
-using static UnityEditor.ShaderData;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Diagnostics.CodeAnalysis;
 
 public class AudioComponents : MonoBehaviour
 {
@@ -59,101 +58,115 @@ public class AudioComponents : MonoBehaviour
     public bool DetectPickStroke(float[] _samples, float _frequency = 0)
     {
         earlyReturnCounter = 0;
-        int subsamples = /*_frequency > 150 ?*/ 64 /*: 16*/; // => needs to be a power of 2 || 128 -> 2^7
+        int subsamples = 64;
         int subsampleSize = _samples.Length / subsamples;
-        float[] subsampleLoudnesses = new float[subsamples];
+        float[] subsampleFULLLoudnesses = new float[subsamples];
 
 
-        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        for (int i = 0; i < subsampleFULLLoudnesses.Length; i++)
         {
             for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
             {
-                if (Mathf.Abs(_samples[j]) > subsampleLoudnesses[i])
-                {
-                    subsampleLoudnesses[i] = Mathf.Abs(_samples[j]);
-                }
+                
+                subsampleFULLLoudnesses[i] += _samples[j];
+                
             }
         }
 
         bool stroke = false;
 
-        for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
+        for (int i = 0; i < subsampleFULLLoudnesses.Length - 1; i++)
         {
 
-            if (subsampleLoudnesses[i] * 2f < subsampleLoudnesses[i + 1])
+            if (subsampleFULLLoudnesses[i] * 4f < subsampleFULLLoudnesses[i + 1])
             {
                 stroke = true;
                 break;
             }
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleLoudnesses[0])
+        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleFULLLoudnesses[0])
         {
             stroke = true;
 
         }
 
-        lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
+        lastSubsampleLoudnessOfPreviousBuffer = subsampleFULLLoudnesses.Last();
         return stroke;
     }
-    bool DetectPichStrokeV2(float[] _samples)
+    public List<(float[], int[],bool)> DetectPickStrokeV2(float[] _samples)
     {
-        float deltaX = 1 / (float)NoteManager.Instance.DefaultSamplerate;
+        float deltaX = 1 ;
 
         float[] samples = new float[_samples.Length + 1];
-        if(lastPeakLoudness == 0)
+
+        float[] envelope = CalculateEnvelope(_samples, buffersize / 18);
+        if (lastPeakLoudness == 0)
         {
-            samples = _samples;
+            samples = envelope;
         }
         else
         { 
             samples[0] = lastPeakLoudness;
-            Array.Copy(_samples, 0, samples, 1, _samples.Length);
+            Array.Copy(envelope, 0, samples, 1, envelope.Length);
         }
 
-
+        
         // Calculate the derivative using finite differences
-        double[] derivative = new double[_samples.Length];
-        for (int i = 1; i < _samples.Length - 1; i++)
-        {
-            derivative[i] = (_samples[i + 1] - _samples[i - 1]) / deltaX;
-        }
+        float[] derivative = ComputeDerivative(samples, deltaX);
 
         List<float> maxPoints = new List<float>();
+        List<int> pointX = new List<int>();
         // Find the maximum points (where derivative changes sign from positive to negative)
-        for (int i = 0; i < derivative.Length - 1; i++)
+        for (int i = 1; i < derivative.Length; i++)
         {
-            if (derivative[i] > 0 && derivative[i + 1] < 0)
+            if (derivative[i-1] > 0 && derivative[i] < 0)
             {
-                maxPoints.Add( (float)derivative[i]);
+                maxPoints.Add( (float)samples[i]);
+                pointX.Add(i);
             }
             
         }
-        if(maxPoints.Average() < 0.1f)
+        bool isStroke = false;
+        for (int i = 0; i < maxPoints.Count -1; i++)
         {
-            return false;
-        }
-
-        for (int i = 0; i < maxPoints.Count; i++)
-        {
-            if (maxPoints[i] * 2f < maxPoints[i + 1])
+            if (maxPoints[i] * 1.5f < maxPoints[i + 1]/* && maxPoints[i] *3 < maxPoints[i+2]*/)
             {
-                return true;
+                print("------------");
+                print(maxPoints[i] + "|" + maxPoints[i+1]+ "|" + maxPoints[i+2]) ;
+                isStroke = true;
+                break;
             }
+
         }
-        //for(int i = 0; i < 100000000; i++)
-        //{
-        //    var vis = new Dictionary<string, object>
-        //    {
-        //        { "plotting_data", new List<object> {
-        //                new List<object> { 1, 1, derivative}
+        return new List<(float[], int[], bool)> { (maxPoints.ToArray(), pointX.ToArray(),isStroke)};
 
 
-        //            }
-        //        }
-        //    };
-        //    GraphPlotter.Instance.PlotGraph(vis);
-        //}
-        return false;
+    }
+    public float[] CalculateEnvelope(float[] inputSignal, int smoothingWindow)
+    {
+        int length = inputSignal.Length;
+        float[] envelope = new float[length];
+
+        // Step 1: Full-wave rectification (absolute value of the signal)
+        float[] rectifiedSignal = inputSignal.Select(x => Math.Abs(x)).ToArray();
+
+        // Step 2: Smoothing the rectified signal using a simple moving average (SMA)
+        for (int i = 0; i < length; i++)
+        {
+            float sum = 0;
+            int count = 0;
+
+            // Smoothing window
+            for (int j = i; j < Math.Min(i + smoothingWindow, length); j++)
+            {
+                sum += rectifiedSignal[j];
+                count++;
+            }
+
+            envelope[i] = (float)sum / count; // Simple moving average for smoothing
+        }
+
+        return envelope;
     }
     float[] ComputeDerivative(float[] _samples, float _deltaX)
     {
