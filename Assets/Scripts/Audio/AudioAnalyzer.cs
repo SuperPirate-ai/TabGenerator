@@ -47,11 +47,14 @@ public class AudioAnalyzer : MonoBehaviour
 
     public void Analyze(float[] _rawSamples)
     {
-        float frequency = CalculateFreqeuncyWithOvertones(_rawSamples);
+        (float frequency, float amplitude) = CalculateFreqeuncyWithOvertones(_rawSamples);
         if (frequency == -1) return;
 
         float correspondingFrequney = GetFrequencyCorespondingToNote(frequency);
         if (correspondingFrequney == 0) return;
+
+        if (!AudioComponents.Instance.NewNoteDetected(correspondingFrequney, amplitude))
+            return;
 
         visualizer.Visualize(correspondingFrequney);
 
@@ -66,7 +69,7 @@ public class AudioAnalyzer : MonoBehaviour
         return buffer;
     }
     
-    private float CalculateFreqeuncyWithOvertones(float[] _samples)
+    private (float,float) CalculateFreqeuncyWithOvertones(float[] _samples)
     {
         //AudioComponents.Instance.ListenForEarlyReturn();
         fftBuffer = new float[bufferSize];
@@ -77,7 +80,7 @@ public class AudioAnalyzer : MonoBehaviour
         fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return -1;
+        if (highestValue < .001f) return (-1,0);
 
         float highestValueIndex = fftBuffer.ToList().IndexOf(highestValue);
 
@@ -88,16 +91,21 @@ public class AudioAnalyzer : MonoBehaviour
 
         List<SNote> overtones = CalculateOvertones(maxFrequency,volumeThreshold);
 
-        if (overtones.Count == 0) return -1;
+        if (overtones.Count == 0) return (-1,0);
         float roughBaseFrequency = overtones[0].frequency;
 
 
         // get the highest overtone in relationships
         float targetFrequency = roughBaseFrequency;
+        List<SNote> filteredOvertones = new List<SNote>(overtones);
+      
         foreach (var overtone in overtones)
         {
-            if (overtone.frequency < frequencyThreshold) continue;
-            if (overtone.frequency > maxFrequency) continue;
+            if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
+            {
+                filteredOvertones.Remove(overtone);
+                continue;
+            }
             //Debug.Log(overtone.frequency);
             //Debug.Log(roughBaseFrequency);
             int i = 1;
@@ -121,7 +129,7 @@ public class AudioAnalyzer : MonoBehaviour
             targetFrequency = overtone.frequency / i;
         }
         
-
+        overtones = filteredOvertones;
         float exactBaseFrequency = targetFrequency;
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(samples, bufferSize / 18);
 
@@ -130,10 +138,10 @@ public class AudioAnalyzer : MonoBehaviour
         int[] derivX = deriv[0].Item2;
         bool isStroke = deriv[0].Item3;
 
-        if (!isStroke)
-            exactBaseFrequency = -1;
+        //if (!isStroke)
+        //    exactBaseFrequency = -1;
 
-        print("IS STROKE");
+        //print("IS STROKE");
         float[] maxsInBuffer = new float[bufferSize];
         for (int i = 0; i < hops.Length; i++)
         {
@@ -157,7 +165,11 @@ public class AudioAnalyzer : MonoBehaviour
            }
         };
         GraphPlotter.Instance.PlotGraph(vis);
-        return exactBaseFrequency;
+        if(overtones.Count == 0)
+        {
+            return (-1, 0);
+        }
+        return (exactBaseFrequency,overtones[0].volume);
     }
 
 

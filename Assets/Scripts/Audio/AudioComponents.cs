@@ -10,9 +10,10 @@ public class AudioComponents : MonoBehaviour
 {
     private int buffersize;
     public static AudioComponents Instance;
-    private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
     private float lastPeakLoudness = 0;
     public int earlyReturnCounter = 0;
+    private float lastNoteFrequency = -1;
+    private float lastNoteAmplitude = -1;
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class AudioComponents : MonoBehaviour
     {
         if (NoteManager.Instance.PlayPaused)
         {
-            lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            //lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
@@ -55,43 +56,34 @@ public class AudioComponents : MonoBehaviour
         return windowedSignal;
     }
 
-    public bool DetectPickStroke(float[] _samples, float _frequency = 0)
+   
+    public bool NewNoteDetected(float _noteFrequency,float _noteAmplitude)
     {
-        earlyReturnCounter = 0;
-        int subsamples = 64;
-        int subsampleSize = _samples.Length / subsamples;
-        float[] subsampleFULLLoudnesses = new float[subsamples];
-
-
-        for (int i = 0; i < subsampleFULLLoudnesses.Length; i++)
+        if(FrequencyChange(_noteFrequency) || NoteAmplitudeIncreasing(_noteAmplitude))
         {
-            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
-            {
-                
-                subsampleFULLLoudnesses[i] += _samples[j];
-                
-            }
+            return true;
         }
-
-        bool stroke = false;
-
-        for (int i = 0; i < subsampleFULLLoudnesses.Length - 1; i++)
+        return false;
+    }
+    private bool FrequencyChange(float _noteFrequency)
+    {
+        if (lastNoteFrequency != _noteFrequency)
         {
-
-            if (subsampleFULLLoudnesses[i] * 4f < subsampleFULLLoudnesses[i + 1])
-            {
-                stroke = true;
-                break;
-            }
+            lastNoteFrequency = _noteFrequency;
+            return true;
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleFULLLoudnesses[0])
+        return false;
+    }
+    private bool NoteAmplitudeIncreasing(float _noteAmplitude)
+    {
+        bool amplIncreasing = false;
+        if(lastNoteAmplitude * 1.5f < _noteAmplitude)
         {
-            stroke = true;
-
+            amplIncreasing = true;
         }
-
-        lastSubsampleLoudnessOfPreviousBuffer = subsampleFULLLoudnesses.Last();
-        return stroke;
+        lastNoteAmplitude = _noteAmplitude;
+        return amplIncreasing;
+            
     }
     public List<(float[], int[],bool)> DetectPickStrokeV2(float[] _samples)
     {
@@ -132,7 +124,7 @@ public class AudioComponents : MonoBehaviour
             if (maxPoints[i] * 1.5f < maxPoints[i + 1]/* && maxPoints[i] *3 < maxPoints[i+2]*/)
             {
                 print("------------");
-                print(maxPoints[i] + "|" + maxPoints[i+1]+ "|" + maxPoints[i+2]) ;
+                print(maxPoints[i] + "|" + maxPoints[i+1] /*"|" + maxPoints[i+2]*/) ;
                 isStroke = true;
                 break;
             }
@@ -190,7 +182,7 @@ public class AudioComponents : MonoBehaviour
     {
         if (earlyReturnCounter > 0)
         {
-            lastSubsampleLoudnessOfPreviousBuffer = 0;
+            //lastSubsampleLoudnessOfPreviousBuffer = 0;
         }
         earlyReturnCounter++;
     }
