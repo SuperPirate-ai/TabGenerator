@@ -1,19 +1,19 @@
-using System.Linq;
-using UnityEngine;
-using System.Numerics;
-using System.Collections.Generic;
-using System;
 using Accord.Math;
-using static UnityEditor.ShaderData;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using UnityEngine;
 
 public class AudioComponents : MonoBehaviour
 {
     private int buffersize;
     public static AudioComponents Instance;
-    private float lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
     private float lastPeakLoudness = 0;
     public int earlyReturnCounter = 0;
+    private float lastNoteFrequency = -1;
+    private float lastNoteAmplitude = -1;
+    private float lastMedianChunkLoudness = Mathf.Infinity;
 
     private void Awake()
     {
@@ -30,15 +30,14 @@ public class AudioComponents : MonoBehaviour
     {
         if (NoteManager.Instance.PlayPaused)
         {
-            lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            //lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            lastMedianChunkLoudness = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
     {
         float[] samples = new float[buffersize];
-
         _clip.GetData(samples, _positionInClip);
-
         return samples;
     }
     public float[] ApplyHannWindow(float[] signal)
@@ -48,7 +47,6 @@ public class AudioComponents : MonoBehaviour
 
         for (int i = 0; i < N; i++)
         {
-            // Hann window formula
             float hannValue = 0.5f * (1 - (float)Math.Cos(2 * Math.PI * i / (N - 1)));
             windowedSignal[i] = signal[i] * hannValue;
         }
@@ -56,150 +54,159 @@ public class AudioComponents : MonoBehaviour
         return windowedSignal;
     }
 
-    public bool DetectPickStroke(float[] _samples, float _frequency = 0)
+    public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        earlyReturnCounter = 0;
-        int subsamples = /*_frequency > 150 ?*/ 64 /*: 16*/; // => needs to be a power of 2 || 128 -> 2^7
-        int subsampleSize = _samples.Length / subsamples;
-        float[] subsampleLoudnesses = new float[subsamples];
-
-
-        for (int i = 0; i < subsampleLoudnesses.Length; i++)
+        if (FrequencyChange(_noteFrequency) || DetectPickStrokeV2(_samples)[0].Item3)
         {
-            for (int j = i * subsampleSize; j < i * subsampleSize + subsampleSize; j++)
+            return true;
+        }
+        return false;
+    }
+    private bool FrequencyChange(float _noteFrequency)
+    {
+        const float frequencyChangeThreshold = 0.5f;
+
+        if (Math.Abs(lastNoteFrequency - _noteFrequency) > frequencyChangeThreshold)
+        {
+            lastNoteFrequency = _noteFrequency;
+            return true;
+        }
+        return false;
+    }
+    public bool DetectPickStroke(float[] _samples)
+    {
+        float lowestFrequency = 60f;
+
+        float[] envelope = CalculateEnvelope(_samples, buffersize / 18);
+        int chunkCount = (int)(buffersize / (NoteManager.Instance.DefaultSamplerate / lowestFrequency));
+
+        int minimalSubBufferSize = buffersize / chunkCount;
+
+        float[] medianChunkLoudness = new float[chunkCount];
+        for (int i = 0; i < chunkCount; i++)
+        {
+            float[] chunk = envelope.Skip(minimalSubBufferSize * i).Take(minimalSubBufferSize).ToArray();
+            float[] gradients = ComputeDerivative(chunk, 1);
+
+            List<float> peaks = new List<float>();
+            for (int j = 0; j < gradients.Length; j++)
             {
-                if (Mathf.Abs(_samples[j]) > subsampleLoudnesses[i])
+                if (gradients[j] > 0 && gradients[j + 1] < 0)
                 {
-                    subsampleLoudnesses[i] = Mathf.Abs(_samples[j]);
+                    peaks.Add(chunk[j + 1]);
                 }
             }
+
+            medianChunkLoudness[i] = peaks.Average();
         }
-
-        bool stroke = false;
-
-        for (int i = 0; i < subsampleLoudnesses.Length - 1; i++)
+        bool isStroke = false;
+        for (int i = 0; i < medianChunkLoudness.Length - 1; i++)
         {
-
-            if (subsampleLoudnesses[i] * 2f < subsampleLoudnesses[i + 1])
+            if (Mathf.Pow(medianChunkLoudness[i], 2) * 1.5f < Mathf.Pow(medianChunkLoudness[i + 1], 2))
             {
-                stroke = true;
-                break;
+                Debug.Log($"picking detected at {i + 1}");
+                isStroke = true;
             }
         }
-        if (lastSubsampleLoudnessOfPreviousBuffer * 2f < subsampleLoudnesses[0])
+        if (Mathf.Pow(lastMedianChunkLoudness, 2) * 1.5f < Mathf.Pow(medianChunkLoudness[0], 2))
         {
-            stroke = true;
-
+            isStroke = true;
         }
+        lastMedianChunkLoudness = medianChunkLoudness.Last();
 
-        lastSubsampleLoudnessOfPreviousBuffer = subsampleLoudnesses.Last();
-        return stroke;
+        return isStroke;
     }
-    bool DetectPichStrokeV2(float[] _samples)
+
+
+    public List<(float[], int[], bool)> DetectPickStrokeV2(float[] _samples)
     {
-        float deltaX = 1 / (float)NoteManager.Instance.DefaultSamplerate;
+        float deltaX = 1;
 
         float[] samples = new float[_samples.Length + 1];
-        if(lastPeakLoudness == 0)
+
+        float[] envelope = CalculateEnvelope(_samples, buffersize / 18);
+        if (lastPeakLoudness == 0)
         {
-            samples = _samples;
+            samples = envelope;
         }
         else
-        { 
-            samples[0] = lastPeakLoudness;
-            Array.Copy(_samples, 0, samples, 1, _samples.Length);
-        }
-
-
-        // Calculate the derivative using finite differences
-        double[] derivative = new double[_samples.Length];
-        for (int i = 1; i < _samples.Length - 1; i++)
         {
-            derivative[i] = (_samples[i + 1] - _samples[i - 1]) / deltaX;
+            samples[0] = lastPeakLoudness;
+            Array.Copy(envelope, 0, samples, 1, envelope.Length);
         }
+
+        float[] derivative = ComputeDerivative(samples, deltaX);
 
         List<float> maxPoints = new List<float>();
-        // Find the maximum points (where derivative changes sign from positive to negative)
-        for (int i = 0; i < derivative.Length - 1; i++)
+        List<int> pointX = new List<int>();
+        for (int i = 1; i < derivative.Length; i++)
         {
-            if (derivative[i] > 0 && derivative[i + 1] < 0)
+            if (derivative[i - 1] > 0 && derivative[i] < 0)
             {
-                maxPoints.Add( (float)derivative[i]);
+                maxPoints.Add((float)samples[i]);
+                pointX.Add(i);
             }
-            
-        }
-        if(maxPoints.Average() < 0.1f)
-        {
-            return false;
-        }
 
-        for (int i = 0; i < maxPoints.Count; i++)
+        }
+        bool isStroke = false;
+        for (int i = 0; i < maxPoints.Count - 1; i++)
         {
-            if (maxPoints[i] * 2f < maxPoints[i + 1])
+            if (maxPoints[i] * 1.5f < maxPoints[i + 1]/* && maxPoints[i] *3 < maxPoints[i+2]*/)
             {
-                return true;
+                print("------------");
+                print(maxPoints[i] + "|" + maxPoints[i + 1] /*"|" + maxPoints[i+2]*/);
+                isStroke = true;
+                break;
             }
+
         }
-        //for(int i = 0; i < 100000000; i++)
-        //{
-        //    var vis = new Dictionary<string, object>
-        //    {
-        //        { "plotting_data", new List<object> {
-        //                new List<object> { 1, 1, derivative}
+        return new List<(float[], int[], bool)> { (maxPoints.ToArray(), pointX.ToArray(), isStroke) };
+    }
+    public float[] CalculateEnvelope(float[] inputSignal, int smoothingWindow)
+    {
+        int length = inputSignal.Length;
+        float[] envelope = new float[length];
 
+        // Step 1: Full-wave rectification (absolute value of the signal)
+        float[] rectifiedSignal = inputSignal.Select(x => Math.Abs(x)).ToArray();
 
-        //            }
-        //        }
-        //    };
-        //    GraphPlotter.Instance.PlotGraph(vis);
-        //}
-        return false;
+        // Step 2: Smoothing the rectified signal using a simple moving average (SMA)
+        for (int i = 0; i < length; i++)
+        {
+            float sum = 0;
+            int count = 0;
+
+            // Smoothing window
+            for (int j = i; j < Math.Min(i + smoothingWindow, length); j++)
+            {
+                sum += rectifiedSignal[j];
+                count++;
+            }
+
+            envelope[i] = (float)sum / count; // Simple moving average for smoothing
+        }
+
+        return envelope;
     }
     float[] ComputeDerivative(float[] _samples, float _deltaX)
     {
         int sampleLength = _samples.Length;
         float[] derivative = new float[sampleLength];
 
-        // Compute central difference for interior points
         for (int i = 0; i < sampleLength - 1; i++)
         {
-            //print($"sample i+1: {_samples[i+1]} samples i: {_samples[i]} result: {(_samples[i + 1] - _samples[i]) / _deltaX}");
-            derivative[i] = (float)(_samples[i+1] - _samples[i])/ (float)_deltaX;
+            derivative[i] = (float)(_samples[i + 1] - _samples[i]) / (float)_deltaX;
         }
-
-
 
         lastPeakLoudness = derivative[sampleLength - 1];
 
         return derivative;
     }
-    public void ListenForEarlyReturn()
-    {
-        if (earlyReturnCounter > 0)
-        {
-            lastSubsampleLoudnessOfPreviousBuffer = 0;
-        }
-        earlyReturnCounter++;
-    }
-    public float DetectOctaveInterference(float _frequency, float[] _fftReal, int _freqBin)
-    {
-        float lowerOctaveFrequency = _frequency / 2;
-        int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
 
-        float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
-        float freqAmplitudedReduced = _fftReal[_freqBin] * 0.60f;
-
-        if (freqAmplitudedReduced < lowerOctaveAmplitude)
-        {
-            return lowerOctaveFrequency;
-        }
-        return _frequency;
-
-    }
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];
-       Complex[] fftComplex = new Complex[_data.Length];
+        Complex[] fftComplex = new Complex[_data.Length];
 
         for (int i = 0; i < _data.Length; i++)
         {
