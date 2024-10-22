@@ -55,7 +55,7 @@ public class AudioAnalyzer : MonoBehaviour
         }
         return buffer;
     }
-    
+
     private float CalculateFrequencyWithOvertones(float[] _samples)
     {
         Array.Clear(fftBuffer, 0, bufferSize);
@@ -72,17 +72,17 @@ public class AudioAnalyzer : MonoBehaviour
         float volumeThreshold = highestValue * .05f;
 
 
-        List<SNote> overtones = CalculateOvertones(maxFrequency,volumeThreshold);
+        List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
         if (overtones.Count == 0) return -1;
 
         float roughBaseFrequency = overtones[0].frequency;
         float targetFrequency = roughBaseFrequency;
-      
+
         foreach (var overtone in overtones)
         {
             if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
                 continue;
-            
+
             int i = 1;
             float smallestFactor = float.MaxValue;
             while (true)
@@ -97,13 +97,13 @@ public class AudioAnalyzer : MonoBehaviour
                     smallestFactor = newFactor;
                     i++;
                     continue;
-                }   
+                }
                 i--;
                 break;
             }
             targetFrequency = overtone.frequency / i;
         }
-        
+
         float exactBaseFrequency = targetFrequency;
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
 
@@ -125,14 +125,14 @@ public class AudioAnalyzer : MonoBehaviour
 
 
         var vis = new Dictionary<string, object>
-        { 
+        {
            { "plotting_data", new List<object> {
                     //new List<object> {1,2,maxsInBuffer.ToArray()},
                    // new List<object> {1,1, fftBuffer.Take(500).ToArray()},
                     new List<object> {1,1, windowedSignal.ToArray()},
                     new List<object> { 1, 2, envelope.ToArray() },
                     new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
-              
+
                }
            }
         };
@@ -141,7 +141,7 @@ public class AudioAnalyzer : MonoBehaviour
     }
 
 
-    private List<SNote> CalculateOvertones( float _maxFrequency, float _volumeThreshold)
+    private List<SNote> CalculateOvertones(float _maxFrequency, float _volumeThreshold)
     {
         List<SNote> overtones = new List<SNote>();
         for (int i = 3; i < Math.Min(fftBuffer.Length, 500); i++)

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Newtonsoft.Json;
-using System.Net.Sockets;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
+using UnityEngine;
 
 public class GraphPlotter : MonoBehaviour
 {
@@ -18,15 +17,15 @@ public class GraphPlotter : MonoBehaviour
         Instance = this;
     }
 
-    public void PlotGraph(Dictionary<string,object> _values)
+    public void PlotGraph(Dictionary<string, object> _values)
     {
         //Dictionary<string, object> graphData = new Dictionary<string, object>();
         try
-        { 
+        {
             var content = JsonConvert.SerializeObject(_values);
-            apiRequest.SendPostRequest(content, apiAddr, "/plot_data");          
+            apiRequest.SendPostRequest(content, apiAddr, "/plot_data");
         }
-        catch(WebException e)
+        catch (WebException e)
         {
             Debug.LogError(e);
         }

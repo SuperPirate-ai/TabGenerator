@@ -51,7 +51,7 @@ public class APIRequest : MonoBehaviour
             {
                 print("Error: " + response.StatusCode);
             }
-            
+
             var responseString = await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
