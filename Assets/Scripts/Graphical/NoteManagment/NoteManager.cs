@@ -13,7 +13,7 @@ public class NoteManager : MonoBehaviour
     public int BPM = 100;
     public int NoteSpeed = 10;
     public bool PlayPaused = true;
-    [HideInInspector]public int DefaultSamplerate = 44100;
+    [HideInInspector]public int DefaultSamplerate = 96000 ;
     [HideInInspector]public int DefaultBufferSize = (int)Math.Pow(2, 12);
     public float HighestPossibleFrequency;
     public bool IsRecording = false;
@@ -21,6 +21,7 @@ public class NoteManager : MonoBehaviour
     [SerializeField] TMP_Text PlaybtnText;
     [SerializeField] TMP_InputField BPMInput;
     [HideInInspector] public int MaxBMP;
+
     private void Awake()
     {
         if (Instance != null) Destroy(this);

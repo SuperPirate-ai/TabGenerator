@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using Accord.Math;
 using System.Diagnostics.CodeAnalysis;
+using UnityEditor.Graphs;
 
 public class AudioComponents : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class AudioComponents : MonoBehaviour
     public int earlyReturnCounter = 0;
     private float lastNoteFrequency = -1;
     private float lastNoteAmplitude = -1;
+    private float lastMedianChunkLoudness = Mathf.Infinity;
 
     private void Awake()
     {
@@ -31,6 +33,7 @@ public class AudioComponents : MonoBehaviour
         if (NoteManager.Instance.PlayPaused)
         {
             //lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
+            lastMedianChunkLoudness = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
@@ -57,9 +60,9 @@ public class AudioComponents : MonoBehaviour
     }
 
    
-    public bool NewNoteDetected(float _noteFrequency,float _noteAmplitude)
+    public bool NewNoteDetected(float _noteFrequency,float[] _samples)
     {
-        if(FrequencyChange(_noteFrequency) || NoteAmplitudeIncreasing(_noteAmplitude))
+        if(FrequencyChange(_noteFrequency) || DetectPickStrokeV2(_samples)[0].Item3)
         {
             return true;
         }
@@ -74,17 +77,56 @@ public class AudioComponents : MonoBehaviour
         }
         return false;
     }
-    private bool NoteAmplitudeIncreasing(float _noteAmplitude)
+   
+
+ 
+
+
+    public bool DetectPickStroke(float[] _samples)
     {
-        bool amplIncreasing = false;
-        if(lastNoteAmplitude * 1.5f < _noteAmplitude)
+        float lowestFrequency = 60f;
+
+        float[] envelope = CalculateEnvelope(_samples, buffersize / 18);
+        int chunkCount = (int)(buffersize/(NoteManager.Instance.DefaultSamplerate / lowestFrequency));
+
+        int minimalSubBufferSize = buffersize / chunkCount;
+
+        float[] medianChunkLoudness = new float[chunkCount];
+        for (int i = 0; i < chunkCount; i++) 
         {
-            amplIncreasing = true;
-        }
-        lastNoteAmplitude = _noteAmplitude;
-        return amplIncreasing;
+            float[] chunk = envelope.Skip(minimalSubBufferSize * i).Take(minimalSubBufferSize).ToArray();
+            float[] gradients = ComputeDerivative(chunk,1);
             
+            List<float> peaks = new List<float>();
+            for (int j = 0; j < gradients.Length; j++) 
+            {
+                if (gradients[j] > 0 && gradients[j + 1] < 0)
+                {
+                    peaks.Add(chunk[j+1]);
+                }
+            }
+
+            medianChunkLoudness[i] = peaks.Average();
+        }
+        bool isStroke = false;
+        for (int i = 0; i < medianChunkLoudness.Length-1; i++)
+        {
+            if (Mathf.Pow(medianChunkLoudness[i],2) * 1.5f < Mathf.Pow(medianChunkLoudness[i+1],2))
+            {
+                Debug.Log($"picking detected at {i+1}");
+                isStroke = true;
+            }
+        }
+        if(Mathf.Pow(lastMedianChunkLoudness,2) * 1.5f < Mathf.Pow(medianChunkLoudness[0], 2))
+        {
+            isStroke = true;
+        }
+        lastMedianChunkLoudness = medianChunkLoudness.Last();
+
+        return isStroke;
     }
+
+
     public List<(float[], int[],bool)> DetectPickStrokeV2(float[] _samples)
     {
         float deltaX = 1 ;
@@ -185,21 +227,6 @@ public class AudioComponents : MonoBehaviour
             //lastSubsampleLoudnessOfPreviousBuffer = 0;
         }
         earlyReturnCounter++;
-    }
-    public float DetectOctaveInterference(float _frequency, float[] _fftReal, int _freqBin)
-    {
-        float lowerOctaveFrequency = _frequency / 2;
-        int lowerOctaveBin = (int)((float)lowerOctaveFrequency / (float)NoteManager.Instance.DefaultSamplerate * (float)_fftReal.Length);
-
-        float lowerOctaveAmplitude = _fftReal[lowerOctaveBin];
-        float freqAmplitudedReduced = _fftReal[_freqBin] * 0.60f;
-
-        if (freqAmplitudedReduced < lowerOctaveAmplitude)
-        {
-            return lowerOctaveFrequency;
-        }
-        return _frequency;
-
     }
     public float[] FFT(float[] _data)
     {
