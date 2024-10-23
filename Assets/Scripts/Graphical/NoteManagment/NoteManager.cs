@@ -43,8 +43,15 @@ public class NoteManager : MonoBehaviour
     }
     public void InstantiateNote(Vector3 _notePosition)
     {
+        string fredString = _notePosition.z.ToString();
+        _notePosition.z = 0;
         GameObject go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
-        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = _notePosition.z.ToString();
+        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = fredString;
         Instance.PlayedNotes.Add(go);
+    }
+    public void RemoveNoteFromScreen(GameObject _note)
+    {
+        Destroy(_note);
+        PlayedNotes.Remove(_note);
     }
 }

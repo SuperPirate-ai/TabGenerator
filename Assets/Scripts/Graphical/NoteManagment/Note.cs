@@ -11,12 +11,7 @@ public class Note : MovingObject
     {
         if (!manager.PlayedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
 
-        if (this.gameObject == NoteManager.Instance.PlayedNotes.Last() && this.transform.position.x < 0 && !NoteManager.Instance.IsRecording && !NoteManager.Instance.PlayPaused)
-        {
-            Move();
-            NoteManager.Instance.Play();
-        }
-        Move();
+        
     }
 
 

@@ -7,6 +7,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
 
     [SerializeField] NotesSO notes;
     [SerializeField] StringReferenzSO guitarStringRefernez;
+    [SerializeField] Transform pointerTransform;
 
 
     private void OnEnable()
@@ -35,7 +36,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         for (int i = 0; i < notePositionsString.Length; i++)
         {
             string[] point = notePositionsString[i].Split(',');
-            notePositionsVector[i] = new Vector3(0, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
+            notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
         }
         return notePositionsVector;
     }
