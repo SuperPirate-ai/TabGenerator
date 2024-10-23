@@ -11,9 +11,10 @@ public class AudioComponents : MonoBehaviour
     public static AudioComponents Instance;
     private float lastPeakLoudness = 0;
     public int earlyReturnCounter = 0;
-    private float lastNoteFrequency = -1;
+    private float lastNoteFrequency = 1;
     private float lastNoteAmplitude = -1;
     private float lastMedianChunkLoudness = Mathf.Infinity;
+    private const float subBufferRisingFactor = 1.7f;
 
     private void Awake()
     {
@@ -56,24 +57,78 @@ public class AudioComponents : MonoBehaviour
 
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        if (FrequencyChange(_noteFrequency) || DetectPickStrokeV2(_samples)[0].Item3)
+        if (FrequencyChange(_noteFrequency) || DetectPickStroke(_samples))
         {
             return true;
         }
         return false;
     }
+
     private bool FrequencyChange(float _noteFrequency)
+    {
+        const float frequencyChangeThreshold = 0.95f;
+        float frequencyFactor = lastNoteFrequency / _noteFrequency;
+        if (frequencyFactor > 1)
+        {
+            frequencyFactor = 1 / frequencyFactor;
+        }
+        if (frequencyChangeThreshold > frequencyFactor)
+        {
+            lastNoteFrequency = _noteFrequency;
+            print("Frequency change");
+            return true;
+        }
+        return false;
+    }
+
+    private bool FrequencyChangeBen(float _noteFrequency)
     {
         const float frequencyChangeThreshold = 0.5f;
 
         if (Math.Abs(lastNoteFrequency - _noteFrequency) > frequencyChangeThreshold)
         {
             lastNoteFrequency = _noteFrequency;
+            print("Frequency change");
             return true;
         }
         return false;
     }
+
     public bool DetectPickStroke(float[] _samples)
+    {
+        float lowestFrequency = 40f;
+
+        int chunkCount = (int)(buffersize / (NoteManager.Instance.DefaultSamplerate / lowestFrequency));
+
+        int minimalSubBufferSize = buffersize / chunkCount;
+
+        float[] medianChunkLoudness = new float[chunkCount];
+        for (int i = 0; i < chunkCount; i++)
+        {
+            float[] chunk = _samples.Skip(minimalSubBufferSize * i).Take(minimalSubBufferSize).ToArray();
+            medianChunkLoudness[i] = chunk.Max();
+        }
+
+        bool isStroke = false;
+        for (int i = 0; i < medianChunkLoudness.Length - 1; i++)
+        {
+            if (medianChunkLoudness[i] * subBufferRisingFactor < medianChunkLoudness[i + 1])
+            {
+                print($"picking detected at {i + 1}");
+                isStroke = true;
+            }
+        }
+        if (lastMedianChunkLoudness * subBufferRisingFactor < medianChunkLoudness[0])
+        {
+            print($"picking detected at 0");
+            isStroke = true;
+        }
+        lastMedianChunkLoudness = medianChunkLoudness.Last();
+
+        return isStroke;
+    }
+
+    public bool DetectPickStrokeRichard1(float[] _samples)
     {
         float lowestFrequency = 60f;
 
@@ -162,6 +217,8 @@ public class AudioComponents : MonoBehaviour
         }
         return new List<(float[], int[], bool)> { (maxPoints.ToArray(), pointX.ToArray(), isStroke) };
     }
+
+
     public float[] CalculateEnvelope(float[] inputSignal, int smoothingWindow)
     {
         int length = inputSignal.Length;

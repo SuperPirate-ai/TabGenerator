@@ -7403,7 +7403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notes: {fileID: 11400000, guid: 2ffd1b8fb9a9a224d936643fef9e7791, type: 2}
   guitarStringRefernez: {fileID: 11400000, guid: 3e810070ea115754eb7093b4c0227b1b, type: 2}
-  startMeasureTransform: {fileID: 468716387}
+  pointerTransform: {fileID: 6646127582069753820}
 --- !u!4 &1774572595
 Transform:
   m_ObjectHideFlags: 0

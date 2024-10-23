@@ -44,8 +44,9 @@ public class AudioAnalyzer : MonoBehaviour
             return;
 
         visualizer.Visualize(correspondingFrequency);
-
     }
+
+
     private float[] SNotesToBuffer(List<SNote> _notes)
     {
         float[] buffer = new float[bufferSize];
@@ -55,6 +56,7 @@ public class AudioAnalyzer : MonoBehaviour
         }
         return buffer;
     }
+
 
     private float CalculateFrequencyWithOvertones(float[] _samples)
     {
@@ -124,19 +126,19 @@ public class AudioAnalyzer : MonoBehaviour
 
 
 
-        var vis = new Dictionary<string, object>
-        {
-           { "plotting_data", new List<object> {
-                    //new List<object> {1,2,maxsInBuffer.ToArray()},
-                   // new List<object> {1,1, fftBuffer.Take(500).ToArray()},
-                    new List<object> {1,1, windowedSignal.ToArray()},
-                    new List<object> { 1, 2, envelope.ToArray() },
-                    new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
+        //var vis = new Dictionary<string, object>
+        //{
+        //   { "plotting_data", new List<object> {
+        //            //new List<object> {1,2,maxsInBuffer.ToArray()},
+        //           // new List<object> {1,1, fftBuffer.Take(500).ToArray()},
+        //            new List<object> {1,1, windowedSignal.ToArray()},
+        //            new List<object> { 1, 2, envelope.ToArray() },
+        //            new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
 
-               }
-           }
-        };
-        GraphPlotter.Instance.PlotGraph(vis);
+        //       }
+        //   }
+        //};
+        //GraphPlotter.Instance.PlotGraph(vis);
         return exactBaseFrequency;
     }
 
