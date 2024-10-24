@@ -57,18 +57,18 @@ public class AudioComponents : MonoBehaviour
     int buffersUntilNextPosibleStroke = 0;
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        if(buffersUntilNextPosibleStroke > 0)
-        {
-            buffersUntilNextPosibleStroke--;
-            return false;
-        }
-        if (FrequencyChange(_noteFrequency) || DetectPickStroke(_samples))
-        {
-            buffersUntilNextPosibleStroke = 2;
-            return true;
-        }
+        //if(buffersUntilNextPosibleStroke > 0)
+        //{
+        //    buffersUntilNextPosibleStroke--;
+        //    return false;
+        //}
+        //if (FrequencyChange(_noteFrequency) || DetectPickStroke(_samples))
+        //{
+        //    buffersUntilNextPosibleStroke = 2;
+        //    return true;
+        //}
         
-        return false;
+        return true;
     }
 
     private bool FrequencyChange(float _noteFrequency)

@@ -172,8 +172,8 @@ public class AudioAnalyzer : MonoBehaviour
             }
         }
 
-        if (smallestDifference > fftError)
-            return 0;
+        //if (smallestDifference > fftError)
+        //    return 0;
 
         return closestValue;
     }
