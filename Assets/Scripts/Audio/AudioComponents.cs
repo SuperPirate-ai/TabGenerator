@@ -14,7 +14,7 @@ public class AudioComponents : MonoBehaviour
     private float lastNoteFrequency = 1;
     private float lastNoteAmplitude = -1;
     private float lastMedianChunkLoudness = Mathf.Infinity;
-    private const float subBufferRisingFactor = 1.7f;
+    private const float subBufferRisingFactor = 1.75f;
 
     private void Awake()
     {
@@ -54,13 +54,20 @@ public class AudioComponents : MonoBehaviour
 
         return windowedSignal;
     }
-
+    int buffersUntilNextPosibleStroke = 0;
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
+        if(buffersUntilNextPosibleStroke > 0)
+        {
+            buffersUntilNextPosibleStroke--;
+            return false;
+        }
         if (FrequencyChange(_noteFrequency) || DetectPickStroke(_samples))
         {
+            buffersUntilNextPosibleStroke = 2;
             return true;
         }
+        
         return false;
     }
 
@@ -80,20 +87,6 @@ public class AudioComponents : MonoBehaviour
         }
         return false;
     }
-
-    private bool FrequencyChangeBen(float _noteFrequency)
-    {
-        const float frequencyChangeThreshold = 0.5f;
-
-        if (Math.Abs(lastNoteFrequency - _noteFrequency) > frequencyChangeThreshold)
-        {
-            lastNoteFrequency = _noteFrequency;
-            print("Frequency change");
-            return true;
-        }
-        return false;
-    }
-
     public bool DetectPickStroke(float[] _samples)
     {
         float lowestFrequency = 40f;
@@ -114,18 +107,22 @@ public class AudioComponents : MonoBehaviour
         {
             if (medianChunkLoudness[i] * subBufferRisingFactor < medianChunkLoudness[i + 1])
             {
-                print($"picking detected at {i + 1}");
+                if(medianChunkLoudness[i + 1] < 0.01f) continue;
+                print($"picking detected with {medianChunkLoudness[i +1]} bigger than {medianChunkLoudness[i]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
         if (lastMedianChunkLoudness * subBufferRisingFactor < medianChunkLoudness[0])
         {
-            print($"picking detected at 0");
-            isStroke = true;
+            if (medianChunkLoudness[0] > 0.01f)
+            {
+                print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}" );
+                isStroke = true;
+            }
         }
         lastMedianChunkLoudness = medianChunkLoudness.Last();
-
-        return isStroke;
+        
+       return isStroke;
     }
 
     public bool DetectPickStrokeRichard1(float[] _samples)

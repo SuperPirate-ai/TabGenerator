@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\pointer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\tools\\bpm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\tools\\bpm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD51FE32-77CB-68C8-054D-78F1A19676F3}|Scripts.Tools.csproj|solutionrelative:assets\\scripts\\tools\\bpm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}|Skripts.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}|Skripts.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA8A1C81-25D7-BD09-E0B0-BDB32875C7F1}|Skripts.csproj|solutionrelative:assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -45,19 +45,6 @@
           "SelectedChildIndex": 8,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EventManager.cs",
-              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\EventManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\EventManager.cs",
-              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\EventManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\EventManager.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAQwA0AAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:10:43.844Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
@@ -83,6 +70,18 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EventManager.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\EventManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EventManager.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\EventManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EventManager.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwA0AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T09:10:43.844Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "BPM.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Tools\\BPM.cs",
@@ -91,8 +90,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Tools\\BPM.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:08:17.493Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T09:08:17.493Z"
             },
             {
               "$type": "Document",
@@ -129,8 +127,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "ViewState": "AQIAAAoAAAAAAAAAAAAQwAwAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-28T19:56:26.838Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-28T19:56:26.838Z"
             },
             {
               "$type": "Document",
@@ -142,8 +139,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T20:24:55.108Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-27T20:24:55.108Z"
             },
             {
               "$type": "Document",
