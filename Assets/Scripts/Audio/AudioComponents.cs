@@ -12,8 +12,9 @@ public class AudioComponents : MonoBehaviour
     private float lastPeakLoudness = 0;
     public int earlyReturnCounter = 0;
     private float lastNoteFrequency = 1;
-    private float lastNoteAmplitude = -1;
     private float lastMedianChunkLoudness = Mathf.Infinity;
+    private float penultimateMedianChunkLoudness = Mathf.Infinity;
+
     private const float subBufferRisingFactor = 1.75f;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class AudioComponents : MonoBehaviour
         {
             //lastSubsampleLoudnessOfPreviousBuffer = Mathf.Infinity;
             lastMedianChunkLoudness = Mathf.Infinity;
+            penultimateMedianChunkLoudness = Mathf.Infinity;
         }
     }
     public float[] ExtractDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
@@ -54,21 +56,16 @@ public class AudioComponents : MonoBehaviour
 
         return windowedSignal;
     }
-    int buffersUntilNextPosibleStroke = 0;
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        //if(buffersUntilNextPosibleStroke > 0)
-        //{
-        //    buffersUntilNextPosibleStroke--;
-        //    return false;
-        //}
-        //if (FrequencyChange(_noteFrequency) || DetectPickStroke(_samples))
-        //{
-        //    buffersUntilNextPosibleStroke = 2;
-        //    return true;
-        //}
-        
-        return true;
+        bool hasPickStroke = DetectPickStroke(_samples);
+        bool hasFrequencyChange = FrequencyChange(_noteFrequency);
+        if (hasFrequencyChange || hasPickStroke)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private bool FrequencyChange(float _noteFrequency)
@@ -103,28 +100,43 @@ public class AudioComponents : MonoBehaviour
         }
 
         bool isStroke = false;
-        for (int i = 0; i < medianChunkLoudness.Length - 1; i++)
+        for (int i = 1; i < medianChunkLoudness.Length - 1; i++)
         {
-            if (medianChunkLoudness[i] * subBufferRisingFactor < medianChunkLoudness[i + 1])
+            if (medianChunkLoudness[i] < 0.01f) continue;
+            if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i]) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1]))
             {
-                if(medianChunkLoudness[i + 1] < 0.01f) continue;
-                print($"picking detected with {medianChunkLoudness[i +1]} bigger than {medianChunkLoudness[i]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
+                print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
-        if (lastMedianChunkLoudness * subBufferRisingFactor < medianChunkLoudness[0])
+        if (isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0]) && !isPotentialAmplitudePeak(medianChunkLoudness[0], medianChunkLoudness[1]))
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
-                print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}" );
+                print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
+
+        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0]))
+        {
+            if (medianChunkLoudness[0] > 0.01f)
+            {
+                print($"picking detected with {lastMedianChunkLoudness} bigger than {penultimateMedianChunkLoudness} times {subBufferRisingFactor}: {(penultimateMedianChunkLoudness * subBufferRisingFactor)}");
+                isStroke = true;
+            }
+        }
+
         lastMedianChunkLoudness = medianChunkLoudness.Last();
-        
-       return isStroke;
+        penultimateMedianChunkLoudness = medianChunkLoudness[medianChunkLoudness.Length - 2];
+
+        return isStroke;
     }
 
+    private bool isPotentialAmplitudePeak(float _previousChuckLoudness, float _chuckLoudness)
+    {
+        return _previousChuckLoudness * subBufferRisingFactor < _chuckLoudness;
+    }
     public bool DetectPickStrokeRichard1(float[] _samples)
     {
         float lowestFrequency = 60f;
