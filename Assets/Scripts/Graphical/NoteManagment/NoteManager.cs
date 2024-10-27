@@ -1,3 +1,4 @@
+using Accord.Collections;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -43,10 +44,12 @@ public class NoteManager : MonoBehaviour
     }
     public void InstantiateNote(Vector3 _notePosition)
     {
-        string fredString = _notePosition.z.ToString();
+        int fret = (int)_notePosition.z;
+        string fretString = fret.ToString();
         _notePosition.z = 0;
         GameObject go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
-        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = fredString;
+        _notePosition.z = fret;
+        go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = fretString;
         Instance.PlayedNotes.Add(go);
     }
     public void RemoveNoteFromScreen(GameObject _note)

@@ -52,7 +52,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
             if(InRangeOfSlider(i))
             { 
                 string[] point = notePositionsString[i].Split(',');
-                print(i + "||" + point[1]); 
+                //print(i + "||" + point[1]); 
                 notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
             }
         }

@@ -15,7 +15,7 @@ public class AudioComponents : MonoBehaviour
     private float lastMedianChunkLoudness = Mathf.Infinity;
     private float penultimateMedianChunkLoudness = Mathf.Infinity;
 
-    private const float subBufferRisingFactor = 1.75f;
+    private const float subBufferRisingFactor = 1.70f;
 
     private void Awake()
     {
