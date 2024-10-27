@@ -33,7 +33,7 @@ public class MicrophoneInput : MonoBehaviour
                 break;
             }
         }
-        microphone = Microphone.devices[0];
+        microphone = Microphone.devices[microInputDropDown.value];
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
         buffersize = NoteManager.Instance.DefaultBufferSize;
