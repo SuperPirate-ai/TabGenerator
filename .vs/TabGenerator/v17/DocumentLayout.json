@@ -1,22 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\",
+  "WorkspaceRootPath": "C:\\Ben\\UnityProjects\\TabGenerator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\graphical\\notemanagment\\followingnotedetermination.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\followingnotedetermination.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|e:\\ben\\unityprojekts\\githubprojects\\tabgenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\graphical\\visualization\\audiovisualizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\audiovisualizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D274BB93-AA31-2F76-D53A-EEA9BD5E8430}|Scripts.UI.csproj|solutionrelative:assets\\scripts\\ui\\scroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +46,35 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AudioComponents.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAAwBEAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T18:13:23.138Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AudioVisualizer.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\AudioVisualizer.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\Visualization\\AudioVisualizer.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\AudioVisualizer.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\Visualization\\AudioVisualizer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:43:02.491Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
@@ -54,55 +101,90 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "FollowingNoteDetermination.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAwCIAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:32:10.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NoteToVisualPointsConverter.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAgwDYAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T21:46:31.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Note.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T09:23:53.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Scroller.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\UI\\Scroller.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Scroller.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\UI\\Scroller.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Scroller.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T08:28:25.72Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NoteManager.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAABHAAAAAAAAAA==",
+              "ViewState": "AQIAACkAAAAAAAAAAAD4vzEAAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-28T19:56:26.838Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "AudioAnalyzer.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs*",
-              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs*",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAwJoAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
+              "ViewState": "AQIAABgAAAAAGNoT2oT9v6kAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T20:24:55.108Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-27T20:24:55.108Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "MicrophoneInput.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\MicrophoneInput.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\MicrophoneInput.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAYwEsAAAAiAAAAAAAAAA==",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAAwCUAAAA8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T18:00:30.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AudioComponents.cs",
-              "DocumentMoniker": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "ToolTip": "E:\\Ben\\UnityProjekts\\GithubProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T18:13:23.138Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T18:00:30.888Z"
             }
           ]
         }
