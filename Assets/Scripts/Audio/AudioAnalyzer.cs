@@ -44,8 +44,9 @@ public class AudioAnalyzer : MonoBehaviour
             return;
 
         visualizer.Visualize(correspondingFrequency);
-
     }
+
+
     private float[] SNotesToBuffer(List<SNote> _notes)
     {
         float[] buffer = new float[bufferSize];
@@ -55,6 +56,7 @@ public class AudioAnalyzer : MonoBehaviour
         }
         return buffer;
     }
+
 
     private float CalculateFrequencyWithOvertones(float[] _samples)
     {
@@ -107,31 +109,14 @@ public class AudioAnalyzer : MonoBehaviour
         float exactBaseFrequency = targetFrequency;
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
 
-        //List<(float[], int[], bool)> deriv = AudioComponents.Instance.DetectPickStrokeV2(samples);
-        //float[] hops = deriv[0].Item1;
-        //int[] derivX = deriv[0].Item2;
-        //bool isStroke = deriv[0].Item3;
-
-        //if (!isStroke)
-        //    exactBaseFrequency = -1;
-
-        //print("IS STROKE");
-        //float[] maxsInBuffer = new float[bufferSize];
-        //for (int i = 0; i < hops.Length; i++)
-        //{
-        //    maxsInBuffer[derivX[i]] = hops[i];
-        //}
-
-
-
         var vis = new Dictionary<string, object>
         {
            { "plotting_data", new List<object> {
-                    //new List<object> {1,2,maxsInBuffer.ToArray()},
-                   // new List<object> {1,1, fftBuffer.Take(500).ToArray()},
-                    new List<object> {1,1, windowedSignal.ToArray()},
-                    new List<object> { 1, 2, envelope.ToArray() },
-                    new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
+                    
+                    new List<object> {1,1, fftBuffer.Take(500).ToArray()},
+                    //new List<object> {2, 1, windowedSignal.Take(500).ToArray()},
+                    //new List<object> { 1, 2, envelope.Take(500).ToArray() },
+                    //new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
 
                }
            }
@@ -187,8 +172,8 @@ public class AudioAnalyzer : MonoBehaviour
             }
         }
 
-        if (smallestDifference > fftError)
-            return 0;
+        //if (smallestDifference > fftError)
+        //    return 0;
 
         return closestValue;
     }

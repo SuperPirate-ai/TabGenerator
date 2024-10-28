@@ -1,4 +1,7 @@
+using NUnit.Framework;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class NoteToVisualPointsConverter : MonoBehaviour
@@ -7,8 +10,10 @@ public class NoteToVisualPointsConverter : MonoBehaviour
 
     [SerializeField] NotesSO notes;
     [SerializeField] StringReferenzSO guitarStringRefernez;
+    [SerializeField] Transform pointerTransform;
 
-
+    //Debuging UI
+    [SerializeField] Slider NotePosSlider;
     private void OnEnable()
     {
         if (Instance != null) Destroy(this);
@@ -30,14 +35,34 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         if (indexOfNote == -1) { Debug.Log($"No Note found with the Frequency {_frequency}."); return null; }
 
         string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
-        Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];
-
+        
+        int notePosCount = 0;
         for (int i = 0; i < notePositionsString.Length; i++)
         {
-            string[] point = notePositionsString[i].Split(',');
-            notePositionsVector[i] = new Vector3(0, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
+            if (InRangeOfSlider(i))
+            {
+                notePosCount++;
+            }
         }
+
+        Vector3[] notePositionsVector = new Vector3[notePosCount];
+        notePositionsString = notePositionsString.Reverse().ToArray();
+        for (int i = 0; i < notePositionsString.Length; i++)
+        {
+            if(InRangeOfSlider(i))
+            { 
+                string[] point = notePositionsString[i].Split(',');
+                //print(i + "||" + point[1]); 
+                notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
+            }
+        }
+
+
         return notePositionsVector;
+    }
+    private bool InRangeOfSlider(int i)
+    {
+        return i < NotePosSlider.value;
     }
     public Vector3[] GetNotePositions(Vector3 _notepos)
     {

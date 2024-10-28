@@ -7,6 +7,7 @@
       "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\followingnotedetermination.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,6 +22,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75FE0650-E796-5C70-99D9-D89836C1A638}|Scripts.Visualisation.csproj|solutionrelative:assets\\scripts\\graphical\\visualization\\notetovisualpointsconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
     },
     {
       "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\microphoneinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,7 +36,19 @@
       "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audioanalyzer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+=======
+      "AbsoluteMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}|Scripts.Audio.csproj|solutionrelative:assets\\scripts\\audio\\audiocomponents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|C:\\Ben\\UnityProjects\\TabGenerator\\assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\notemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|c:\\ben\\unityprojects\\tabgenerator\\assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
       "RelativeMoniker": "D:0:0:{A6AD9F08-A239-C71B-2A23-AC519EBA433F}|Scripts.Graphical.NoteManagement.csproj|solutionrelative:assets\\scripts\\graphical\\notemanagment\\note.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -46,7 +63,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 8,
+=======
+          "SelectedChildIndex": 1,
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
           "Children": [
             {
               "$type": "Document",
@@ -56,7 +77,11 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioComponents.cs",
               "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioComponents.cs",
               "RelativeToolTip": "Assets\\Scripts\\Audio\\AudioComponents.cs",
+<<<<<<< HEAD
               "ViewState": "AQIAAAgAAAAAAAAAAAAAwBEAAAA0AAAA",
+=======
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAA0AAAA",
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-15T18:13:23.138Z",
               "IsPinned": true,
@@ -64,6 +89,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 3,
               "Title": "AudioVisualizer.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\AudioVisualizer.cs",
@@ -73,6 +99,30 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T09:43:02.491Z",
+=======
+              "DocumentIndex": 0,
+              "Title": "FollowingNoteDetermination.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAwBoAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:32:10.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NoteToVisualPointsConverter.cs",
+              "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Graphical\\Visualization\\NoteToVisualPointsConverter.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAgwEAAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T21:46:31.928Z",
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "EditorCaption": ""
             },
             {
@@ -101,6 +151,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 0,
               "Title": "FollowingNoteDetermination.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\FollowingNoteDetermination.cs",
@@ -128,6 +179,9 @@
             {
               "$type": "Document",
               "DocumentIndex": 7,
+=======
+              "DocumentIndex": 6,
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Title": "Note.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
@@ -135,11 +189,20 @@
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\Note.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
               "WhenOpened": "2024-10-23T09:23:53.435Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
+=======
+              "WhenOpened": "2024-10-23T09:23:53.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Title": "Scroller.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\UI\\Scroller.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Scroller.cs",
@@ -151,20 +214,32 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 1,
+=======
+              "DocumentIndex": 5,
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Title": "NoteManager.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "ToolTip": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Graphical\\NoteManagment\\NoteManager.cs",
+<<<<<<< HEAD
               "ViewState": "AQIAACkAAAAAAAAAAAD4vzEAAABRAAAA",
+=======
+              "ViewState": "AQIAABkAAAAAAAAAAAAowDkAAAAAAAAA",
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-28T19:56:26.838Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 6,
+=======
+              "DocumentIndex": 3,
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
               "Title": "AudioAnalyzer.cs",
               "DocumentMoniker": "C:\\Ben\\UnityProjects\\TabGenerator\\Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Audio\\AudioAnalyzer.cs",
@@ -184,7 +259,12 @@
               "RelativeToolTip": "Assets\\Scripts\\Audio\\MicrophoneInput.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAAwCUAAAA8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
               "WhenOpened": "2024-09-23T18:00:30.888Z"
+=======
+              "WhenOpened": "2024-09-23T18:00:30.888Z",
+              "EditorCaption": ""
+>>>>>>> e1fc289db92e416ae9494cdfd016d47a76ca4386
             }
           ]
         }

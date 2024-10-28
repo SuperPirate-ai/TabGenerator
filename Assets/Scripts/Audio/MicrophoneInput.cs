@@ -14,7 +14,7 @@ public class MicrophoneInput : MonoBehaviour
     private bool recording = false;
     private AudioSource audioSource;
     private int sampleRate;
-    private readonly int buffersize = (int)Mathf.Pow(2, 13);
+    private int buffersize;
     private float actualRecordingLength;
     private int positionInClip = 0;
 
@@ -24,10 +24,19 @@ public class MicrophoneInput : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         microInputDropDown.AddOptions(Microphone.devices.ToList());
-        microInputDropDown.value = 0;
-        microphone = Microphone.devices[0];
+        // default selected microphone with "line" in the name
+        for (int i = 0; i < Microphone.devices.Length; i++)
+        {
+            if (Microphone.devices[i].ToLower().Contains("line"))
+            {
+                microInputDropDown.value = i;
+                break;
+            }
+        }
+        microphone = Microphone.devices[microInputDropDown.value];
 
         sampleRate = NoteManager.Instance.DefaultSamplerate;
+        buffersize = NoteManager.Instance.DefaultBufferSize;
         actualRecordingLength = .5f;
 
 
