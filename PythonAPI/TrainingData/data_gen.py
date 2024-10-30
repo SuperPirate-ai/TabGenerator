@@ -1,6 +1,10 @@
 import guitarpro
-import numpy as np
 import sys
+import os
+import json
+from fractions import Fraction
+import shutil
+
 sys.setrecursionlimit(15000000)
 
 alreadyCalledObejcts = []
@@ -14,24 +18,36 @@ def find_bpm_object_recursive(properties):
             continue
         alreadyCalledObejcts.append(prop)
         
-        if "200" in repr(prop).lower() or "200" in str(prop).lower():
+        if "instrument" in repr(prop).lower() or "instrument" in str(prop).lower():
             print("FOUND                                            :",i,str(prop), repr(prop))
-            return prop
-        if find_bpm_object_recursive(prop) is not None:
+            
+        if find_bpm_object_recursive(prop) is None:
             print("Parent is", prop)
     return None
         
 
-file = guitarpro.parse(r"C://Ben//UnityProjects//TabGenerator//PythonAPI//TrainingData//src//death_symbolic.gp5", encoding="utf-8")
 
-# get all the notes in the track
-notes = []
-tempo = None
-denominator = None
-for track in file.tracks:
-    if track.name.startswith("Chuck Schuldiner"):
-        print("tempo is ", track.song.tempo)
+#--------------------------------------------------------------
+directory = "src/songstodecompose"
+for filename in os.listdir(directory):
+    if os.path.isdir(os.path.join(directory,filename)):
+        continue
+    print("Processing ", filename)
+    file_name = filename
+    file_path = os.path.abspath(r"src/songstodecompose/" + file_name)
+    file = guitarpro.parse(file_path, encoding="utf-8")
+
+    # get all the notes in the track
+    five_notes_patterns = []
+    denominator = None
+    for track in file.tracks:
+
+        user_in = input("Do you want to use this track? " + track.name + "|| " + track.rse.instrument.effect + ": ")
+        if user_in == "":
+            continue
+        notes = []
         tempo = track.song.tempo
+        print("tempo is ",tempo)
         for measure in track.measures:
             denominator = measure.timeSignature.denominator.value
             #print(measure.header.tempo)
@@ -40,32 +56,41 @@ for track in file.tracks:
                 for beat in voice.beats:
                     for note in beat.notes:
                         notes.append([note.string, note.value, beat.start])
-        break
+        
 
 
-five_notes_patterns = []
-pattern = []
-for i_n, note in enumerate(notes):
-    if i_n == 0:
-        continue
-    if i_n > len(notes)-2:
-        break
-    time_distance_before = note[2] - notes[i_n-1][2]
-    time_distance_after = notes[i_n+1][2] - note[2]
-    if time_distance_before == 0 or time_distance_after == 0:
-        if len(pattern) < 5:
-            pattern = []
-            continue
-
-        five_notes_patterns.append(pattern)
         pattern = []
-        continue
-    if len(pattern) < 5:
-        pattern.append(note)
-    else:
-        five_notes_patterns.append(pattern)
-        pattern = []
+        for i_n, note in enumerate(notes):
+            if i_n == 0:
+                continue
+            if i_n > len(notes)-2:
+                break
+            time_distance_before = note[2] - notes[i_n-1][2]
+            time_distance_after = notes[i_n+1][2] - note[2]
+            if time_distance_before == 0 or time_distance_after == 0:
+                if len(pattern) < 5:
+                    pattern = []
+                    continue
+                five_notes_patterns.append(pattern)
+                pattern = []
+                continue
+            if isinstance(note[2], Fraction):
+                note[2] = float(note[2])
 
-for pattern in five_notes_patterns:
-    print(pattern)
+            if len(pattern) < 5:
+                pattern.append(note)
+            else:
+                five_notes_patterns.append(pattern)
+                pattern = []
+                pattern.append(note)
+        
+
+
+
+    for pattern in five_notes_patterns:
+        print(pattern)
+    with open("src/dataFiveNotePatterns/" + file_name  + ".json", "w",encoding='utf-8') as f:
+        f.write(json.dumps({ "five_notes_patterns": five_notes_patterns}))
+
+    shutil.move(file_path, "src/songstodecompose/processed/" + file_name)
 
