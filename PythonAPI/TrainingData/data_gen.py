@@ -4,6 +4,7 @@ import os
 import json
 from fractions import Fraction
 import shutil
+from random import randrange
 
 sys.setrecursionlimit(15000000)
 
@@ -87,8 +88,20 @@ for filename in os.listdir(directory):
 
 
 
-    for pattern in five_notes_patterns:
-        print(pattern)
+    for ind, pattern in enumerate(five_notes_patterns):
+        ranNote = randrange(0, 4)
+        if ind %2 == 0:
+
+            if pattern[ranNote][0] > 4:
+                pattern[ranNote][0] = pattern[ranNote][0] - 2
+            else:
+                pattern[ranNote][0] = pattern[ranNote][0] + 2
+            
+            pattern.append(0)
+        else:
+            pattern.append(1)
+        
+
     with open("src/dataFiveNotePatterns/" + file_name  + ".json", "w",encoding='utf-8') as f:
         f.write(json.dumps({ "five_notes_patterns": five_notes_patterns}))
 
