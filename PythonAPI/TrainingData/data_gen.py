@@ -4,9 +4,13 @@ import os
 import json
 from fractions import Fraction
 import shutil
-from random import randrange
+from random import randrange, choice
+from copy import deepcopy
 
-sys.setrecursionlimit(15000000)
+
+
+string_fret_offsets = [-24, -19, -14, -9 ,-5, 0]
+
 
 alreadyCalledObejcts = []
 def find_bpm_object_recursive(properties):
@@ -86,26 +90,44 @@ for filename in os.listdir(directory):
                 pattern.append(note)
         
 
-
+    bad_patterns = []
 
     for ind, pattern in enumerate(five_notes_patterns):
-        ranNote = randrange(0, 4)
-        if ind %2 == 0:
+        error_rate =50
+        pattern[-1] = 1
+        for _ in range(error_rate):
+            ranNote = randrange(0, 5)
+            fret = pattern[ranNote][1]
+            string = pattern[ranNote][0]
 
-            if pattern[ranNote][0] > 4:
-                pattern[ranNote][0] = pattern[ranNote][0] - 2
-            else:
-                pattern[ranNote][0] = pattern[ranNote][0] + 2
+            randomShift = choice([-3, -2, 2, 3])
+            bad_string = string + randomShift
+            if bad_string < 0 or bad_string > 5:
+                continue
+            bad_fret = fret + (string_fret_offsets[string-1] - string_fret_offsets[bad_string-1])
             
-            pattern.append(0)
-        else:
-            pattern.append(1)
-        
+            if bad_fret < 0 or bad_fret > 24:
+                continue
 
+            bad_pattern = deepcopy(pattern)
+            bad_pattern[ranNote][1] = bad_fret
+            bad_pattern[ranNote][0] = bad_string
+            bad_pattern[-1] = 0
+            bad_patterns.append(bad_pattern)
+            # print("good pattern", pattern)
+            # print("bad pattern", bad_pattern)   
+            break
+       
+    
+    print("bad patterns", len(bad_patterns))
+    print("good patterns", len(five_notes_patterns))
     with open("src/dataFiveNotePatterns/" + file_name  + ".json", "w",encoding='utf-8') as f:
-        f.write(json.dumps({ "five_notes_patterns": five_notes_patterns}))
+        f.write(json.dumps({ "five_notes_patterns": five_notes_patterns,"bad_patterns": bad_patterns}))
 
     shutil.move(file_path, "src/songstodecompose/processed/" + file_name)
+
+
+    #[string, fret, start]
 
 
 
