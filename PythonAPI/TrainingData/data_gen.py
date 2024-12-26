@@ -74,7 +74,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
                 break
             time_distance_before = note[2] - notes[i_n-1][2]
             time_distance_after = notes[i_n+1][2] - note[2]
-            if time_distance_before == 0 or time_distance_after == 0: #when notes repeat
+            if time_distance_before == 0 or time_distance_after == 0: #when multiple notes are played at the same time
                 if len(pattern) < 5:
                     pattern = []
                     continue

@@ -5,24 +5,45 @@ from os import path
 import os
 
 # Load the model
-model_path = path.join(os.getcwd(),"TrainingData","src","models","five_note_pattern_model.keras")
+#model_path = path.join(os.getcwd(),"TrainingData","src","models","five_note_pattern_model.keras")
+model_path = path.join(os.getcwd(),"TrainingData","src","models","model_with_frets_and_strings.keras")
+
 model = load_model(model_path)
 
-# Define a few random patterns for testing
+
+# Define a few random patterns with frets and strings for testing
 test_patterns = [
-    [0, 1, 5, 3, 4],
-    [7, 5, 4, 2, 0],
-    [3, 5, 7, 8, 10],
-    [10, 1, 12, 3, 8]
+    #[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+    #[[1, 6], [5, 14], [0, 0], [6, 20], [0, 2]],
+    #[[0, 12], [0, 14], [0, 12], [0, 11], [0, 12]],
+    [[6, 0], [6, 0], [6, 0], [6, 0], [6, 0]]
 ]
+
+# Flatten the test patterns
+test_patterns = [np.array(pattern).flatten() for pattern in test_patterns]
 
 # Normalize the test patterns
 normalizer = model.layers[0]
 test_patterns = normalizer(np.array(test_patterns))
 
+
+# # Define a few random patterns for testing
+# test_patterns = [
+#     [0, 1, 5, 3, 4],
+#     [7, 5, 4, 2, 0],
+#     [3, 5, 7, 8, 10],
+#     [10, 1, 12, 3, 8]
+# ]
+
+# # Normalize the test patterns
+# normalizer = model.layers[0]
+# test_patterns = normalizer(np.array(test_patterns))
+
 # Predict the labels for the test patterns
 predictions = model.predict(test_patterns)
 
 # Print the predictions
+i = 0
 for pattern, prediction in zip(test_patterns, predictions):
-    print(f"Pattern: {pattern.numpy()}, Prediction: {prediction[0]}")
+    i += 1
+    print(f"Pattern: {i}, Prediction: {prediction[0]}")
