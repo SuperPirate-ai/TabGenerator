@@ -74,13 +74,15 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
                 break
             time_distance_before = note[2] - notes[i_n-1][2]
             time_distance_after = notes[i_n+1][2] - note[2]
-            if time_distance_before == 0 or time_distance_after == 0:
+            if time_distance_before == 0 or time_distance_after == 0: #when notes repeat
                 if len(pattern) < 5:
                     pattern = []
                     continue
                 five_notes_patterns.append(pattern)
                 pattern = []
                 continue
+
+
             if isinstance(note[2], Fraction):
                 note[2] = float(note[2])
 
@@ -95,7 +97,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
     bad_patterns = []
     for ind, pattern in enumerate(five_notes_patterns):
         error_rate =50
-        pattern[-1] = [1]
+        pattern.append([1])
         for _ in range(error_rate):
             ranNote = randrange(0, 4)
             #print(pattern[ranNote])
@@ -114,10 +116,10 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
             bad_pattern = deepcopy(pattern)
             bad_pattern[ranNote][1] = bad_fret
             bad_pattern[ranNote][0] = bad_string
-            bad_pattern[-1] = 0
+            bad_pattern[-1] = [0]
             bad_patterns.append(bad_pattern)
-            #print("good pattern", pattern)
-            #print("bad pattern", bad_pattern)   
+            print("good pattern", pattern)
+            print("bad pattern", bad_pattern)   
             break
        
     
@@ -127,7 +129,6 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
 
     
     pattern_path = path.join(os.getcwd(),"TrainingData","src","dataFiveNotePatterns",(file_name + ".json"))
-    print("Pattern path is ", pattern_path)
     with open(pattern_path, "w",encoding='utf-8') as f:
         f.write(json.dumps({ "five_notes_patterns": five_notes_patterns,"bad_patterns": bad_patterns}))
  
