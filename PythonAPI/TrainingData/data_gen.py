@@ -1,6 +1,7 @@
 import guitarpro
 import sys
 import os
+from os import path
 import json
 from fractions import Fraction
 import shutil
@@ -31,15 +32,16 @@ def find_bpm_object_recursive(properties):
     return None
         
 
-
 #--------------------------------------------------------------
-directory = "src/songstodecompose"
-for filename in os.listdir(directory):
-    if os.path.isdir(os.path.join(directory,filename)):
+directory = path.join("TrainingData","src","songstodecompose")
+print("Directory is ", directory)
+print(path.join(os.getcwd(),directory))
+for filename in os.listdir(path.join(os.getcwd(),directory)):
+    if path.isdir(path.join(directory,filename)):
         continue
     print("Processing ", filename)
     file_name = filename
-    file_path = os.path.abspath(r"src/songstodecompose/" + file_name)
+    file_path = path.abspath(r"TrainingData/src/songstodecompose/" + file_name)
     file = guitarpro.parse(file_path, encoding="utf-8")
 
     # get all the notes in the track
@@ -91,12 +93,12 @@ for filename in os.listdir(directory):
         
 
     bad_patterns = []
-
     for ind, pattern in enumerate(five_notes_patterns):
         error_rate =50
-        pattern[-1] = 1
+        pattern[-1] = [1]
         for _ in range(error_rate):
-            ranNote = randrange(0, 5)
+            ranNote = randrange(0, 4)
+            #print(pattern[ranNote])
             fret = pattern[ranNote][1]
             string = pattern[ranNote][0]
 
@@ -114,17 +116,22 @@ for filename in os.listdir(directory):
             bad_pattern[ranNote][0] = bad_string
             bad_pattern[-1] = 0
             bad_patterns.append(bad_pattern)
-            # print("good pattern", pattern)
-            # print("bad pattern", bad_pattern)   
+            #print("good pattern", pattern)
+            #print("bad pattern", bad_pattern)   
             break
        
     
     print("bad patterns", len(bad_patterns))
     print("good patterns", len(five_notes_patterns))
-    with open("src/dataFiveNotePatterns/" + file_name  + ".json", "w",encoding='utf-8') as f:
-        f.write(json.dumps({ "five_notes_patterns": five_notes_patterns,"bad_patterns": bad_patterns}))
 
-    shutil.move(file_path, "src/songstodecompose/processed/" + file_name)
+
+    
+    pattern_path = path.join(os.getcwd(),"TrainingData","src","dataFiveNotePatterns",(file_name + ".json"))
+    print("Pattern path is ", pattern_path)
+    with open(pattern_path, "w",encoding='utf-8') as f:
+        f.write(json.dumps({ "five_notes_patterns": five_notes_patterns,"bad_patterns": bad_patterns}))
+ 
+    shutil.move(file_path, path.join(os.getcwd(),"TrainingData","src","songstodecompose","processed" , file_name))
 
 
     #[string, fret, start]
