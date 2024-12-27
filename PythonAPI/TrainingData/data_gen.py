@@ -32,6 +32,10 @@ def find_bpm_object_recursive(properties):
     return None
         
 
+
+
+
+
 #--------------------------------------------------------------
 directory = path.join("TrainingData","src","songstodecompose")
 print("Directory is ", directory)
@@ -78,6 +82,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
                 if len(pattern) < 5:
                     pattern = []
                     continue
+                pattern.append([1])
                 five_notes_patterns.append(pattern)
                 pattern = []
                 continue
@@ -89,17 +94,26 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
             if len(pattern) < 5:
                 pattern.append(note)
             else:
+                pattern.append([1])
                 five_notes_patterns.append(pattern)
                 pattern = []
                 pattern.append(note)
         
 
+
+
+
     bad_patterns = []
-    for ind, pattern in enumerate(five_notes_patterns):
+    moderate_bad_patterns = deepcopy(five_notes_patterns[:len(five_notes_patterns) //2])
+    extreme_bad_patterns = deepcopy(five_notes_patterns[len(five_notes_patterns) //2:])
+    print("moderate bad patterns", len(moderate_bad_patterns), "extreme bad patterns", len(extreme_bad_patterns), "good patterns", len(five_notes_patterns))
+
+    #moderate bad patterns
+    for ind, pattern in enumerate(moderate_bad_patterns):
         error_rate =50
-        pattern.append([1])
+        
         for _ in range(error_rate):
-            ranNote = randrange(0, 4)
+            ranNote = randrange(0, 5)
             #print(pattern[ranNote])
             fret = pattern[ranNote][1]
             string = pattern[ranNote][0]
@@ -118,11 +132,59 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
             bad_pattern[ranNote][0] = bad_string
             bad_pattern[-1] = [0]
             bad_patterns.append(bad_pattern)
-            print("good pattern", pattern)
-            print("bad pattern", bad_pattern)   
+            #print("good pattern", pattern)
+            #print("bad pattern", bad_pattern)   
             break
        
     
+    #extreme bad patterns
+    for ind, pattern in enumerate(extreme_bad_patterns):
+        error_rate =500
+        last_shift =-1
+        bad_pattern = deepcopy(pattern)
+        for indx_note,_note in enumerate(pattern):
+            if(indx_note == len(pattern)-1):
+                continue
+
+            for _ in range(error_rate):
+                
+                fret = pattern[indx_note][1]
+                string = pattern[indx_note][0]
+                
+                if last_shift ==  1:
+                    randomShift = choice([5,4,3])
+                elif last_shift == -1:
+                    randomShift = choice([-5,-4,-3])
+                else:
+                    randomShift = choice([5,4,3, -3,-4,-5])
+
+                
+                
+                bad_string = string + randomShift
+                if bad_string < 0 or bad_string > 5:
+                    continue
+                bad_fret = fret + (string_fret_offsets[string-1] - string_fret_offsets[bad_string-1])
+                
+                if bad_fret < 0 or bad_fret > 24:
+                    continue
+
+                bad_pattern[indx_note][1] = bad_fret
+                bad_pattern[indx_note][0] = bad_string
+                
+                print("good string", string, "good fret", fret)
+                print("bad string", bad_string, "bad fret", bad_fret)
+                print("____________________________________________________________")
+                if(randomShift > 0):
+                    last_shift = -1
+                else:
+                    last_shift = 1  
+                break
+        bad_pattern[-1] = [0]
+        bad_patterns.append(bad_pattern)
+        
+
+            
+
     print("bad patterns", len(bad_patterns))
     print("good patterns", len(five_notes_patterns))
 
@@ -140,3 +202,4 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
 
 
 #--------------------------------------------------------------
+
