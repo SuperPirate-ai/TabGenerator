@@ -32,6 +32,18 @@ def find_bpm_object_recursive(properties):
     return None
         
 
+def recursivly_gernate_bad_patterns(pattern, string_fret_offset)-> list:
+    if string_fret_offset >= len(pattern):
+        return pattern
+
+    if pattern[string_fret_offset] == 3:
+        pattern[string_fret_offset] = 0
+        return recursivly_gernate_bad_patterns(pattern, string_fret_offset + 1)
+    else:
+        pattern[string_fret_offset] += 1
+        print(pattern)
+        return recursivly_gernate_bad_patterns(pattern, 0)
+    
 
 
 
@@ -43,19 +55,43 @@ print(path.join(os.getcwd(),directory))
 for filename in os.listdir(path.join(os.getcwd(),directory)):
     if path.isdir(path.join(directory,filename)):
         continue
+    if filename.endswith(".meta"):
+        continue
     print("Processing ", filename)
     file_name = filename
     file_path = path.abspath(r"TrainingData/src/songstodecompose/" + file_name)
     file = guitarpro.parse(file_path, encoding="utf-8")
 
+    tracks_to_use = []
+
+    file_path_meta = file_path.rsplit('.', 1)[0] + '.meta'
+    print("file path meta is ", file_path_meta)
+    if not path.exists(file_path_meta):
+        for track in file.tracks:
+            user_in = input("Do you want to use this track? " + track.name + "|| " + track.rse.instrument.effect + ": ")
+            if user_in == "":
+                continue
+            tracks_to_use.append(track.name)
+            print("Added track ", track.name)
+
+            
+        with open(file_path_meta, "w",encoding='utf-8') as f:
+            f.write(json.dumps({"tracks": tracks_to_use}))
+            tracks_to_use = []
+
+    
+    with open(file_path_meta, "r",encoding='utf-8') as f:
+        metaData = json.loads(f.read())
+        for track in metaData["tracks"]:
+            tracks_to_use.append(track)
+
     # get all the notes in the track
     five_notes_patterns = []
     denominator = None
     for track in file.tracks:
-
-        user_in = input("Do you want to use this track? " + track.name + "|| " + track.rse.instrument.effect + ": ")
-        if user_in == "":
+        if track.name not in tracks_to_use:
             continue
+        
         notes = []
         tempo = track.song.tempo
         print("tempo is ",tempo)
@@ -138,49 +174,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
        
     
     #extreme bad patterns
-    for ind, pattern in enumerate(extreme_bad_patterns):
-        error_rate =500
-        last_shift =-1
-        bad_pattern = deepcopy(pattern)
-        for indx_note,_note in enumerate(pattern):
-            if(indx_note == len(pattern)-1):
-                continue
-
-            for _ in range(error_rate):
-                
-                fret = pattern[indx_note][1]
-                string = pattern[indx_note][0]
-                
-                if last_shift ==  1:
-                    randomShift = choice([5,4,3])
-                elif last_shift == -1:
-                    randomShift = choice([-5,-4,-3])
-                else:
-                    randomShift = choice([5,4,3, -3,-4,-5])
-
-                
-                
-                bad_string = string + randomShift
-                if bad_string < 0 or bad_string > 5:
-                    continue
-                bad_fret = fret + (string_fret_offsets[string-1] - string_fret_offsets[bad_string-1])
-                
-                if bad_fret < 0 or bad_fret > 24:
-                    continue
-
-                bad_pattern[indx_note][1] = bad_fret
-                bad_pattern[indx_note][0] = bad_string
-                
-                print("good string", string, "good fret", fret)
-                print("bad string", bad_string, "bad fret", bad_fret)
-                print("____________________________________________________________")
-                if(randomShift > 0):
-                    last_shift = -1
-                else:
-                    last_shift = 1  
-                break
-        bad_pattern[-1] = [0]
-        bad_patterns.append(bad_pattern)
+    
         
 
             
@@ -195,6 +189,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
         f.write(json.dumps({ "five_notes_patterns": five_notes_patterns,"bad_patterns": bad_patterns}))
  
     shutil.move(file_path, path.join(os.getcwd(),"TrainingData","src","songstodecompose","processed" , file_name))
+    shutil.move(file_path_meta, path.join(os.getcwd(),"TrainingData","src","songstodecompose","processed" , file_name.rsplit('.', 1)[0] + '.meta'))
 
 
     #[string, fret, start]
