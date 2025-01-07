@@ -45,7 +45,7 @@ def recursivly_gernate_bad_patterns(pattern, string_fret_offset)-> list:
         return recursivly_gernate_bad_patterns(pattern, 0)
     
 
-
+ 
 
 
 #--------------------------------------------------------------
@@ -65,7 +65,6 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
     tracks_to_use = []
 
     file_path_meta = file_path.rsplit('.', 1)[0] + '.meta'
-    print("file path meta is ", file_path_meta)
     if not path.exists(file_path_meta):
         for track in file.tracks:
             user_in = input("Do you want to use this track? " + track.name + "|| " + track.rse.instrument.effect + ": ")
@@ -93,8 +92,8 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
             continue
         
         notes = []
-        tempo = track.song.tempo
-        print("tempo is ",tempo)
+        # tempo = track.song.tempo
+        # print("tempo is ",tempo)
         for measure in track.measures:
             denominator = measure.timeSignature.denominator.value
             #print(measure.header.tempo)
@@ -145,7 +144,7 @@ for filename in os.listdir(path.join(os.getcwd(),directory)):
     print("moderate bad patterns", len(moderate_bad_patterns), "extreme bad patterns", len(extreme_bad_patterns), "good patterns", len(five_notes_patterns))
 
     #moderate bad patterns
-    for ind, pattern in enumerate(moderate_bad_patterns):
+    for ind, pattern in enumerate(five_notes_patterns):
         error_rate =50
         
         for _ in range(error_rate):
