@@ -120,7 +120,13 @@ public class AudioAnalyzer : MonoBehaviour
                 break;
             }
             targetFrequency = overtone.frequency / i;
+
+            if (overtones.Count != 0)
+            {
+               // Debug.Log("avg BValue: " + CalculationStringByOvertone.Instance.Calculate_B_AverageValue(overtones.Select(x => x.frequency).ToArray()));
+            }        
         }
+
 
         float exactBaseFrequency = targetFrequency;
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
