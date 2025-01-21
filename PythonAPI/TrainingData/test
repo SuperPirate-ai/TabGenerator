@@ -1,0 +1,77 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+from os import path
+import os
+from itertools import product
+from copy import deepcopy
+import time
+
+def get_all_options(notes: list[int], max_fret: int = 24, strings: int = 6) -> list[tuple[int, int]]:
+    ## note 0 is A440Hz at 5th fret, first string
+    options = []
+    string_offsets = [
+        0,
+        5,
+        9,
+        14,
+        19,
+        24
+    ]
+    for note in notes:
+        opt = []
+        for string in range(strings):
+            fret = note + 5 + string_offsets[string]
+            if fret < 0:
+                continue
+            if fret > max_fret:
+                continue
+            opt.append((string, fret))
+        options.append(opt)
+    return product(*options)
+
+
+
+# Load the model
+#model_path = path.join(os.getcwd(),"TrainingData","src","models","five_note_pattern_model.keras")
+model_path = path.join(os.getcwd(),"TrainingData","src","models","model_with_frets_and_strings.h5")
+
+model = load_model(model_path)
+
+
+options = list(get_all_options([-5 for _ in range(5)]))
+test_patterns = list(options)
+actual_pattern = deepcopy(test_patterns)
+
+test_patterns = [np.array(pattern).flatten() for pattern in test_patterns]
+
+# Normalize the test patterns
+normalizer = model.layers[0]
+test_patterns = normalizer(np.array(test_patterns))
+
+# Print the predictions
+start_time = time.time()
+
+# Predict the labels for the test patterns
+predictions = model.predict(test_patterns)
+
+end_time = time.time()
+elapsed_time = end_time - start_time
+
+print(f"Time taken for prediction: {elapsed_time} seconds")
+
+# Sort it by the prediction
+predictions = sorted(predictions, key=lambda x: x[0], reverse=True)
+
+predictions = predictions[:100]
+
+# Print the predictions
+
+# Get the indices of the top predictions
+top_indices = np.argsort([-pred[0] for pred in predictions])
+
+# Print the actual patterns and their predictions
+for idx in top_indices:
+    pattern = actual_pattern[idx]
+    prediction = predictions[idx]
+    print(f"Pattern: {pattern}, Prediction: {prediction[0]}")

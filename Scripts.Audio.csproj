@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Audio\AudioFileInput.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioAnalyzer.cs" />
+    <Compile Include="Assets\Scripts\Audio\CalculationStringByOvertone.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioComponents.cs" />
     <Compile Include="Assets\Scripts\Audio\MicrophoneInput.cs" />
     <Compile Include="Assets\Scripts\Audio\TestAudioFreq.cs" />

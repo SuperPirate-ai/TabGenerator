@@ -23,6 +23,8 @@ public class AudioAnalyzer : MonoBehaviour
     private List<int> notesFrequencies;
     private float fftError;
 
+    List<SNote> latestOvertones = new List<SNote>();
+
     private void Awake()
     {
         bufferSize = NoteManager.Instance.DefaultBufferSize;
@@ -43,9 +45,18 @@ public class AudioAnalyzer : MonoBehaviour
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return;
 
+        PrintLatestNotes();
+
         visualizer.Visualize(correspondingFrequency);
     }
-
+    void PrintLatestNotes()
+    {
+        int i = 0;
+        foreach (var note in latestOvertones)
+        {
+            Debug.Log( "Overtone " + i++ +"Note: " + note.name + " Frequency: " + note.frequency + " Amplitude: " + note.volume);
+        }
+    }
 
     private float[] SNotesToBuffer(List<SNote> _notes)
     {
@@ -77,11 +88,16 @@ public class AudioAnalyzer : MonoBehaviour
         List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
         if (overtones.Count == 0) return -1;
 
+        
+
         float roughBaseFrequency = overtones[0].frequency;
         float targetFrequency = roughBaseFrequency;
+        
+        latestOvertones = overtones;
 
         foreach (var overtone in overtones)
         {
+            
             if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
                 continue;
 
@@ -104,7 +120,13 @@ public class AudioAnalyzer : MonoBehaviour
                 break;
             }
             targetFrequency = overtone.frequency / i;
+
+            if (overtones.Count != 0)
+            {
+               // Debug.Log("avg BValue: " + CalculationStringByOvertone.Instance.Calculate_B_AverageValue(overtones.Select(x => x.frequency).ToArray()));
+            }        
         }
+
 
         float exactBaseFrequency = targetFrequency;
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
