@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
-struct SNote
+public struct SNote
 {
     public float frequency;
     public float volume;
@@ -16,6 +19,8 @@ public class AudioAnalyzer : MonoBehaviour
     [SerializeField] NotesSO notesSO;
     [SerializeField] int analysingDepth;
     [SerializeField] AudioVisualizer visualizer;
+    [SerializeField] TMP_InputField stringInput;
+    [SerializeField] Toggle recordOvertones;
 
     private int bufferSize;
     private int sampleRate;
@@ -39,22 +44,54 @@ public class AudioAnalyzer : MonoBehaviour
 
     public void Analyze(float[] _rawSamples)
     {
-        float frequency = CalculateFrequencyWithOvertones(_rawSamples);
+        (float frequency, float ratio) = CalculateFrequencyWithOvertones(_rawSamples);
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return;
-
-        PrintLatestNotes();
+        //print("Ratio: " +ratio);
+        if(recordOvertones.isOn)
+            SaveOvertonesToFile();
 
         visualizer.Visualize(correspondingFrequency);
     }
-    void PrintLatestNotes()
+    void SaveOvertonesToFile()
     {
         int i = 0;
-        foreach (var note in latestOvertones)
+        string path = $"PythonAPI/StringAnalysis/B_value/{stringInput.text}/";
+
+        // Find the highest numbered file in the directory
+        int highestNumber = -1;
+        string directoryPath = Path.GetDirectoryName(path);
+        if (Directory.Exists(directoryPath))
         {
-            Debug.Log( "Overtone " + i++ +"Note: " + note.name + " Frequency: " + note.frequency + " Amplitude: " + note.volume);
+            var files = Directory.GetFiles(directoryPath);
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(file);
+                if (int.TryParse(fileName, out int fileNumber))
+                {
+                    if (fileNumber > highestNumber)
+                    {
+                        highestNumber = fileNumber;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Directory.CreateDirectory(path);
+        }
+        path = Path.Combine(directoryPath, (highestNumber + 1).ToString());
+
+        using (StreamWriter writer = new StreamWriter(path, false))
+        {
+            writer.WriteLine(latestOvertones.Count);
+            foreach (var note in latestOvertones)
+            {
+                writer.WriteLine($"{note.frequency:F1}");
+                Debug.Log("Overtone " + i++ + " Note: " + note.name + " Frequency: " + note.frequency + " Amplitude: " + note.volume);
+            }
         }
     }
 
@@ -69,7 +106,7 @@ public class AudioAnalyzer : MonoBehaviour
     }
 
 
-    private float CalculateFrequencyWithOvertones(float[] _samples)
+    private (float,float) CalculateFrequencyWithOvertones(float[] _samples)
     {
         Array.Clear(fftBuffer, 0, bufferSize);
 
@@ -77,7 +114,7 @@ public class AudioAnalyzer : MonoBehaviour
         fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return -1;
+        if (highestValue < .001f) return (-1,-1);
 
 
         float frequencyThreshold = 250f;
@@ -86,7 +123,7 @@ public class AudioAnalyzer : MonoBehaviour
 
 
         List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
-        if (overtones.Count == 0) return -1;
+        if (overtones.Count == 0) return (-1, -1);
 
         
 
@@ -121,14 +158,13 @@ public class AudioAnalyzer : MonoBehaviour
             }
             targetFrequency = overtone.frequency / i;
 
-            if (overtones.Count != 0)
-            {
-               // Debug.Log("avg BValue: " + CalculationStringByOvertone.Instance.Calculate_B_AverageValue(overtones.Select(x => x.frequency).ToArray()));
-            }        
+           
         }
-
+        float ratio = CalculationStringByOvertone.Instance.CalculateAmplitudeFrequencyRatio(overtones);
 
         float exactBaseFrequency = targetFrequency;
+        
+
         float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
 
         var vis = new Dictionary<string, object>
@@ -144,7 +180,7 @@ public class AudioAnalyzer : MonoBehaviour
            }
         };
         GraphPlotter.Instance.PlotGraph(vis);
-        return exactBaseFrequency;
+        return (exactBaseFrequency, ratio);
     }
 
 
