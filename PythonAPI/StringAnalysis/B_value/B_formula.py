@@ -70,21 +70,28 @@ if __name__ == "__main__":
     path = os.path.join(os.getcwd(), "B_value",dir_path)
     
     optimal_bs = []
-    for file in os.listdir(path):
-        print(file + " : ")
-        n, data = read_file(os.path.join(path,file))
-        
-        # Assuming the first value corresponds to f(1)
-        f1 = data[0][1] if data else 0
-        
-        # Optimize to find the best b
-        optimal_b = binary_search_optimize(n, data, f1)
-        print(f"Optimal b: {optimal_b}")
-        optimal_bs.append(optimal_b)
-        
-        # show_prediction(optimal_b, n, data, f1)
-        # print(calculate_r2(optimal_b, n, data, f1))
+    
+    n = 9
+    data = [(1, 86.1), (2, 172.3), (3, 263.8), (4, 349.9), (5, 436.0), (6, 522.2), (7, 613.7), (8, 699.8), (9, 791.3)]
+    f1 = data[0][1] if data else 0
+    optimal_b = binary_search_optimize(n, data, f1)
+    print(f"Optimal b: {optimal_b}")
 
-    with open((os.path.join("B_value","TrainingFiles",dir_path) + ".json"), 'w', encoding="utf-8") as file:
-        file.write(json.dumps({"optimal_bs":optimal_bs}))
-    print(f"Average b: {sum(optimal_bs) / len(optimal_bs)}")
+    # for file in os.listdir(path):
+    #     print(file + " : ")
+    #     n, data = read_file(os.path.join(path,file))
+        
+    #     # Assuming the first value corresponds to f(1)
+    #     f1 = data[0][1] if data else 0
+        
+    #     # Optimize to find the best b
+    #     optimal_b = binary_search_optimize(n, data, f1)
+    #     print(f"Optimal b: {optimal_b}")
+    #     optimal_bs.append(optimal_b)
+        
+    #     show_prediction(optimal_b, n, data, f1)
+    #     print(calculate_r2(optimal_b, n, data, f1))
+
+    # with open((os.path.join("B_value","TrainingFiles",dir_path) + ".json"), 'w', encoding="utf-8") as file:
+    #     file.write(json.dumps({"optimal_bs":optimal_bs}))
+    # print(f"Average b: {sum(optimal_bs) / len(optimal_bs)}")

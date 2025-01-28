@@ -58,8 +58,8 @@ public class AudioComponents : MonoBehaviour
     }
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        bool hasPickStroke = DetectPickStroke(_samples);
-        bool hasFrequencyChange = FrequencyChange(_noteFrequency);
+        bool hasPickStroke = DetectPickStroke(_samples, 1.70f);
+        bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
         if (hasFrequencyChange || hasPickStroke)
         {
             return true;
@@ -84,7 +84,7 @@ public class AudioComponents : MonoBehaviour
         }
         return false;
     }
-    public bool DetectPickStroke(float[] _samples)
+    public bool DetectPickStroke(float[] _samples, float _subBufferRisingFactor)
     {
         float lowestFrequency = 40f;
 
@@ -103,13 +103,13 @@ public class AudioComponents : MonoBehaviour
         for (int i = 1; i < medianChunkLoudness.Length - 1; i++)
         {
             if (medianChunkLoudness[i] < 0.01f) continue;
-            if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i]) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1]))
+            if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1], _subBufferRisingFactor))
             {
                 print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
-        if (isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0]) && !isPotentialAmplitudePeak(medianChunkLoudness[0], medianChunkLoudness[1]))
+        if (isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[0], medianChunkLoudness[1], _subBufferRisingFactor))
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
@@ -118,7 +118,7 @@ public class AudioComponents : MonoBehaviour
             }
         }
 
-        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0]))
+        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness, _subBufferRisingFactor) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0],_subBufferRisingFactor))
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
@@ -133,12 +133,11 @@ public class AudioComponents : MonoBehaviour
         return isStroke;
     }
 
-    private bool isPotentialAmplitudePeak(float _previousChuckLoudness, float _chuckLoudness)
+    private bool isPotentialAmplitudePeak(float _previousChuckLoudness, float _chuckLoudness, float _subBufferRisingFactor)
     {
-        return _previousChuckLoudness * subBufferRisingFactor < _chuckLoudness;
+        return _previousChuckLoudness * _subBufferRisingFactor < _chuckLoudness;
     }
    
-
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];
