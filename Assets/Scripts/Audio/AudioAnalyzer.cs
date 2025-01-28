@@ -163,9 +163,6 @@ public class AudioAnalyzer : MonoBehaviour
         float ratio = CalculationStringByOvertone.Instance.CalculateAmplitudeFrequencyRatio(overtones);
 
         float exactBaseFrequency = targetFrequency;
-        
-
-        float[] envelope = AudioComponents.Instance.CalculateEnvelope(windowedSignal, bufferSize / 18);
 
         var vis = new Dictionary<string, object>
         {
