@@ -12,17 +12,22 @@ for filename in os.listdir(os.getcwd()):
         print("filename",filename)
         audio, sample_rate = sf.read(filename)
         print(sample_rate)
+        # Convert stereo to mono if necessary
+        
+
         # Ensure the audio file has at least 6 seconds of audio
         assert len(audio) >= 20 * sample_rate, "The audio file is shorter than 6 seconds."
 
         # Split audio into 6 buffers, each 1 second long
         buffers = [audio[i * sample_rate:(i + 1) * sample_rate] for i in range(25*6)]
-
+        
         # Take the first 4096 samples of each buffer
         short_buffers = [buffer[:4096*2] for buffer in buffers]
         optimal_bs = []
         # Perform Fourier analysis and create separate canvases
         def save_sample_data(buffer, buffer_index):
+            if len(buffer) == 0:
+                raise ValueError("Buffer is empty, cannot perform FFT.")
             # Fourier transform
             fft_result = scipy.fft.fft(buffer)
             magnitudes = np.abs(fft_result)
@@ -51,10 +56,13 @@ for filename in os.listdir(os.getcwd()):
                 print(f"Buffer {buffer_index + 1}: {optimal_b}")
 
         for i, buffer in enumerate(short_buffers):
-            save_sample_data(buffer, i)
-
+            if len(buffer) > 0:
+                save_sample_data(buffer, i)
+            else:
+                print(f"Buffer {i+1} is empty, skipping FFT.")
+            
         with open(filename.replace(".mp3",".json"), "w", encoding='utf-8') as f:
-            f.write(json.dumps({"optimal_bs":optimal_bs}))
+            f.write(json.dumps({"optimal_bs":optimal_bs}, indent=4))
         
 
 
