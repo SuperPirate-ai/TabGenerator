@@ -39,7 +39,7 @@ for note_stringname, audio_clip in notes:
     average_amplitude_ratio = sum(amplitude_ratios) / len(amplitude_ratios)
     if current_stringname not in all_amplitude_ratios:
         all_amplitude_ratios[current_stringname]= []
-    all_amplitude_ratios[current_stringname].append(average_amplitude_ratio)
+    all_amplitud    e_ratios[current_stringname].append(average_amplitude_ratio)
 
 
 
@@ -54,17 +54,11 @@ for key in all_amplitude_ratios:
 print(b_value_amplitude_pairs)
 for b_value_amplitude_pair in b_value_amplitude_pairs:
 
-    max_len = 158
-    pair = np.array(b_value_amplitude_pair, dtype='float32')
-    pair = pair[:max_len]  # Ensure the pair array does not exceed max_len
-    new_data = np.zeros((1, max_len, 2), dtype='float32')
-    new_data[0, :pair.shape[0], :] = pair
-
-    new_data_padded = pad_sequences(new_data, maxlen=158, dtype='float32', padding='post', truncating='post')
-    new_data_padded = np.expand_dims(new_data_padded,-1)
+    singel_input = np.array([b_value_amplitude_pair])
+    print("Input shape:", singel_input)
 
     # Predict results
-    new_predictions = model.predict(new_data_padded)
+    new_predictions = model.predict(singel_input)
 
 
     predicted_classes = np.argmax(new_predictions, axis=1)
