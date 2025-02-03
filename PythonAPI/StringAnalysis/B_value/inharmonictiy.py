@@ -1,25 +1,9 @@
-import numpy as np
-def calculate_Inharmonicity(fk_values,f0):
-    
-    #f0 = 110
-    #fk_values = [110, 222, 331, 442]
-    k_values = [1, 2, 3, 4]
+f0  = 110
+overtones = [110,220,330,440,550]
 
-    # Compute (fk/f0)^2 for each fk
-    lhs = [(fk / f0) ** 2 for fk in fk_values]
+#make a list of multiples of f0 starting from f0
+multiples_f0 = [f0, f0*2, f0*3, f0*4, f0*5]
 
-    # Construct the Vandermonde matrix for k values
-    A = np.array([[k**i for i in range(5)] for k in k_values])
 
-    # Solve for p0, p1, p2, p3, p4
-    p_coeffs = np.linalg.lstsq(A, lhs, rcond=None)[0]
 
-    # # Print results
-    # sum = 0
-    # for i, p in enumerate(p_coeffs):
-    #     print(f"p{i} = {p:.6f}")
-    #     sum += p
-
-    # print(f"Sum of p values: {sum:.6f}")
-    return p_coeffs
 

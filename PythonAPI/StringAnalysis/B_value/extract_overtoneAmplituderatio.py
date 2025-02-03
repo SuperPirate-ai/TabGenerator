@@ -7,7 +7,8 @@ notes = usefull_audioStuff.get_audio_whith_peak(samplerate, audio)
 avg_amplitude_ratios = {}
 for stringname, audio_clip in notes:
     frequency_peaks, amplitude_peaks = usefull_audioStuff.calc_freq_peaks(audio_clip, samplerate)
-
+    if len(amplitude_peaks) == 0:
+        continue
     fund_amplitude = amplitude_peaks[0]
     amplitude_ratios = [amplitude / fund_amplitude for amplitude in amplitude_peaks]
     average_amplitude_ratio = sum(amplitude_ratios) / len(amplitude_ratios)
