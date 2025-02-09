@@ -1,67 +1,29 @@
+import onnx
+onnx_model = onnx.load("modelData.onnx")
+onnx.checker.check_model(onnx_model)
+#print inputshape
+print(onnx_model.graph.input)
+## test the model with numbers
+import onnxruntime as rt
 import numpy as np
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-import soundfile as sf
-from os import path
-import usefull_audioStuff
-import B_formula
+import pandas as pd
+from colorama import Fore, Style
 
+sess = rt.InferenceSession("modelData.onnx")
+input_name = sess.get_inputs()[0].name
+label_name = sess.get_outputs()[0].name
 
-model_path = 'B_value_model.h5'
-model = load_model(model_path)
+vals = pd.read_csv('testresults.csv').values
 
-audio, string_name, samplerate = usefull_audioStuff.extract_audio_and_string_names_from_onefile(path.join("test","highEonallstrings.mp3"))
-string_name = string_name.split("\\")[1]
-# Print the model's input shape
-print("Model input shape:", model.input_shape)
-audios = {}
-audios[string_name] = audio
-notes = usefull_audioStuff.get_audio_whith_peak(samplerate, audios)
-optimal_b_values = {}
-all_amplitude_ratios = {}
-i = 0
-for note_stringname, audio_clip in notes:
-    i += 1
-    #inharmonicity
-    current_stringname = str(string_name + str(i))
-    frequency_peaks, amplitude_peaks = usefull_audioStuff.calc_freq_peaks(audio_clip, samplerate)
-    freq_data = [(i+1,float(peak)) for i,peak in enumerate(frequency_peaks)]
-    length = len(frequency_peaks)
-    f1 = freq_data[0][1] if freq_data else 0
-    optimal_b = B_formula.binary_search_optimize(length, freq_data, f1)
-    if current_stringname not in optimal_b_values:
-        optimal_b_values[current_stringname]= []
-    optimal_b_values[current_stringname].append(optimal_b)
-    #ratio of amplitude
+strings = ["h_E", "B", "G", "D", "A", "E"]
+labels = vals[:, 0]
+data = vals[:, 1:]
+for d, l in zip(data, labels):
+    d = d.reshape(1, -1).astype(np.float32)
+    result = strings[np.argmax(sess.run([label_name], {input_name: d})[0][0])]
 
-    fund_amplitude = amplitude_peaks[0]
-    amplitude_ratios = [amplitude / fund_amplitude for amplitude in amplitude_peaks]
-    average_amplitude_ratio = sum(amplitude_ratios) / len(amplitude_ratios)
-    if current_stringname not in all_amplitude_ratios:
-        all_amplitude_ratios[current_stringname]= []
-    all_amplitud    e_ratios[current_stringname].append(average_amplitude_ratio)
-
-
-
-
-# Create a list of tuples (amplitude_ratio, b_value)
-b_value_amplitude_pairs = []
-for key in all_amplitude_ratios:
-    for amplitude_ratio, b_value in zip(all_amplitude_ratios[key], optimal_b_values[key]):
-        b_value_amplitude_pairs.append(( b_value,amplitude_ratio))
-
-
-print(b_value_amplitude_pairs)
-for b_value_amplitude_pair in b_value_amplitude_pairs:
-
-    singel_input = np.array([b_value_amplitude_pair])
-    print("Input shape:", singel_input)
-
-    # Predict results
-    new_predictions = model.predict(singel_input)
-
-
-    predicted_classes = np.argmax(new_predictions, axis=1)
-
-    print("Predicted probabilities:", new_predictions)
-    print("Predicted class:", predicted_classes)
+    if l == result:
+        print(f"{Fore.GREEN}expected: {l}, got: {result}{Style.RESET_ALL}")
+    else:
+        print(f"{Fore.RED}expected: {l}, got: {result}{Style.RESET_ALL}")
+ 
