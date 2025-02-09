@@ -3873,7 +3873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920fbb8a6a3372f43aec93101d55ce6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelAsset: {fileID: 5022602860645237092, guid: f5620cdc9aa3d0e409edeffc18d78908, type: 3}
+  modelAsset: {fileID: 5022602860645237092, guid: 263b7a90c7da3ad46a263d65b79ced8f, type: 3}
 --- !u!4 &819613437
 Transform:
   m_ObjectHideFlags: 0

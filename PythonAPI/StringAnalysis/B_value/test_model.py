@@ -1,5 +1,5 @@
 import onnx
-onnx_model = onnx.load("modelData.onnx")
+onnx_model = onnx.load("stringDetectionML_ONNX.onnx")
 onnx.checker.check_model(onnx_model)
 #print inputshape
 print(onnx_model.graph.input)
@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 from colorama import Fore, Style
 
-sess = rt.InferenceSession("modelData.onnx")
+sess = rt.InferenceSession("stringDetectionML_ONNX.onnx")
 input_name = sess.get_inputs()[0].name
 label_name = sess.get_outputs()[0].name
 

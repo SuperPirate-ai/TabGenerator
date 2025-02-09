@@ -8,12 +8,14 @@ audios = {}
 stringnames = []
 
 for mp3 in os.listdir("."):
-    if not "_string.mp3" in mp3:
+    if not "_string" in mp3 and not mp3.endswith(".mp3"):
         continue
     
     print(mp3)
     data, fs = sf.read(mp3)
-    stringname = mp3.replace("_string.mp3", "")
+    #replace everthing after the first _ with nothing
+    stringname = mp3.split("_s")[0]
+
     audios[stringname] = data
     if stringname not in stringnames:
         stringnames.append(stringname)
@@ -129,5 +131,5 @@ for metric, amp_ra, deviation,freq, stringname in results:
     csv_text += f"{stringname},{metric:.20f},{amp_ra:.20f},{deviation:.20f},{freq:.5f}\n"
 
 
-with open("results.csv", "w") as f:
+with open("testresults.csv", "w") as f:
     f.write(csv_text)
