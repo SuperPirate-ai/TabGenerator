@@ -11,7 +11,6 @@ public class LoadModel : MonoBehaviour
     {
         string path = Path.Combine(Application.dataPath, "MachineLearning", "TestData", "testresults2.csv");
         path = path.Replace("\\", "/");
-        Debug.Log($"Path: {path}");
         string csvText = File.ReadAllText(path);
 
         string[] lines = csvText.Split('\n');
@@ -35,27 +34,26 @@ public class LoadModel : MonoBehaviour
             }
             dataList.Add((label, features));
         }
-        (string label1, float[] features1) = dataList[0];
-        for (int i = 0; i < features1.Length; i++)
-        {
-            print(features1[i]);
-        }
-
+      
         runtimeModel = ModelLoader.Load(modelAsset);
         //print inputshape
         Debug.Log($"Input shape: {runtimeModel.inputs[0].shape}");
-        Worker worker = new Worker(runtimeModel, BackendType.CPU);
+        Worker worker = new Worker(runtimeModel, BackendType.GPUCompute );
 
         string[] strings = { "h_E", "B", "G", "D", "A", "E" };
 
         int predictedright = 0;
         int predictedwrong = 0;
+        string inputData = "";
+        string outputData = "";
         foreach (var (label, features) in dataList)
         {
+            inputData += string.Join(",",features) + "\n";
+            print(inputData);
             Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, features.Length), features);
             worker.Schedule(inputTensor);
             Tensor<float> outputTensor = worker.PeekOutput() as Tensor<float>;
-
+            outputData += string.Join(",", outputTensor.DownloadToArray()) + "\n";
             if (outputTensor == null)
             {
                 Debug.LogError("Model inference failed.");
@@ -77,6 +75,19 @@ public class LoadModel : MonoBehaviour
 
 
 
+        }
+
+        using (StreamReader sr = new StreamReader(Path.Combine(Application.dataPath, "MachineLearning", "TestData", "inputresults.csv")))
+        {
+            string data = sr.ReadToEnd();
+            if (data == inputData)
+            {
+                Debug.Log("Input data is correct");
+            }
+            else
+            {
+                Debug.Log("Input data is incorrect");
+            }
         }
 
         worker.Dispose(); // Clean up
