@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +34,7 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         if (indexOfNote == -1) { Debug.Log($"No Note found with the Frequency {_frequency}."); return null; }
 
         string[] notePositionsString = guitarStringRefernez.NotePositions[indexOfNote].Split(';');
-        
+
         int notePosCount = 0;
         for (int i = 0; i < notePositionsString.Length; i++)
         {
@@ -49,8 +48,8 @@ public class NoteToVisualPointsConverter : MonoBehaviour
         notePositionsString = notePositionsString.Reverse().ToArray();
         for (int i = 0; i < notePositionsString.Length; i++)
         {
-            if(InRangeOfSlider(i))
-            { 
+            if (InRangeOfSlider(i))
+            {
                 string[] point = notePositionsString[i].Split(',');
                 //print(i + "||" + point[1]); 
                 notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using System;
 using Accord.Statistics;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 public class CalculationStringByOvertone : MonoBehaviour
 {
@@ -47,7 +45,7 @@ public class CalculationStringByOvertone : MonoBehaviour
             int indexOfMultiple = (int)(multiplesFundFreq[i] * NoteManager.Instance.DefaultBufferSize / NoteManager.Instance.DefaultSamplerate);
             float maxAmplitude = 0f;
             int maxIndex = -1;
-            float threshold = _fft.Max() * .001f ;
+            float threshold = _fft.Max() * .001f;
             for (int j = -indexRange; j < indexRange; j++)
             {
                 int currentIndex = indexOfMultiple + j;
@@ -76,8 +74,8 @@ public class CalculationStringByOvertone : MonoBehaviour
         {
             ratio += amplitudes[i] * frequencies[i];
         }
-        return ratio/ amplitudes.Sum();
-        
+        return ratio / amplitudes.Sum();
+
     }
 }
 

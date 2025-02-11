@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public struct SNote
@@ -50,7 +50,7 @@ public class AudioAnalyzer : MonoBehaviour
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return;
         //print("Ratio: " +ratio);
-        if(recordOvertones.isOn)
+        if (recordOvertones.isOn)
             SaveOvertonesToFile();
 
         visualizer.Visualize(correspondingFrequency);
@@ -106,7 +106,7 @@ public class AudioAnalyzer : MonoBehaviour
     }
 
 
-    private (float,float) CalculateFrequencyWithOvertones(float[] _samples)
+    private (float, float) CalculateFrequencyWithOvertones(float[] _samples)
     {
         Array.Clear(fftBuffer, 0, bufferSize);
 
@@ -114,7 +114,7 @@ public class AudioAnalyzer : MonoBehaviour
         fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return (-1,-1);
+        if (highestValue < .001f) return (-1, -1);
 
 
         float frequencyThreshold = 250f;
@@ -125,16 +125,16 @@ public class AudioAnalyzer : MonoBehaviour
         List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
         if (overtones.Count == 0) return (-1, -1);
 
-        
+
 
         float roughBaseFrequency = overtones[0].frequency;
         float targetFrequency = roughBaseFrequency;
-        
+
         latestOvertones = overtones;
 
         foreach (var overtone in overtones)
         {
-            
+
             if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
                 continue;
 
@@ -158,7 +158,7 @@ public class AudioAnalyzer : MonoBehaviour
             }
             targetFrequency = overtone.frequency / i;
 
-           
+
         }
         float ratio = CalculationStringByOvertone.Instance.CalculateAmplitudeFrequencyRatio(overtones);
 
@@ -167,7 +167,7 @@ public class AudioAnalyzer : MonoBehaviour
         var vis = new Dictionary<string, object>
         {
            { "plotting_data", new List<object> {
-                    
+
                     new List<object> {1,1, fftBuffer.Take(500).ToArray()},
                     //new List<object> {2, 1, windowedSignal.Take(500).ToArray()},
                     //new List<object> { 1, 2, envelope.Take(500).ToArray() },

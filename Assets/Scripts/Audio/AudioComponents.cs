@@ -1,6 +1,5 @@
 using Accord.Math;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
@@ -118,7 +117,7 @@ public class AudioComponents : MonoBehaviour
             }
         }
 
-        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness, _subBufferRisingFactor) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0],_subBufferRisingFactor))
+        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness, _subBufferRisingFactor) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0], _subBufferRisingFactor))
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
@@ -137,7 +136,7 @@ public class AudioComponents : MonoBehaviour
     {
         return _previousChuckLoudness * _subBufferRisingFactor < _chuckLoudness;
     }
-   
+
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];

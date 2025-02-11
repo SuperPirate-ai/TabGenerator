@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
-using Unity.Sentis;
 using System.IO;
-using static UnityEngine.UI.GridLayoutGroup;
-using System.Reflection.Emit;
+using Unity.Sentis;
+using UnityEngine;
 
 public class LoadModel : MonoBehaviour
 {
@@ -28,12 +26,12 @@ public class LoadModel : MonoBehaviour
             if (columns.Length < 5) continue; // Ensure correct format
 
             string label = columns[0];
-            float[] features = new float[columns.Length -1];
+            float[] features = new float[columns.Length - 1];
             for (int i = 1; i < columns.Length; i++)
             {
                 if (float.TryParse(columns[i], out float value))
                     features[i - 1] = value;
-                    
+
             }
             dataList.Add((label, features));
         }
@@ -73,12 +71,12 @@ public class LoadModel : MonoBehaviour
                 predictedright++;
             else
                 predictedwrong++;
-                //Debug.Log($"<color=red>Expected: {label}, Got: {predictedLabel}</color>");
-                inputTensor.Dispose();
-                outputTensor.Dispose();
+            //Debug.Log($"<color=red>Expected: {label}, Got: {predictedLabel}</color>");
+            inputTensor.Dispose();
+            outputTensor.Dispose();
 
 
-          
+
         }
 
         worker.Dispose(); // Clean up

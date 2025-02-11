@@ -44,6 +44,6 @@ public class FollowingNoteDetermination : MonoBehaviour
             }
         }
         return mostLikelyNotePosition;
-        
+
     }
 }
