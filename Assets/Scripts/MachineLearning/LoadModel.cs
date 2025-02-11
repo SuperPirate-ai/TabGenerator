@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Sentis;
 using System.IO;
 using static UnityEngine.UI.GridLayoutGroup;
+using System.Reflection.Emit;
 
 public class LoadModel : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class LoadModel : MonoBehaviour
     private Model runtimeModel;
     void Start()
     {
-        string path = Path.Combine(Application.dataPath, "MachineLearning", "TestData", "testresults.csv");
+        string path = Path.Combine(Application.dataPath, "MachineLearning", "TestData", "testresults2.csv");
         path = path.Replace("\\", "/");
         Debug.Log($"Path: {path}");
         string csvText = File.ReadAllText(path);
@@ -32,18 +33,25 @@ public class LoadModel : MonoBehaviour
             {
                 if (float.TryParse(columns[i], out float value))
                     features[i - 1] = value;
+                    
             }
             dataList.Add((label, features));
+        }
+        (string label1, float[] features1) = dataList[0];
+        for (int i = 0; i < features1.Length; i++)
+        {
+            print(features1[i]);
         }
 
         runtimeModel = ModelLoader.Load(modelAsset);
         //print inputshape
         Debug.Log($"Input shape: {runtimeModel.inputs[0].shape}");
-        Worker worker = new Worker(runtimeModel, BackendType.GPUCompute);
+        Worker worker = new Worker(runtimeModel, BackendType.CPU);
 
         string[] strings = { "h_E", "B", "G", "D", "A", "E" };
 
-
+        int predictedright = 0;
+        int predictedwrong = 0;
         foreach (var (label, features) in dataList)
         {
             Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, features.Length), features);
@@ -61,14 +69,21 @@ public class LoadModel : MonoBehaviour
             string predictedLabel = strings[predictedIndex];
 
             if (label == predictedLabel)
-                Debug.Log($"<color=green>Expected: {label}, Got: {predictedLabel}</color>");
+                //Debug.Log($"<color=green>Expected: {label}, Got: {predictedLabel}</color>");
+                predictedright++;
             else
-                Debug.Log($"<color=red>Expected: {label}, Got: {predictedLabel}</color>");
+                predictedwrong++;
+                //Debug.Log($"<color=red>Expected: {label}, Got: {predictedLabel}</color>");
+                inputTensor.Dispose();
+                outputTensor.Dispose();
+
 
           
         }
 
         worker.Dispose(); // Clean up
+        Debug.Log($"Predicted right: {predictedright}");
+        Debug.Log($"Predicted wrong: {predictedwrong}");
     }
     private int ArgMax(float[] values)
     {
