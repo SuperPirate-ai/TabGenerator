@@ -1,6 +1,6 @@
 import onnx
 from os import path
-model_path = path.join("models"+"stringDetectionML_ONNX.onnx")
+model_path = path.join("models","stringDetectionML_ONNX.onnx")
 onnx_model = onnx.load(model_path)
 onnx.checker.check_model(onnx_model)
 #print inputshape
@@ -19,7 +19,7 @@ sess = rt.InferenceSession(model_path)
 input_name = sess.get_inputs()[0].name
 label_name = sess.get_outputs()[0].name
 
-vals = pd.read_csv('testresults.csv').values
+vals = pd.read_csv(path.join("results",'testresults.csv')).values
 
 strings = ["h_E", "B", "G", "D", "A", "E"]
 labels = vals[:, 0]
