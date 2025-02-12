@@ -4,8 +4,12 @@ model_path = path.join("models","stringDetectionML_ONNX.onnx")
 onnx_model = onnx.load(model_path)
 onnx.checker.check_model(onnx_model)
 #print inputshape
-print(onnx_model.graph.input)
+#print(onnx_model.graph.input)
 
+
+for tensor in onnx_model.graph.initializer:
+    assert tensor.data_type == onnx.TensorProto.FLOAT, f"{tensor.name} is not FP32!"
+print("All tensors are FP32")
 
 
 
@@ -16,6 +20,7 @@ import pandas as pd
 from colorama import Fore, Style
 
 sess = rt.InferenceSession(model_path)
+
 input_name = sess.get_inputs()[0].name
 label_name = sess.get_outputs()[0].name
 
