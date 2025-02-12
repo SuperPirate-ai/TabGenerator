@@ -1,6 +1,7 @@
 using Accord.Audio;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Sentis;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -45,7 +46,7 @@ public class LoadModel : MonoBehaviour
         }
         //print inputshape
         Debug.Log($"Input shape: {runtimeModel.inputs[0].shape}");
-        Worker worker = new Worker(runtimeModel, BackendType.GPUCompute);
+        Worker worker = new Worker(runtimeModel, BackendType.CPU);
 
         string[] strings = { "h_E", "B", "G", "D", "A", "E" };
 
@@ -54,8 +55,10 @@ public class LoadModel : MonoBehaviour
 
         foreach (var (label, features) in dataList)
         {
-          
-            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, features.Length),features);   
+            float min = features.Min();
+            float max = features.Max();
+            float[] normalized =  features.Select(x => (x - min) / (max - min)).ToArray();
+            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, normalized.Length), normalized);   
             worker.Schedule(inputTensor);
 
             Tensor<float> outputTensor = worker.PeekOutput() as Tensor<float>;

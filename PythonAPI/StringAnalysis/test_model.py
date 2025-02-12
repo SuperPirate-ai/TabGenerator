@@ -19,8 +19,8 @@ import numpy as np
 import pandas as pd
 from colorama import Fore, Style
 
-sess = rt.InferenceSession(model_path)
-
+sess = rt.InferenceSession(model_path,providers=['CPUExecutionProvider'])
+sess.disable_fallback()
 input_name = sess.get_inputs()[0].name
 label_name = sess.get_outputs()[0].name
 
