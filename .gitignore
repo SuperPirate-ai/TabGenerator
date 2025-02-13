@@ -28,3 +28,6 @@ crashlytics-build.properties
 .vs/TapGenerator/FileContentIndex/
 .vsidx
 .vs/
+
+# Unity3D Auto generated folder
+/Logs/
