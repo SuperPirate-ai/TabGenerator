@@ -31,6 +31,7 @@ labels = vals[:, 0]
 data = vals[:, 1:]
 predicted_right = 0
 predicted_wrong = 0
+i = 0
 for d, l in zip(data, labels):
     d = d.reshape(1, -1).astype(np.float32)
     result = strings[np.argmax(sess.run([label_name], {input_name: d})[0][0])]
@@ -42,5 +43,10 @@ for d, l in zip(data, labels):
         print(f"{Fore.RED}expected: {l}, got: {result}{Style.RESET_ALL}")
         predicted_wrong += 1
 
+    if i == 0:
+        probabilities = sess.run([label_name], {input_name: d})[0][0]
+        for string, probability in zip(strings, probabilities):
+            print(f"{string}: {probability:.4f}")
+        i += 1
 print(f"predicted right: {predicted_right}, predicted wrong: {predicted_wrong}")
  

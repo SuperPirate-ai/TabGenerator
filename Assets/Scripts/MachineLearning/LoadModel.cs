@@ -1,5 +1,7 @@
 using Accord.Audio;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.IO;
 using System.Linq;
 using Unity.Sentis;
@@ -12,6 +14,12 @@ public class LoadModel : MonoBehaviour
     private Model runtimeModel;
     void Start()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+        Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+
+
+
+
         string path = Path.Combine(Application.dataPath, "MachineLearning", "TestData", "testresults2.csv");
         path = path.Replace("\\", "/");
         string csvText = File.ReadAllText(path);
@@ -26,26 +34,19 @@ public class LoadModel : MonoBehaviour
             string[] columns = line.Split(',');
 
             if (columns.Length < 5) continue; // Ensure correct format
-
             string label = columns[0];
             float[] features = new float[columns.Length - 1];
             for (int i = 1; i < columns.Length; i++)
             {
-                if (float.TryParse(columns[i], out float value))
-                    features[i - 1] = value;
-
+                features[i - 1] = float.Parse(columns[i],CultureInfo.InvariantCulture.NumberFormat);
             }
+            // print("featuresBEFORE: " + string.Join(",", features.Select(x => x.ToString("F8"))));
             dataList.Add((label, features));
         }
 
         runtimeModel = ModelLoader.Load(modelAsset);
-        //check that all datatypes are float32
-        foreach (var input in runtimeModel.inputs)
-        {
-            print(input.dataType);
-        }
+       
         //print inputshape
-        Debug.Log($"Input shape: {runtimeModel.inputs[0].shape}");
         Worker worker = new Worker(runtimeModel, BackendType.CPU);
 
         string[] strings = { "h_E", "B", "G", "D", "A", "E" };
@@ -57,8 +58,8 @@ public class LoadModel : MonoBehaviour
         {
             float min = features.Min();
             float max = features.Max();
-            float[] normalized =  features.Select(x => (x - min) / (max - min)).ToArray();
-            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, normalized.Length), normalized);   
+            float[] normalized = features.Select(x => (x - min) / (max - min)).ToArray();
+            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, normalized.Length), normalized);
             worker.Schedule(inputTensor);
 
             Tensor<float> outputTensor = worker.PeekOutput() as Tensor<float>;
@@ -80,13 +81,38 @@ public class LoadModel : MonoBehaviour
 
             //Debug.Log($"<color=red>Expected: {label}, Got: {predictedLabel}</color>");
             inputTensor.Dispose();
-            outputTensor.Dispose();         
+            outputTensor.Dispose();
         }
 
         worker.Dispose(); // Clean up
         Debug.Log($"Predicted right: {predictedright}");
         Debug.Log($"Predicted wrong: {predictedwrong}");
+
+
+        (string label0, float[] features0) = dataList[56];
+
+        print("features: " + string.Join(",", features0.Select(x => x.ToString("#.########"))));
+        Tensor<float> input0 = new Tensor<float>(new TensorShape(1, features0.Length), features0);
+        float[] inputvalues = input0.DownloadToArray();
+        print("input: " + string.Join(",", inputvalues.Select(x => x.ToString("#.########"))));
+        worker = new Worker(runtimeModel, BackendType.CPU);
+        worker.Schedule(input0);
+        Tensor<float> output = worker.PeekOutput() as Tensor<float>;
+
+        //print output
+
+        float[] outputValues0 = output.DownloadToArray();
+        int predictedIndex0 = ArgMax(outputValues0);
+        string predictedLabel0 = strings[predictedIndex0];
+
+
+
+        print(string.Join(",", outputValues0.Select(x => x.ToString("0.00000000"))));
+        print("Predicted index: " + predictedIndex0);
+        print("Predicted string: " + predictedright);
+
     }
+
     private int ArgMax(float[] values)
     {
         int bestIndex = 0;
