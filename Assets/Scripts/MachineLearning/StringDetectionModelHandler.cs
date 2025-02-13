@@ -8,7 +8,7 @@ using Unity.Sentis;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class LoadModel : MonoBehaviour
+public class StringDetectionModelHandler : MonoBehaviour
 {
     public ModelAsset modelAsset;
     private Model runtimeModel;
@@ -16,7 +16,13 @@ public class LoadModel : MonoBehaviour
     {
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+        runtimeModel = ModelLoader.Load(modelAsset);
 
+
+
+    }
+    private void Test()
+    {
 
 
 
@@ -38,14 +44,13 @@ public class LoadModel : MonoBehaviour
             float[] features = new float[columns.Length - 1];
             for (int i = 1; i < columns.Length; i++)
             {
-                features[i - 1] = float.Parse(columns[i],CultureInfo.InvariantCulture.NumberFormat);
+                features[i - 1] = float.Parse(columns[i], CultureInfo.InvariantCulture.NumberFormat);
             }
             // print("featuresBEFORE: " + string.Join(",", features.Select(x => x.ToString("F8"))));
             dataList.Add((label, features));
         }
 
-        runtimeModel = ModelLoader.Load(modelAsset);
-       
+
         //print inputshape
         Worker worker = new Worker(runtimeModel, BackendType.CPU);
 
@@ -107,7 +112,19 @@ public class LoadModel : MonoBehaviour
         print(string.Join(",", outputValues0.Select(x => x.ToString("0.00000000"))));
         print("Predicted index: " + predictedIndex0);
         print("Predicted string: " + predictedright);
+    }
 
+    public float[] Predict(float[] features)
+    {
+        Worker worker = new Worker(runtimeModel, BackendType.CPU);
+        Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, features.Length), features);
+        worker.Schedule(inputTensor);
+        Tensor<float> outputTensor = worker.PeekOutput() as Tensor<float>;
+        float[] outputValues = outputTensor.DownloadToArray();
+        inputTensor.Dispose();
+        outputTensor.Dispose();
+        worker.Dispose();
+        return outputValues;
     }
 
     private int ArgMax(float[] values)

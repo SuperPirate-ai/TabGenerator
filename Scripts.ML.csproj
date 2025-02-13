@@ -60,8 +60,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\MachineLearning\StringDetectionModelHandler.cs" />
     <Compile Include="Assets\Scripts\MachineLearning\ModelDataCollector.cs" />
-    <Compile Include="Assets\Scripts\MachineLearning\LoadModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\MachineLearning\Scripts.ML.asmdef" />
