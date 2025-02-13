@@ -56,10 +56,7 @@ public class LoadModel : MonoBehaviour
 
         foreach (var (label, features) in dataList)
         {
-            float min = features.Min();
-            float max = features.Max();
-            float[] normalized = features.Select(x => (x - min) / (max - min)).ToArray();
-            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, normalized.Length), normalized);
+            Tensor<float> inputTensor = new Tensor<float>(new TensorShape(1, features.Length), features);
             worker.Schedule(inputTensor);
 
             Tensor<float> outputTensor = worker.PeekOutput() as Tensor<float>;
