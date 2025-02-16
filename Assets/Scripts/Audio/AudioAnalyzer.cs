@@ -131,38 +131,24 @@ public class AudioAnalyzer : MonoBehaviour
         float targetFrequency = roughBaseFrequency;
 
         latestOvertones = overtones;
-
+        Dictionary<int,float> overtoneFrequenciesADDED = new Dictionary<int,float>();
+        Dictionary<int,float> overtoneAmplitudeADDED = new Dictionary<int,float>();
+        float exactBaseFrequency;
         foreach (var overtone in overtones)
         {
 
             if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
                 continue;
 
-            int i = 1;
-            float smallestFactor = float.MaxValue;
-            while (true)
-            {
-                float newFactor = (overtone.frequency / i) / targetFrequency;
-                if (newFactor < 1)
-                {
-                    newFactor = 1 / newFactor;
-                }
-                if (newFactor < smallestFactor)
-                {
-                    smallestFactor = newFactor;
-                    i++;
-                    continue;
-                }
-                i--;
-                break;
-            }
-            targetFrequency = overtone.frequency / i;
+            float baseToOvertoneFactor = (float)Math.Round(overtone.frequency / roughBaseFrequency);
+            exactBaseFrequency = overtone.frequency / baseToOvertoneFactor;
+
+            int overtoneIndex = baseToOvertoneFactor - 1;
 
 
         }
-        float ratio = CalculationStringByOvertone.Instance.CalculateAmplitudeFrequencyRatio(overtones);
+        float ratio = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones);
 
-        float exactBaseFrequency = targetFrequency;
 
         var vis = new Dictionary<string, object>
         {

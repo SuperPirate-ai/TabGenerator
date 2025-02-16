@@ -92,7 +92,7 @@ for stringname, clip in notes:
     for a, f in zip(amplitude_peaks, frequency_peaks):
         amplitude_times_frequencies.append(a * f)
         
-    metric_1 = 1/(sum(amplitude_times_frequencies) / sum(amplitude_peaks))
+    metric_1 = 1/(sum(amplitude_times_frequencies) / len(amplitude_peaks))
     amplitude_ratios = []
 
 
