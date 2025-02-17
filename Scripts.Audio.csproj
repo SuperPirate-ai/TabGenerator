@@ -1033,6 +1033,10 @@
       <Project>{AD51FE32-77CB-68C8-054D-78F1A19676F3}</Project>
       <Name>Scripts.Tools</Name>
     </ProjectReference>
+    <ProjectReference Include="Scripts.ML.csproj">
+      <Project>{0F01C59B-3CC7-3591-D85E-16826ADB32B9}</Project>
+      <Name>Scripts.ML</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

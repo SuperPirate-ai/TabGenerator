@@ -133,7 +133,7 @@ public class AudioAnalyzer : MonoBehaviour
         latestOvertones = overtones;
         Dictionary<int,float> overtoneFrequenciesADDED = new Dictionary<int,float>();
         Dictionary<int,float> overtoneAmplitudeADDED = new Dictionary<int,float>();
-        float exactBaseFrequency;
+        float exactBaseFrequency = overtones[0].frequency;
         foreach (var overtone in overtones)
         {
 
@@ -143,11 +143,16 @@ public class AudioAnalyzer : MonoBehaviour
             float baseToOvertoneFactor = (float)Math.Round(overtone.frequency / roughBaseFrequency);
             exactBaseFrequency = overtone.frequency / baseToOvertoneFactor;
 
-            int overtoneIndex = baseToOvertoneFactor - 1;
+            int overtoneIndex = (int)(baseToOvertoneFactor - 1);
 
 
         }
+        float avgOvertoneDiffrence = ExtractMLFeatues.Instance.CalculteOvertoneDifference(overtoneFrequenciesADDED,exactBaseFrequency);
         float ratio = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones);
+        float amplitudeRatio = ExtractMLFeatues.Instance.AplitudeRatio(overtones);
+
+        float[] features = new float[] { ratio, amplitudeRatio,avgOvertoneDiffrence, exactBaseFrequency};
+        StringDetectionModelHandler.Instance.Predict(features);
 
 
         var vis = new Dictionary<string, object>

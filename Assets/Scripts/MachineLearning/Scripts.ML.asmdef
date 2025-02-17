@@ -2,8 +2,7 @@
     "name": "Scripts.ML",
     "rootNamespace": "",
     "references": [
-        "Unity.Sentis",
-        "Scripts.Audio"
+        "Unity.Sentis"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

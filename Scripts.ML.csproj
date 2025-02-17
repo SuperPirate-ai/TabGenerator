@@ -1008,10 +1008,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Scripts.Audio.csproj">
-      <Project>{02BE6163-EBEE-D494-4860-9B8C9FA6EC66}</Project>
-      <Name>Scripts.Audio</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -12,44 +12,33 @@ public class ExtractMLFeatues : MonoBehaviour
     {
         Instance = this;
     }
-
-
-
-    public float CalculteOvertoneDifference(float[] _fft, float _fundamentalFrequency)
+    public float AplitudeRatio(List<SNote> _overtones)
     {
-        float[] multiplesFundFreq = Enumerable.Range(1, 5).Select(i => _fundamentalFrequency * i).ToArray();
-        float freqRangePercentage = .1f;
-        float[] differences = new float[multiplesFundFreq.Length];
-
-        for (int i = 0; i < multiplesFundFreq.Length; i++)
+        float[] amplitudesRatio = new float[_overtones.Count];
+        for (int i = 0; i < _overtones.Count; i++)
         {
-            float range = multiplesFundFreq[i] * freqRangePercentage;
-            int indexRange = (int)(range * NoteManager.Instance.DefaultBufferSize / NoteManager.Instance.DefaultSamplerate);
-            int indexOfMultiple = (int)(multiplesFundFreq[i] * NoteManager.Instance.DefaultBufferSize / NoteManager.Instance.DefaultSamplerate);
-            float maxAmplitude = 0f;
-            int maxIndex = -1;
-            float threshold = _fft.Max() * .001f;
-            for (int j = -indexRange; j < indexRange; j++)
-            {
-                int currentIndex = indexOfMultiple + j;
-                if (currentIndex >= 0 && currentIndex < _fft.Length && _fft[currentIndex] > maxAmplitude && _fft[currentIndex] > threshold)
-                {
-                    maxAmplitude = _fft[currentIndex];
-                    maxIndex = currentIndex;
-                }
-            }
-
-            float overtoneFrequency = (float)maxIndex / NoteManager.Instance.DefaultBufferSize * NoteManager.Instance.DefaultSamplerate;
-            differences[i] = Mathf.Abs(overtoneFrequency - multiplesFundFreq[i]);
+            amplitudesRatio[i] = _overtones[i].volume / _overtones[0].volume;
         }
+        return amplitudesRatio.Average() * .0001f;
 
-        return differences.Average();
     }
 
-    public float CalculateAmplitudeFrequencyRatio(List<SNote> overtones)
+
+    public float CalculteOvertoneDifference(Dictionary<int,float> _overtoneFrequencies, float _fundamentalFrequency)
     {
-        float[] amplitudes = overtones.Select(x => x.volume).ToArray();
-        float[] frequencies = overtones.Select(x => x.frequency).ToArray();
+        float[] overtoneDifferences = new float[_overtoneFrequencies.Count];
+        foreach(var overtone in _overtoneFrequencies)
+        {
+            float expectedFrequency = _fundamentalFrequency * (overtone.Key +1);
+            overtoneDifferences[overtone.Key] = Mathf.Abs(overtone.Value/expectedFrequency);
+        }
+        return overtoneDifferences.Average();
+    }
+
+    public float CalculateAmplitudeFrequencyRatio(List<SNote> _overtones)
+    {
+        float[] amplitudes = _overtones.Select(x => x.volume).ToArray();
+        float[] frequencies = _overtones.Select(x => x.frequency).ToArray();
 
         float ratio = 0;
 
@@ -68,11 +57,7 @@ public class ExtractMLFeatues : MonoBehaviour
 
         metric_2 *= .0001f;
 
-        return 0;
-
-
-
-
+        return avgRatio + metric_2;
     }
 }
 

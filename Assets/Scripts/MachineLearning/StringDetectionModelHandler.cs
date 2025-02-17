@@ -12,6 +12,7 @@ public class StringDetectionModelHandler : MonoBehaviour
 {
     public ModelAsset modelAsset;
     private Model runtimeModel;
+    public static StringDetectionModelHandler Instance;
     void Start()
     {
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
@@ -19,7 +20,7 @@ public class StringDetectionModelHandler : MonoBehaviour
         runtimeModel = ModelLoader.Load(modelAsset);
 
 
-
+        Instance = this;
     }
     private void Test()
     {
