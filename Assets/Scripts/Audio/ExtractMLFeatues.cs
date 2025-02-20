@@ -1,4 +1,3 @@
-using Accord.Statistics;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -26,13 +25,13 @@ public class ExtractMLFeatues : MonoBehaviour
 
     public float CalculteOvertoneDifference(Dictionary<int,float> _overtoneFrequencies, float _fundamentalFrequency)
     {
-        float[] overtoneDifferences = new float[_overtoneFrequencies.Count];
+        Dictionary<int,float> overtoneDifferences = new();
         foreach(var overtone in _overtoneFrequencies)
         {
-            float expectedFrequency = _fundamentalFrequency * (overtone.Key +1);
+            float expectedFrequency = _fundamentalFrequency * (overtone.Key + 1);
             overtoneDifferences[overtone.Key] = Mathf.Abs(overtone.Value/expectedFrequency);
         }
-        return overtoneDifferences.Average();
+        return overtoneDifferences.Values.Average();
     }
 
     public float CalculateAmplitudeFrequencyRatio(List<SNote> _overtones)
@@ -41,7 +40,6 @@ public class ExtractMLFeatues : MonoBehaviour
         float[] frequencies = _overtones.Select(x => x.frequency).ToArray();
 
         float ratio = 0;
-
       
 
         for (int i = 0; i < amplitudes.Length; i++)

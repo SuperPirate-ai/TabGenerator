@@ -1,3 +1,4 @@
+using NWaves.Transforms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,18 +42,17 @@ public class AudioAnalyzer : MonoBehaviour
         fftError = sampleRate / bufferSize;
 
     }
-
-    public void Analyze(float[] _rawSamples)
+    public float[] Analyze(float[] _rawSamples)
     {
-        (float frequency, float ratio) = CalculateFrequencyWithOvertones(_rawSamples);
+        (float[] features,float frequency) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
-            return;
-        //print("Ratio: " +ratio);
+            return null;
+
         if (recordOvertones.isOn)
             SaveOvertonesToFile();
-
+        return features;
         visualizer.Visualize(correspondingFrequency);
     }
     void SaveOvertonesToFile()
@@ -106,7 +106,7 @@ public class AudioAnalyzer : MonoBehaviour
     }
 
 
-    private (float, float) CalculateFrequencyWithOvertones(float[] _samples)
+    private (float[] ,float) CalculateExactBaseFrequencyAndFeatures(float[] _samples)
     {
         Array.Clear(fftBuffer, 0, bufferSize);
 
@@ -114,7 +114,7 @@ public class AudioAnalyzer : MonoBehaviour
         fftBuffer = AudioComponents.Instance.FFT(windowedSignal);
 
         float highestValue = fftBuffer.Max();
-        if (highestValue < .001f) return (-1, -1);
+        if (highestValue < .001f) return (null,-1);
 
 
         float frequencyThreshold = 250f;
@@ -123,7 +123,7 @@ public class AudioAnalyzer : MonoBehaviour
 
 
         List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
-        if (overtones.Count == 0) return (-1, -1);
+        if (overtones.Count == 0) return (null, -1);
 
 
 
@@ -131,12 +131,11 @@ public class AudioAnalyzer : MonoBehaviour
         float targetFrequency = roughBaseFrequency;
 
         latestOvertones = overtones;
-        Dictionary<int,float> overtoneFrequenciesADDED = new Dictionary<int,float>();
+        Dictionary<int, List<float>> overtoneFrequenciesADDED = new Dictionary<int, List<float>>();
         Dictionary<int,float> overtoneAmplitudeADDED = new Dictionary<int,float>();
         float exactBaseFrequency = overtones[0].frequency;
         foreach (var overtone in overtones)
         {
-
             if (overtone.frequency < frequencyThreshold || overtone.frequency > maxFrequency)
                 continue;
 
@@ -145,14 +144,27 @@ public class AudioAnalyzer : MonoBehaviour
 
             int overtoneIndex = (int)(baseToOvertoneFactor - 1);
 
-
+            if(!overtoneAmplitudeADDED.ContainsKey(overtoneIndex))
+            {
+                overtoneAmplitudeADDED[overtoneIndex] = overtone.volume;
+                overtoneFrequenciesADDED[overtoneIndex] = new List<float> {overtone.frequency};
+            }
+            else
+            {
+                overtoneAmplitudeADDED[overtoneIndex] += overtone.volume;
+                overtoneFrequenciesADDED[overtoneIndex].Add(overtone.frequency);
+            }
         }
-        float avgOvertoneDiffrence = ExtractMLFeatues.Instance.CalculteOvertoneDifference(overtoneFrequenciesADDED,exactBaseFrequency);
+        Dictionary<int, float> overtoneFrequenciesADDEDAverage = new Dictionary<int, float>();
+        foreach (var overtoneFrequencyADDED in overtoneFrequenciesADDED)
+        {
+            overtoneFrequenciesADDEDAverage.Add(overtoneFrequencyADDED.Key,overtoneFrequencyADDED.Value.Average());
+        }
+        float avgOvertoneDiffrence = ExtractMLFeatues.Instance.CalculteOvertoneDifference(overtoneFrequenciesADDEDAverage,exactBaseFrequency);
         float ratio = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones);
         float amplitudeRatio = ExtractMLFeatues.Instance.AplitudeRatio(overtones);
 
-        float[] features = new float[] { ratio, amplitudeRatio,avgOvertoneDiffrence, exactBaseFrequency};
-        StringDetectionModelHandler.Instance.Predict(features);
+        float[] features = new float[] {ratio, amplitudeRatio,avgOvertoneDiffrence, exactBaseFrequency};
 
 
         var vis = new Dictionary<string, object>
@@ -168,7 +180,7 @@ public class AudioAnalyzer : MonoBehaviour
            }
         };
         GraphPlotter.Instance.PlotGraph(vis);
-        return (exactBaseFrequency, ratio);
+        return (features,exactBaseFrequency);
     }
 
 
