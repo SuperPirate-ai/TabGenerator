@@ -42,6 +42,12 @@ public class AudioComponents : MonoBehaviour
         _clip.GetData(samples, _positionInClip);
         return samples;
     }
+    public float[] ExtractAllDataOutOfAudioClip(AudioClip _clip, int _positionInClip)
+    {
+        float[] samples = new float[_clip.samples];
+        _clip.GetData(samples, _positionInClip);
+        return samples;
+    }
     public float[] ApplyHannWindow(float[] signal)
     {
         int N = signal.Length;
@@ -59,7 +65,7 @@ public class AudioComponents : MonoBehaviour
     {
         bool hasPickStroke = DetectPickStroke(_samples, 1.70f);
         bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
-        if (hasFrequencyChange || hasPickStroke)
+        if (/*hasFrequencyChange ||*/ hasPickStroke)
         {
             return true;
         }
@@ -78,7 +84,7 @@ public class AudioComponents : MonoBehaviour
         if (frequencyChangeThreshold > frequencyFactor)
         {
             lastNoteFrequency = _noteFrequency;
-            print("Frequency change");
+            //print("Frequency change");
             return true;
         }
         return false;
@@ -104,7 +110,7 @@ public class AudioComponents : MonoBehaviour
             if (medianChunkLoudness[i] < 0.01f) continue;
             if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1], _subBufferRisingFactor))
             {
-                print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
+                //print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
@@ -112,7 +118,7 @@ public class AudioComponents : MonoBehaviour
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
-                print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}");
+               // print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }
@@ -121,7 +127,7 @@ public class AudioComponents : MonoBehaviour
         {
             if (medianChunkLoudness[0] > 0.01f)
             {
-                print($"picking detected with {lastMedianChunkLoudness} bigger than {penultimateMedianChunkLoudness} times {subBufferRisingFactor}: {(penultimateMedianChunkLoudness * subBufferRisingFactor)}");
+                //print($"picking detected with {lastMedianChunkLoudness} bigger than {penultimateMedianChunkLoudness} times {subBufferRisingFactor}: {(penultimateMedianChunkLoudness * subBufferRisingFactor)}");
                 isStroke = true;
             }
         }

@@ -31,6 +31,7 @@ public class ExtractMLFeatues : MonoBehaviour
             float expectedFrequency = _fundamentalFrequency * (overtone.Key + 1);
             overtoneDifferences[overtone.Key] = Mathf.Abs(overtone.Value/expectedFrequency);
         }
+        if (overtoneDifferences.Count == 0) return 0;
         return overtoneDifferences.Values.Average();
     }
 

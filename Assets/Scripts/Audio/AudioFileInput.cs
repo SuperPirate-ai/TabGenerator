@@ -3,6 +3,7 @@ using System;
 using PlasticPipe.Certificates;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class AudioFileInput : MonoBehaviour
 {
@@ -11,18 +12,26 @@ public class AudioFileInput : MonoBehaviour
     
     public void StartAnalysingBtn()
     {
-        float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(audioClip, 0);
+        float[] samples = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
         List<float[]> features = new List<float[]>();
         for (int i = 0; i < samples.Length; i+= NoteManager.Instance.DefaultBufferSize)//only predict for one buffer and print the results for every step
         {
+            if(i + NoteManager.Instance.DefaultBufferSize > samples.Length)
+            {
+                break;
+            }
             float[] subbuffer = new float[NoteManager.Instance.DefaultBufferSize];
             Array.Copy(samples,i,subbuffer,0, NoteManager.Instance.DefaultBufferSize);
             features.Add(analyser.Analyze(subbuffer));
+            
         }
-        print($"Predicted value0: {features[0]}");
+        //remove all arrays that are null in features
+        features.RemoveAll(x => x == null);
+        Debug.LogWarning(string.Join(",",features.First()));
+        //sort features with the 4th element of the array
+        features.Sort((x,y)  => x[3].CompareTo(y[3]));
 
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "features.csv");
-        print(Directory.GetCurrentDirectory());
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(),"PythonAPI","StringAnalysis","results", "features.csv");
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             foreach (float[] feature in features)

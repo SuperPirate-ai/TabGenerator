@@ -41,7 +41,6 @@ for stringname, audio in audios.items():
     for index in new_note_indecies:
         notes.append((stringname, audio[index*half_wavelength_for_50_hz:index*half_wavelength_for_50_hz+BUFSIZE]))
 
-# stringnames = ["E", "A", "D", "G", "B", "h_E"]
 
 
 results = [] # metric, freq, clip_index, mp3
