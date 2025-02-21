@@ -7029,7 +7029,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f64849a6a51ae4288e41f667f5a1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 2f817bae0f4bbe847a39e0e9ca3cd772, type: 3}
+  audioClips:
+  - {fileID: 8300000, guid: 2f817bae0f4bbe847a39e0e9ca3cd772, type: 3}
+  - {fileID: 8300000, guid: 91910aafa95653a4c8a97928ea5e542f, type: 3}
+  - {fileID: 8300000, guid: 5be888a39a33f574189998aa49a9f315, type: 3}
+  - {fileID: 8300000, guid: 9e5ee3713739b0649b12a6a5f783c734, type: 3}
+  - {fileID: 8300000, guid: 395c97db7377f0540842a1f7562964b6, type: 3}
+  - {fileID: 8300000, guid: bc298cd31c89f894a9b18325ba222382, type: 3}
   analyser: {fileID: 1559014350}
 --- !u!114 &1559014354
 MonoBehaviour:

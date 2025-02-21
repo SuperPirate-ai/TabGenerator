@@ -42,17 +42,27 @@ public class AudioAnalyzer : MonoBehaviour
         fftError = sampleRate / bufferSize;
 
     }
-    public float[] Analyze(float[] _rawSamples)
+    public void Analyze(float[] _rawSamples)
     {
         (float[] features,float frequency) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
-            return null;
+            return;
         features[3] = correspondingFrequency;
         if (recordOvertones.isOn)
             SaveOvertonesToFile();
         visualizer.Visualize(correspondingFrequency);
+        
+    }
+    public float[] AnalyzeForTrainingData(float[] _rawSamples)
+    {
+        (float[] features, float frequency) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
+        float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
+
+        if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
+            return null;
+        features[3] = correspondingFrequency;
         return features;
     }
     void SaveOvertonesToFile()
@@ -171,7 +181,7 @@ public class AudioAnalyzer : MonoBehaviour
                }
            }
         };
-        GraphPlotter.Instance.PlotGraph(vis);
+        //GraphPlotter.Instance.PlotGraph(vis);
         return (features,exactBaseFrequency);
     }
 
@@ -213,7 +223,7 @@ public class AudioAnalyzer : MonoBehaviour
 
         for (int i = 0; i < overtones.Count; i++)
         {
-            if ((float)((float)highestVolume / overtones[i].volume) > 2.5f)
+            if ((float)((float)highestVolume / overtones[i].volume) > 4)
             {
                 overtonesToRemove.Add(overtones[i]);
             }

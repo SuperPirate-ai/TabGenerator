@@ -1,45 +1,53 @@
-using UnityEngine;
 using System;
-using PlasticPipe.Certificates;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 public class AudioFileInput : MonoBehaviour
 {
-    [SerializeField] AudioClip audioClip;
+    [SerializeField] AudioClip[] audioClips;
     [SerializeField] AudioAnalyzer analyser;
-    
+
     public void StartAnalysingBtn()
     {
-        float[] samples = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
-        List<float[]> features = new List<float[]>();
-        for (int i = 0; i < samples.Length; i+= NoteManager.Instance.DefaultBufferSize)//only predict for one buffer and print the results for every step
+        List<string[]> features = new List<string[]>();
+        foreach (AudioClip audioClip in audioClips)
         {
-            if(i + NoteManager.Instance.DefaultBufferSize > samples.Length)
+            string fileName = audioClip.name;
+            string stringName = fileName.Split("_str")[0];
+            float[] samples = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
+            for (int i = 0; i < samples.Length; i += NoteManager.Instance.DefaultBufferSize)//only predict for one buffer and print the results for every step
             {
-                break;
-            }
-            float[] subbuffer = new float[NoteManager.Instance.DefaultBufferSize];
-            Array.Copy(samples,i,subbuffer,0, NoteManager.Instance.DefaultBufferSize);
-            features.Add(analyser.Analyze(subbuffer));
-            
-        }
-        //remove all arrays that are null in features
-        features.RemoveAll(x => x == null);
-        Debug.LogWarning(string.Join(",",features.First()));
-        //sort features with the 4th element of the array
-        features.Sort((x,y)  => x[3].CompareTo(y[3]));
+                if (i + NoteManager.Instance.DefaultBufferSize > samples.Length)
+                {
+                    break;
+                }
+                float[] subbuffer = new float[NoteManager.Instance.DefaultBufferSize];
+                Array.Copy(samples, i, subbuffer, 0, NoteManager.Instance.DefaultBufferSize);
+                float[] analyzedFeatures = analyser.AnalyzeForTrainingData(subbuffer);
+                if (analyzedFeatures == null)
+                    continue;
 
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(),"PythonAPI","StringAnalysis","results", "features.csv");
+                string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
+                features.Add(new string[] { stringName }.Concat(analyzedFeaturesString).ToArray());
+            }
+        }
+        features.RemoveAll(x => x == null);
+        //sort features with the 4th element of the array
+        //features.Sort((x, y) => x[4].CompareTo(y[4]));
+
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "features.csv");
         using (StreamWriter writer = new StreamWriter(filePath))
         {
-            foreach (float[] feature in features)
+            foreach (string[] feature in features)
             {
                 string line = string.Join(",", feature);
                 writer.WriteLine(line);
             }
         }
+        Debug.Log("Features saved to " + filePath);
+
         #region
         //int halfWaveLengths = (int)Mathf.Floor(NoteManager.Instance.DefaultSamplerate / 100);
         //List<float> loundesses = new List<float>();

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using System;
 
 public class ExtractMLFeatues : MonoBehaviour
 {
@@ -18,21 +19,20 @@ public class ExtractMLFeatues : MonoBehaviour
         {
             amplitudesRatio[i] = _overtones[i].volume / _overtones[0].volume;
         }
-        return amplitudesRatio.Average() * .0001f;
-
+        return (float)Math.Round((decimal)(amplitudesRatio.Average() * .0001f), 20);
     }
 
 
     public float CalculteOvertoneDifference(Dictionary<int,float> _overtoneFrequencies, float _fundamentalFrequency)
     {
-        Dictionary<int,float> overtoneDifferences = new();
+        List<float> overtoneDifferences = new();
         foreach(var overtone in _overtoneFrequencies)
         {
-            float expectedFrequency = _fundamentalFrequency * (overtone.Key + 1);
-            overtoneDifferences[overtone.Key] = Mathf.Abs(overtone.Value/expectedFrequency);
+            float expectedFrequency = (float)((float)_fundamentalFrequency * (overtone.Key + 1));
+            overtoneDifferences.Add(Mathf.Abs((float)((float)overtone.Value/(float)expectedFrequency)));
         }
         if (overtoneDifferences.Count == 0) return 0;
-        return overtoneDifferences.Values.Average();
+        return (float)Math.Round((decimal)overtoneDifferences.Average(),20);
     }
 
     public float CalculateAmplitudeFrequencyRatio(List<SNote> _overtones)
@@ -47,16 +47,16 @@ public class ExtractMLFeatues : MonoBehaviour
         {
             ratio += amplitudes[i] * frequencies[i];
         }
-        float avgRatio = 1/ratio / amplitudes.Length;//metric_1
+        float avgRatio = (float)(1/(float)ratio / (float)amplitudes.Length);//metric_1
 
 
 
         int ampLength = amplitudes.Length;
-        float metric_2 = (0 <  ampLength? amplitudes[0]: 0) - (1< ampLength? amplitudes[1]: 1);
+        float metric_2 = (0 <  ampLength? amplitudes[0]: 0f) - (1 < ampLength ? amplitudes[1]: 1f);
 
         metric_2 *= .0001f;
 
-        return avgRatio + metric_2;
+        return (float)Math.Round((decimal)((float)avgRatio + (float)metric_2),20);
     }
 }
 
