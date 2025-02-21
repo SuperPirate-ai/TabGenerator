@@ -44,11 +44,12 @@ for stringname, audio in audios.items():
 
 
 results = [] # metric, freq, clip_index, mp3
-iamrrandom = False
+is_first = True
 for stringname, clip in notes:
     # Fourier transform
-    fft_result = scipy.fft.fft(clip)
+    fft_result = scipy.fft.fft(clip,norm="forward")
     magnitudes = np.abs(fft_result)
+    magnitudes = magnitudes 
     frequencies = scipy.fft.fftfreq(len(clip), d=1/fs)  # Frequency in Hz
     positive_frequencies = frequencies[:len(clip) // 2]
     positive_magnitudes = magnitudes[:len(clip) // 2]
@@ -62,14 +63,14 @@ for stringname, clip in notes:
 
     
     for i in range(2, len(plot_magnitudes) - 2):
-        if plot_magnitudes[i] > 4 and plot_magnitudes[i] > plot_magnitudes[i - 1] and plot_magnitudes[i] > plot_magnitudes[i + 1] and plot_magnitudes[i] > plot_magnitudes[i - 2] + plot_magnitudes[i + 2]:
+        if plot_magnitudes[i] > plot_magnitudes.max() * .08 and plot_magnitudes[i] > plot_magnitudes[i - 1] and plot_magnitudes[i] > plot_magnitudes[i + 1] and plot_magnitudes[i] > plot_magnitudes[i - 2] + plot_magnitudes[i + 2]:
             frequency_peaks.append(plot_frequencies[i])
             amplitude_peaks.append(plot_magnitudes[i])
 
     if len(amplitude_peaks) == 0:
         print(f"No peaks found for {stringname}")
         continue
-    
+   
     real_base_freq = frequency_peaks[0]
     overtone_amplitudes = {} # overtone index -> amplitude
     overtone_frequenices = {} # overtone index -> frequency
@@ -85,7 +86,9 @@ for stringname, clip in notes:
             overtone_frequenices[overtone_index].append(overtone_freq)
     
     overtone_frequenices = {i: sum(overtone_frequenices[i]) / len(overtone_frequenices[i]) for i in overtone_amplitudes.keys()}
-    
+    if is_first:
+        print(amplitude_peaks)
+        is_first = False
     #metric
     amplitude_times_frequencies = []
     for a, f in zip(amplitude_peaks, frequency_peaks):
@@ -106,9 +109,7 @@ for stringname, clip in notes:
 
     #  deviation 
     f0 = real_base_freq
-    if not iamrrandom:
-        print(overtone_frequenices)
-    iamrrandom = True
+   
     deviations = []
     for overtone_index, overtone_freq in overtone_frequenices.items():
         expected_freq = f0 * (overtone_index + 1)

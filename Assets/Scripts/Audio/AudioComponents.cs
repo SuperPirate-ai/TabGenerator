@@ -65,7 +65,7 @@ public class AudioComponents : MonoBehaviour
     {
         bool hasPickStroke = DetectPickStroke(_samples, 1.70f);
         bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
-        if (/*hasFrequencyChange ||*/ hasPickStroke)
+        if (hasFrequencyChange || hasPickStroke)
         {
             return true;
         }

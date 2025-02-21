@@ -30,9 +30,10 @@ public class AudioFileInput : MonoBehaviour
                 float[] analyzedFeatures = analyser.AnalyzeForTrainingData(subbuffer);
                 if (analyzedFeatures == null)
                     continue;
-
+               
                 string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
                 features.Add(new string[] { stringName }.Concat(analyzedFeaturesString).ToArray());
+
             }
         }
         features.RemoveAll(x => x == null);
@@ -147,7 +148,7 @@ public class AudioFileInput : MonoBehaviour
             overtoneFrequenciesADDEDAverage.Add(overtoneFrequencyADDED.Key, overtoneFrequencyADDED.Value.Average());
         }
 
-        float metric2 = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones);
+        float metric2 = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones,overtoneAmplitudeADDED);
         float deviation = ExtractMLFeatues.Instance.CalculteOvertoneDifference(overtoneFrequenciesADDEDAverage, exactBaseFrequency);
         float ampRatio = ExtractMLFeatues.Instance.AplitudeRatio(overtones);
 
@@ -156,85 +157,6 @@ public class AudioFileInput : MonoBehaviour
 
 
     }
-    public static float[] ProcessFFT(double[] clip, double fs, string stringName)
-    {
-        // Perform FFT
-        Complex[] fftResult = clip.Select(c => new Complex(c, 0)).ToArray();
-        FourierTransform.FFT(fftResult, Accord.Math.FourierTransform.Direction.Forward);
 
-        // Compute magnitudes and frequencies
-        double[] magnitudes = fftResult.Select(c => c.Magnitude).ToArray();
-        double[] frequencies = Enumerable.Range(0, clip.Length)
-            .Select(i => i * fs / clip.Length)
-            .ToArray();
-
-        // Extract positive frequencies up to 2000 Hz
-        int limitIndex = Array.FindLastIndex(frequencies, f => f <= 2000);
-        double[] plotFrequencies = frequencies.Take(limitIndex).ToArray();
-        double[] plotMagnitudes = magnitudes.Take(limitIndex).ToArray();
-
-        List<double> frequencyPeaks = new List<double>();
-        List<double> amplitudePeaks = new List<double>();
-
-        for (int i = 2; i < plotMagnitudes.Length - 2; i++)
-        {
-            if (plotMagnitudes[i] > 4 &&
-                plotMagnitudes[i] > plotMagnitudes[i - 1] &&
-                plotMagnitudes[i] > plotMagnitudes[i + 1] &&
-                plotMagnitudes[i] > plotMagnitudes[i - 2] + plotMagnitudes[i + 2])
-            {
-                frequencyPeaks.Add(plotFrequencies[i]);
-                amplitudePeaks.Add(plotMagnitudes[i]);
-            }
-        }
-
-        if (amplitudePeaks.Count == 0)
-        {
-            Console.WriteLine($"No peaks found for {stringName}");
-            return null;
-        }
-
-        double realBaseFreq = frequencyPeaks[0];
-        Dictionary<int, double> overtoneAmplitudes = new Dictionary<int, double>();
-        Dictionary<int, List<double>> overtoneFrequencies = new Dictionary<int, List<double>>();
-
-        foreach (var (overtoneFreq, amplitude) in frequencyPeaks.Zip(amplitudePeaks, Tuple.Create))
-        {
-            int baseToOvertoneFactor = (int)Math.Round(overtoneFreq / realBaseFreq);
-            realBaseFreq = overtoneFreq / baseToOvertoneFactor;
-            int overtoneIndex = baseToOvertoneFactor - 1;
-
-            if (!overtoneAmplitudes.ContainsKey(overtoneIndex))
-            {
-                overtoneAmplitudes[overtoneIndex] = amplitude;
-                overtoneFrequencies[overtoneIndex] = new List<double> { overtoneFreq };
-            }
-            else
-            {
-                overtoneAmplitudes[overtoneIndex] += amplitude;
-                overtoneFrequencies[overtoneIndex].Add(overtoneFreq);
-            }
-        }
-
-        var averagedOvertoneFrequencies = overtoneFrequencies.ToDictionary(
-            kvp => kvp.Key,
-            kvp => kvp.Value.Average());
-
-        // Metric calculations
-        double metric1 = 1 / (frequencyPeaks.Zip(amplitudePeaks, (f, a) => a * f).Sum() / amplitudePeaks.Count);
-        double metric2 = (overtoneAmplitudes.GetValueOrDefault(0, 0) - overtoneAmplitudes.GetValueOrDefault(1, 1)) * 0.0001;
-        double amplitudeRatio = amplitudePeaks.Select(a => a / amplitudePeaks[0]).Average() * 0.0001;
-
-        // Deviation calculation
-        double f0 = realBaseFreq;
-        List<double> deviations = new List<double>();
-
-        foreach (var (overtoneIndex, overtoneFreq) in averagedOvertoneFrequencies)
-        {
-            double expectedFreq = f0 * (overtoneIndex + 1);
-            deviations.Add(Math.Abs(overtoneFreq / expectedFreq));
-        }
-        return new float[] { (float)metric1, (float)amplitudeRatio, (float)deviations.Average(), (float)f0 };
-    }
 
 }
