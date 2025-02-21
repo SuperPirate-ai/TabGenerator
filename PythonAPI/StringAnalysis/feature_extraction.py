@@ -44,7 +44,7 @@ for stringname, audio in audios.items():
 
 
 results = [] # metric, freq, clip_index, mp3
-
+iamrrandom = False
 for stringname, clip in notes:
     # Fourier transform
     fft_result = scipy.fft.fft(clip)
@@ -85,7 +85,7 @@ for stringname, clip in notes:
             overtone_frequenices[overtone_index].append(overtone_freq)
     
     overtone_frequenices = {i: sum(overtone_frequenices[i]) / len(overtone_frequenices[i]) for i in overtone_amplitudes.keys()}
-
+    
     #metric
     amplitude_times_frequencies = []
     for a, f in zip(amplitude_peaks, frequency_peaks):
@@ -106,7 +106,9 @@ for stringname, clip in notes:
 
     #  deviation 
     f0 = real_base_freq
-    
+    if not iamrrandom:
+        print(overtone_frequenices)
+    iamrrandom = True
     deviations = []
     for overtone_index, overtone_freq in overtone_frequenices.items():
         expected_freq = f0 * (overtone_index + 1)
@@ -115,8 +117,8 @@ for stringname, clip in notes:
     
 
     avg_deviation = sum(deviations) / len(deviations)
-    #print(f"{stringname} {metric_1 = } {metric_2 = } {amplitude_ratio = } {avg_deviation = } {real_base_freq = }")
     results.append((metric_1 + metric_2, amplitude_ratio,avg_deviation ,real_base_freq, stringname))
+    #print(f"{stringname} {metric_1 = } {metric_2 = } {amplitude_ratio = } {avg_deviation = } {real_base_freq = }")
 
    
 

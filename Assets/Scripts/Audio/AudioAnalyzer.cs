@@ -49,7 +49,6 @@ public class AudioAnalyzer : MonoBehaviour
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return;
-        features[3] = correspondingFrequency;
         if (recordOvertones.isOn)
             SaveOvertonesToFile();
         visualizer.Visualize(correspondingFrequency);
@@ -62,7 +61,7 @@ public class AudioAnalyzer : MonoBehaviour
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return null;
-        features[3] = correspondingFrequency;
+        //features[3] = correspondingFrequency;
         return features;
     }
     void SaveOvertonesToFile()
@@ -122,7 +121,7 @@ public class AudioAnalyzer : MonoBehaviour
 
         float frequencyThreshold = 250f;
         float maxFrequency = 5000f;
-        float volumeThreshold = highestValue * .08f;
+        float volumeThreshold = highestValue * .12f;
 
 
         List<SNote> overtones = CalculateOvertones(maxFrequency, volumeThreshold);
@@ -216,7 +215,7 @@ public class AudioAnalyzer : MonoBehaviour
         {
             return overtones;
         }
-        float highestVolume = overtones.Max(x => x.volume);
+       /* float highestVolume = overtones.Max(x => x.volume);
         List<SNote> overtonesToRemove = new List<SNote>();
         //Sort overtones by volume ascending
         overtones.Sort((x, y) => x.frequency.CompareTo(y.frequency));
@@ -235,7 +234,7 @@ public class AudioAnalyzer : MonoBehaviour
         foreach (var overtone in overtonesToRemove)
         {
             overtones.Remove(overtone);
-        }
+        }*/
         return overtones;
     }
     private float GetFreqency(int _i)
