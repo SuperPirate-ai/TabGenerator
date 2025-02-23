@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -72,6 +73,9 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource.clip = Microphone.Start(microphone, true, 3599, sampleRate);
     }
+    float[] previousBuffer = null;
+    int pickStrokeIndex = int.MinValue;
+    bool hasPickStrokeInPenUl = false;
     public IEnumerator GrapMicrophoneBuffer()
     {
         yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= buffersize);
@@ -79,8 +83,34 @@ public class MicrophoneInput : MonoBehaviour
         AudioClip clip = audioSource.clip;
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip = Microphone.GetPosition(microphone);
+        if (pickStrokeIndex >= 0)
+        {
+            float[] combinedBuffer = new float[samples.Length];
+            Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
+            Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
+            Array.Copy(samples, 0, combinedBuffer, pickStrokeIndex, pickStrokeIndex);
 
-        analyzer.Analyze(samples);
+            analyzer.Analyze(combinedBuffer);
+            pickStrokeIndex = int.MinValue;
+            previousBuffer = samples;
+        }
+        else
+        {
+            (pickStrokeIndex,hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(samples);
+            if(hasPickStrokeInPenUl)
+            {
+                float[] combinedBuffer = new float[samples.Length];
+                Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
+                Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
+                Array.Copy(samples, 0, combinedBuffer, pickStrokeIndex, pickStrokeIndex);
+
+                analyzer.Analyze(combinedBuffer);
+                pickStrokeIndex = int.MinValue;
+                previousBuffer = samples;
+            }
+
+        }
+
         StartCoroutine(GrapMicrophoneBuffer());
 
         //var vis = new Dictionary<string, object>

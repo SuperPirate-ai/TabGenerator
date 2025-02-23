@@ -51,7 +51,7 @@ public class AudioAnalyzer : MonoBehaviour
 
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
-        if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
+        if (frequency == -1 || correspondingFrequency == 0)
             return;
 
         float[] results = StringDetectionModelHandler.Instance.Predict(features);
@@ -68,7 +68,7 @@ public class AudioAnalyzer : MonoBehaviour
         (float frequency, float[] features, List<SNote> overtones) = GetFreq(_rawSamples);
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
-        if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
+        if (frequency == -1 || correspondingFrequency == 0)
              return (null,null);
         if (isFirst)
         {

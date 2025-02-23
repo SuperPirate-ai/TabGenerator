@@ -12,6 +12,7 @@ public class AudioComponents : MonoBehaviour
     public int earlyReturnCounter = 0;
     private float lastNoteFrequency = 1;
     private float lastMedianChunkLoudness = Mathf.Infinity;
+    private int lastMedianChunkLoudnessIndex = int.MinValue;
     private float penultimateMedianChunkLoudness = Mathf.Infinity;
 
     private const float subBufferRisingFactor = 1.70f;
@@ -61,18 +62,21 @@ public class AudioComponents : MonoBehaviour
 
         return windowedSignal;
     }
-    public bool NewNoteDetected(float _noteFrequency, float[] _samples)
+    //public bool NewNoteDetected(float _noteFrequency, float[] _samples)
+    //{
+    //    bool hasPickStroke = DetectPickStroke(_samples, 1.80f);//1.70f
+    //    bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
+    //    if (/*hasFrequencyChange ||*/ hasPickStroke)
+    //    {
+    //        return true;
+    //    }
+
+    //    return false;
+    //}
+    public (int,bool) DetectStroke(float[] _samples)
     {
-        bool hasPickStroke = DetectPickStroke(_samples, 1.80f);//1.70f
-        bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
-        if (/*hasFrequencyChange ||*/ hasPickStroke)
-        {
-            return true;
-        }
-
-        return false;
+        return DetectPickStroke(_samples, 1.70f);
     }
-
     private bool FrequencyChange(float _noteFrequency)
     {
         const float frequencyChangeThreshold = 0.95f;
@@ -89,7 +93,7 @@ public class AudioComponents : MonoBehaviour
         }
         return false;
     }
-    public bool DetectPickStroke(float[] _samples, float _subBufferRisingFactor)
+    public (int,bool) DetectPickStroke(float[] _samples, float _subBufferRisingFactor)
     {
         float lowestFrequency = 40f;
 
@@ -98,20 +102,23 @@ public class AudioComponents : MonoBehaviour
         int minimalSubBufferSize = buffersize / chunkCount;
 
         float[] medianChunkLoudness = new float[chunkCount];
+        int[] medianChunLoudnessIndecies = new int[chunkCount];
         for (int i = 0; i < chunkCount; i++)
         {
             float[] chunk = _samples.Skip(minimalSubBufferSize * i).Take(minimalSubBufferSize).ToArray();
             medianChunkLoudness[i] = chunk.Max();
+            int index = Array.IndexOf(chunk, chunk.Max());
+            int realIndex = minimalSubBufferSize * i + index;
+            medianChunLoudnessIndecies[i] = realIndex;
         }
 
-        bool isStroke = false;
         for (int i = 1; i < medianChunkLoudness.Length - 1; i++)
         {
             if (medianChunkLoudness[i] < 0.01f) continue;
             if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1], _subBufferRisingFactor))
             {
                 //print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
-                isStroke = true;
+                return (medianChunLoudnessIndecies[i],false);
             }
         }
         if (isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[0], medianChunkLoudness[1], _subBufferRisingFactor))
@@ -119,7 +126,8 @@ public class AudioComponents : MonoBehaviour
             if (medianChunkLoudness[0] > 0.01f)
             {
                // print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}");
-                isStroke = true;
+                return (medianChunLoudnessIndecies[0],false);
+
             }
         }
 
@@ -128,14 +136,15 @@ public class AudioComponents : MonoBehaviour
             if (medianChunkLoudness[0] > 0.01f)
             {
                 //print($"picking detected with {lastMedianChunkLoudness} bigger than {penultimateMedianChunkLoudness} times {subBufferRisingFactor}: {(penultimateMedianChunkLoudness * subBufferRisingFactor)}");
-                isStroke = true;
+                return (lastMedianChunkLoudnessIndex,true);
             }
         }
 
         lastMedianChunkLoudness = medianChunkLoudness.Last();
+        lastMedianChunkLoudnessIndex = medianChunLoudnessIndecies.Last();
         penultimateMedianChunkLoudness = medianChunkLoudness[medianChunkLoudness.Length - 2];
 
-        return isStroke;
+        return (int.MinValue,false);
     }
 
     private bool isPotentialAmplitudePeak(float _previousChuckLoudness, float _chuckLoudness, float _subBufferRisingFactor)

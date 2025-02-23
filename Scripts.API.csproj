@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\API\StartAPI.cs" />
     <Compile Include="Assets\Scripts\API\APIRequest.cs" />
-    <Compile Include="Assets\Scripts\API\TCPClIent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\API\Scripts.API.asmdef" />

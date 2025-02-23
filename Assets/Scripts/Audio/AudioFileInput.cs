@@ -10,37 +10,71 @@ public class AudioFileInput : MonoBehaviour
 {
     [SerializeField] AudioClip[] audioClips;
     [SerializeField] AudioClip[] audioClipsTEST;
-    [SerializeField] AudioAnalyzer analyser;
+    [SerializeField] AudioAnalyzer analyzer;
 
+    List<string[]> features = new List<string[]>();
     public void StartAnalysingBtn()
     {
-        List<string[]> features = new List<string[]>();
         foreach (AudioClip audioClip in audioClips)
         {
             NoteManager.Instance.DefaultSamplerate = audioClip.frequency;
             string fileName = audioClip.name;
             string stringName = fileName.Split("_str")[0];
-            float[] samples = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
-            for (int i = 0; i < samples.Length; i += NoteManager.Instance.DefaultBufferSize)//only predict for one buffer and print the results for every step
+            float[] audioClipData = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
+            List<float[]> subSamples = new List<float[]>();
+
+            for (int i = 0; i < audioClipData.Length; i += NoteManager.Instance.DefaultBufferSize)
             {
-                if (i + NoteManager.Instance.DefaultBufferSize > samples.Length)
+                int subSampleLength = Math.Min(NoteManager.Instance.DefaultBufferSize, audioClipData.Length - i);
+                float[] subbuffer = new float[subSampleLength];
+                Array.Copy(audioClipData, i, subbuffer, 0, subSampleLength);
+                subSamples.Add(subbuffer);
+            }
+            float[] previousBuffer = null;
+            int pickStrokeIndex = int.MinValue;
+            bool hasPickStrokeInPenUl = false;
+            foreach (var subb in subSamples)
+            {
+                if (pickStrokeIndex >= 0)
                 {
-                    break;
+
+                    
+                    if (Analyze(previousBuffer, subb, pickStrokeIndex, stringName))
+                    {
+                        (pickStrokeIndex, hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(subb);
+                    
+                        if(hasPickStrokeInPenUl)
+                        {
+                            Analyze(previousBuffer, subb, pickStrokeIndex, stringName);
+                            hasPickStrokeInPenUl = false;
+                            pickStrokeIndex = int.MinValue;
+                        }
+
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
                 }
-                float[] subbuffer = new float[NoteManager.Instance.DefaultBufferSize];
-                Array.Copy(samples, i, subbuffer, 0, NoteManager.Instance.DefaultBufferSize);
-                (float[] analyzedFeatures, float[] overtones) = analyser.AnalyzeForTrainingData(subbuffer);
-                if (analyzedFeatures == null)
-                    continue;
-                string[] overtoneSTRING = overtones.Select(x => x.ToString("F20")).ToArray();
-                string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
-                string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(analyzedFeaturesString).ToArray();
-                features.Add(featuresWithSTRINGNAME);
-        }
+                else
+                {
+                    (pickStrokeIndex, hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(subb);
+                    if (hasPickStrokeInPenUl && previousBuffer != null)
+                    {
+
+
+                        Analyze(previousBuffer, subb, pickStrokeIndex, stringName);
+
+                        hasPickStrokeInPenUl = false;
+                        pickStrokeIndex = int.MinValue;
+                    }
+                }
+                previousBuffer = subb;
+
+            }
         }
         features.RemoveAll(x => x == null);
-        //sort features with the 4th element of the array
-        //features.Sort((x, y) => x[4].CompareTo(y[4]));
 
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "features.csv");
         using (StreamWriter writer = new StreamWriter(filePath))
@@ -52,11 +86,25 @@ public class AudioFileInput : MonoBehaviour
             }
         }
         Debug.Log("Features saved to " + filePath);
-
-      
     }
 
+    private bool Analyze(float[] previousBuffer, float[] subb,int pickStrokeIndex,string stringName)
+    {
+        float[] combinedBuffer = new float[previousBuffer.Length - pickStrokeIndex];
+        Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
+        Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
+        Array.Copy(subb, 0, combinedBuffer, pickStrokeIndex, Math.Min(subb.Length, 8192 - pickStrokeIndex));
 
+
+        (float[] analyzedFeatures, float[] overtones) = analyzer.AnalyzeForTrainingData(combinedBuffer);
+        if (analyzedFeatures == null)
+            return false;
+        string[] overtoneSTRING = overtones.Select(x => x.ToString("F20")).ToArray();
+        string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
+        string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(analyzedFeaturesString).ToArray();
+        features.Add(featuresWithSTRINGNAME);
+        return true;
+    }
     public void TestFeatures()
     {
     

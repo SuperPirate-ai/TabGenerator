@@ -7043,7 +7043,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0b73f6290a9f3d34d897b21e5f27df7b, type: 3}
   - {fileID: 8300000, guid: 55534e24a4a79954e9228a6a35356b78, type: 3}
   - {fileID: 8300000, guid: 1eefbff40fdefd24e8ed17791e77481a, type: 3}
-  analyser: {fileID: 1559014350}
+  analyzer: {fileID: 1559014350}
 --- !u!114 &1559014354
 MonoBehaviour:
   m_ObjectHideFlags: 0
