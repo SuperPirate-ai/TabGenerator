@@ -46,28 +46,20 @@ public class AudioAnalyzer : MonoBehaviour
     }
     public void Analyze(float[] _rawSamples)
     {
-        //(float[] features, float frequency,List<SNote> overtones) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
-       (float frequency, float[] features, List<SNote> overtones) = GetFreq(_rawSamples);
+        // //(float[] features, float frequency,List<SNote> overtones) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
+        (float frequency, float[] features, List<SNote> overtones) = GetFreq(_rawSamples);
 
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
             return;
-    
+
         float[] results = StringDetectionModelHandler.Instance.Predict(features);
         visualizer.Visualize(correspondingFrequency, results);
 
     }
 
-    private void Visualize(Dictionary<string, object> dictionary)
-    {
-        string message = dictionary["message"].ToString();
-        string[] values = message.Split(',');
-        float[] features = values.Select(x => float.Parse(x)).ToArray();
-        float freq = features[3];
-        float correspondingFrequency = GetFrequencyCorrespondingToNote(freq);
-        visualizer.Visualize(correspondingFrequency,features);
-    }
+    
 
     bool isFirst = true;
     public (float[],float[]) AnalyzeForTrainingData(float[] _rawSamples)
@@ -78,7 +70,6 @@ public class AudioAnalyzer : MonoBehaviour
 
         if (frequency == -1 || correspondingFrequency == 0 || !AudioComponents.Instance.NewNoteDetected(correspondingFrequency, _rawSamples))
              return (null,null);
-        if (features[0] > 2.5) return (null, null);
         if (isFirst)
         {
             Debug.Log(string.Join(", ", overtones.Select(x => x.volume)));

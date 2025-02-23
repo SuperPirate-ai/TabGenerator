@@ -9,7 +9,6 @@ public class AudioVisualizer : MonoBehaviour
         Vector3[] notePos = NoteToVisualPointsConverter.Instance.GetNotePositions(_frequency);
         _results = _results.Reverse().ToArray();
 
-
         Vector3 predictedPos = new();
 
 
