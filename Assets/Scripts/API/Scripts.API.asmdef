@@ -1,3 +1,16 @@
 {
-	"name": "Scripts.API"
+    "name": "Scripts.API",
+    "rootNamespace": "",
+    "references": [
+        "GUID:783f3662acead4c48af203316de66ba4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

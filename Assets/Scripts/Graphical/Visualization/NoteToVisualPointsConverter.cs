@@ -44,16 +44,12 @@ public class NoteToVisualPointsConverter : MonoBehaviour
             }
         }
 
-        Vector3[] notePositionsVector = new Vector3[notePosCount];
+        Vector3[] notePositionsVector = new Vector3[notePositionsString.Length];
         notePositionsString = notePositionsString.Reverse().ToArray();
         for (int i = 0; i < notePositionsString.Length; i++)
         {
-            if (InRangeOfSlider(i))
-            {
-                string[] point = notePositionsString[i].Split(',');
-                //print(i + "||" + point[1]); 
-                notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
-            }
+            string[] point = notePositionsString[i].Split(',');
+            notePositionsVector[i] = new Vector3(pointerTransform.position.x, System.Convert.ToInt32(point[0]), System.Convert.ToInt32(point[1]));
         }
 
 

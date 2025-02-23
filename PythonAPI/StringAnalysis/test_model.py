@@ -24,7 +24,7 @@ sess.disable_fallback()
 input_name = sess.get_inputs()[0].name
 label_name = sess.get_outputs()[0].name
 
-vals = pd.read_csv(path.join("results",'testresults.csv')).values
+vals = pd.read_csv(path.join("results",'TESTfeatures.csv')).values
 
 strings = ["h_E", "B", "G", "D", "A", "E"]
 labels = vals[:, 0]

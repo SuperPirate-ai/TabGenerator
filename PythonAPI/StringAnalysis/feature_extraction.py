@@ -6,13 +6,13 @@ import soundfile as sf
 
 audios = {}
 stringnames = []
-
-for mp3 in os.listdir("TrainingData"):
+dir_name = "test"
+for mp3 in os.listdir(dir_name):
     if not "_string" in mp3 and not mp3.endswith(".mp3"):
         continue
     
     print(mp3)
-    mp3 = os.path.join("TrainingData", mp3)
+    mp3 = os.path.join(dir_name, mp3)
     data, fs = sf.read(mp3)
     #replace everthing after the first _ with nothing
     stringname = mp3.split("_s")[0]
@@ -128,5 +128,5 @@ for metric, amp_ra, deviation,freq, stringname in results:
     csv_text += f"{stringname},{metric:.20f},{amp_ra:.20f},{deviation:.20f},{freq:.5f}\n"
 
 
-with open(os.path.join("results","results.csv"), "w") as f:
+with open(os.path.join("results","testresults.csv"), "w") as f:
     f.write(csv_text)

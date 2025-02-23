@@ -63,9 +63,9 @@ public class AudioComponents : MonoBehaviour
     }
     public bool NewNoteDetected(float _noteFrequency, float[] _samples)
     {
-        bool hasPickStroke = DetectPickStroke(_samples, 1.70f);
+        bool hasPickStroke = DetectPickStroke(_samples, 1.80f);//1.70f
         bool hasFrequencyChange = FrequencyChange(_noteFrequency) && DetectPickStroke(_samples, 1.50f);
-        if (hasFrequencyChange || hasPickStroke)
+        if (/*hasFrequencyChange ||*/ hasPickStroke)
         {
             return true;
         }
@@ -162,4 +162,6 @@ public class AudioComponents : MonoBehaviour
 
         return fft;
     }
+
+
 }

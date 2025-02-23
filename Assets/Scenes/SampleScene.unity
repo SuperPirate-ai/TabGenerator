@@ -7036,6 +7036,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9e5ee3713739b0649b12a6a5f783c734, type: 3}
   - {fileID: 8300000, guid: 395c97db7377f0540842a1f7562964b6, type: 3}
   - {fileID: 8300000, guid: bc298cd31c89f894a9b18325ba222382, type: 3}
+  audioClipsTEST:
+  - {fileID: 8300000, guid: 465ee4129a5b38f479e4dcc16d434ba4, type: 3}
+  - {fileID: 8300000, guid: 1560f2a35e3be384ebc87b1608ebfbc5, type: 3}
+  - {fileID: 8300000, guid: b9aac1a360c53d949b8f370b80b7de45, type: 3}
+  - {fileID: 8300000, guid: 0b73f6290a9f3d34d897b21e5f27df7b, type: 3}
+  - {fileID: 8300000, guid: 55534e24a4a79954e9228a6a35356b78, type: 3}
+  - {fileID: 8300000, guid: 1eefbff40fdefd24e8ed17791e77481a, type: 3}
   analyser: {fileID: 1559014350}
 --- !u!114 &1559014354
 MonoBehaviour:

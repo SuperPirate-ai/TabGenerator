@@ -10,10 +10,7 @@ public class APIRequest : MonoBehaviour
         string url = _apiPath + _command + _pathExtension;
         await PostRequest(url, _json);
     }
-    public void SendGETRequestTEST()
-    {
-        print(GetRequest($"http://localhost:5000/readfile?path=E:/Ben/UnityProjekts/GithubProjects/TabGenerator/GTP_Recordings/cool.gp5").Result);
-    }
+  
     public async Task<string> SendGetRequest(string _apiPath, string _command, string _pathExtension = "")
     {
         string url = _apiPath + _command + _pathExtension;

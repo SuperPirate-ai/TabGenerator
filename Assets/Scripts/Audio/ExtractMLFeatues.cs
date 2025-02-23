@@ -28,7 +28,7 @@ public class ExtractMLFeatues : MonoBehaviour
         List<float> overtoneDifferences = new();
         foreach(var overtone in _overtoneFrequencies)
         {
-            float expectedFrequency = (float)((float)_fundamentalFrequency * (overtone.Key + 1));
+            float expectedFrequency = (float)((float)_fundamentalFrequency * (overtone.Key + 1f));
             overtoneDifferences.Add(Mathf.Abs((float)((float)overtone.Value/(float)expectedFrequency)));
         }
         if (overtoneDifferences.Count == 0) return 0;
@@ -40,11 +40,8 @@ public class ExtractMLFeatues : MonoBehaviour
         float[] amplitudes = _overtones.Select(x => x.volume).ToArray();
         float[] frequencies = _overtones.Select(x => x.frequency).ToArray();
 
-        float ratio = 0;
-        float[] amplitudeTimesFrequencies = amplitudes.Zip(frequencies, (a, f) => a * f).ToArray();
-        float metric1 = 1 / (amplitudeTimesFrequencies.Sum() / amplitudes.Length);
-
-
+        float[] amplitudeTimesFrequencies = amplitudes.Zip(frequencies, (a, f) => (float)a * (float)f).ToArray();
+        float metric1 = 1f / (float)((float)(amplitudeTimesFrequencies.Sum() / amplitudes.Length));
 
         float metric2 = _overtoneAmplitudesADDED.GetValueOrDefault(0, 0f) - _overtoneAmplitudesADDED.GetValueOrDefault(1, 1f);
 
@@ -53,10 +50,4 @@ public class ExtractMLFeatues : MonoBehaviour
         return (float)Math.Round((decimal)((float)metric1 + (float)metric2),20);
     }
 }
-//// Compute metric 1
-//List<float> amplitudeTimesFrequencies = amplitudePeaks.Zip(frequencyPeaks, (a, f) => a * f).ToList();
-//float metric1 = 1 / (amplitudeTimesFrequencies.Sum() / amplitudePeaks.Count);
 
-//// Compute metric 2
-//float metric2 = overtoneAmplitudesADDED.GetValueOrDefault(0, 0f) - overtoneAmplitudesADDED.GetValueOrDefault(1, 1f);
-//metric2 *= 0.0001f;

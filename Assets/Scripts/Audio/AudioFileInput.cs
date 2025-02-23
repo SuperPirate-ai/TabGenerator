@@ -9,6 +9,7 @@ using System.Numerics;
 public class AudioFileInput : MonoBehaviour
 {
     [SerializeField] AudioClip[] audioClips;
+    [SerializeField] AudioClip[] audioClipsTEST;
     [SerializeField] AudioAnalyzer analyser;
 
     public void StartAnalysingBtn()
@@ -16,6 +17,7 @@ public class AudioFileInput : MonoBehaviour
         List<string[]> features = new List<string[]>();
         foreach (AudioClip audioClip in audioClips)
         {
+            NoteManager.Instance.DefaultSamplerate = audioClip.frequency;
             string fileName = audioClip.name;
             string stringName = fileName.Split("_str")[0];
             float[] samples = AudioComponents.Instance.ExtractAllDataOutOfAudioClip(audioClip, 0);
@@ -27,14 +29,14 @@ public class AudioFileInput : MonoBehaviour
                 }
                 float[] subbuffer = new float[NoteManager.Instance.DefaultBufferSize];
                 Array.Copy(samples, i, subbuffer, 0, NoteManager.Instance.DefaultBufferSize);
-                float[] analyzedFeatures = analyser.AnalyzeForTrainingData(subbuffer);
+                (float[] analyzedFeatures, float[] overtones) = analyser.AnalyzeForTrainingData(subbuffer);
                 if (analyzedFeatures == null)
                     continue;
-               
+                string[] overtoneSTRING = overtones.Select(x => x.ToString("F20")).ToArray();
                 string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
-                features.Add(new string[] { stringName }.Concat(analyzedFeaturesString).ToArray());
-
-            }
+                string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(analyzedFeaturesString).ToArray();
+                features.Add(featuresWithSTRINGNAME);
+        }
         }
         features.RemoveAll(x => x == null);
         //sort features with the 4th element of the array
@@ -51,32 +53,9 @@ public class AudioFileInput : MonoBehaviour
         }
         Debug.Log("Features saved to " + filePath);
 
-        #region
-        //int halfWaveLengths = (int)Mathf.Floor(NoteManager.Instance.DefaultSamplerate / 100);
-        //List<float> loundesses = new List<float>();
-        //for (int i = 0; i < samples.Length; i += halfWaveLengths)
-        //{
-        //    float[] subbuffer = new float[halfWaveLengths];
-        //    Array.Copy(samples, i, subbuffer, 0, halfWaveLengths);
-        //    float maxValue = 0f;
-        //    for (int j = 0; j < subbuffer.Length; j++)
-        //    {
-        //        float value = Mathf.Abs(subbuffer[j]);
-        //        maxValue = value > maxValue ? value: maxValue;
-        //    }
-        //    loundesses.Add(maxValue);
-        //}
-
-        //for (int i = 0; i < loundesses.Count; i++)
-        //{
-        //    if(loundesses[i] > 0.02f && loundesses[i-1] * 2.5f < loundesses[i])
-        //    {
-        //    }
-        //}
-
-        // analyser.Analyze(samples);
-        #endregion
+      
     }
+
 
     public void TestFeatures()
     {
