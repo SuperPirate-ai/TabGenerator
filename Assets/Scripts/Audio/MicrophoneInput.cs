@@ -78,38 +78,14 @@ public class MicrophoneInput : MonoBehaviour
     bool hasPickStrokeInPenUl = false;
     public IEnumerator GrapMicrophoneBuffer()
     {
-        yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= buffersize);
+        int microphoneBufferSize = buffersize;
+        yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= microphoneBufferSize);
 
         AudioClip clip = audioSource.clip;
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
-        positionInClip = Microphone.GetPosition(microphone);
-        if (pickStrokeIndex >= 0)
-        {
-            float[] combinedBuffer = new float[samples.Length];
-            Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
-            Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
-            Array.Copy(samples, 0, combinedBuffer, pickStrokeIndex, pickStrokeIndex);
+        positionInClip += microphoneBufferSize;
 
-            analyzer.Analyze(combinedBuffer);
-            pickStrokeIndex = int.MinValue;
-            previousBuffer = samples;
-        }
-        else
-        {
-            (pickStrokeIndex,hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(samples);
-            if(hasPickStrokeInPenUl)
-            {
-                float[] combinedBuffer = new float[samples.Length];
-                Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
-                Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
-                Array.Copy(samples, 0, combinedBuffer, pickStrokeIndex, pickStrokeIndex);
-
-                analyzer.Analyze(combinedBuffer);
-                pickStrokeIndex = int.MinValue;
-                previousBuffer = samples;
-            }
-
-        }
+        analyzer.MainAnalyze(samples);
 
         StartCoroutine(GrapMicrophoneBuffer());
 

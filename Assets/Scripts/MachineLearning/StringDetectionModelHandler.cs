@@ -114,7 +114,7 @@ public class StringDetectionModelHandler : MonoBehaviour
         print("Predicted index: " + predictedIndex0);
         print("Predicted string: " + predictedright);
     }
-
+    // 0 hohe e Saite
     public float[] Predict(float[] features)
     {
         Worker worker = new Worker(runtimeModel, BackendType.CPU);

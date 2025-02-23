@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using System.Numerics;
 using UnityEngine.UI;
+using static UnityEngine.Awaitable;
 
 public struct SNote
 {
@@ -26,17 +27,15 @@ public class AudioAnalyzer : MonoBehaviour
 
     private int bufferSize;
     private int sampleRate;
-    //private float[] fftBuffer;
     private int fftBufferLength = 8192;
     private List<int> notesFrequencies;
     private float fftError;
-
-    List<SNote> latestOvertones = new List<SNote>();
+    private List<float> sampleHistory = new List<float>();
+    private int noteStartIndexFromEnd = -1;
 
     private void Awake()
     {
         bufferSize = NoteManager.Instance.DefaultBufferSize;
-        //fftBuffer = new float[bufferSize];
 
         notesFrequencies = new List<int>(notesSO.frequnecys);
 
@@ -44,6 +43,50 @@ public class AudioAnalyzer : MonoBehaviour
         fftError = sampleRate / bufferSize;
 
     }
+
+    public (float[], float[]) MainAnalyze(float[] samples)
+    {
+        if (noteStartIndexFromEnd != -1)
+            noteStartIndexFromEnd += samples.Length;
+        sampleHistory.AddRange(samples);
+
+        (int pickstrokeIndexInSamples, bool strokeWasInPreviousSample) = AudioComponents.Instance.DetectStroke(samples.Select(x => (float)Mathf.Abs(x)).ToArray());
+        (float[], float[]) features = new();
+
+        if (pickstrokeIndexInSamples >= 0) {
+
+            noteStartIndexFromEnd = strokeWasInPreviousSample ? samples.Length * 2 - pickstrokeIndexInSamples : samples.Length - pickstrokeIndexInSamples;
+        }
+
+        if (noteStartIndexFromEnd >= fftBufferLength)
+        {
+            float[] a_couple_before = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd - 500).Take(500).ToArray();
+            float[] samplesToAnalyze = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd).Take(fftBufferLength).ToArray();
+            noteStartIndexFromEnd = -1;
+            var vis = new Dictionary<string, object>
+            {
+               { "plotting_data", new List<object> {
+
+                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray()},
+                        new List<object> {1,0, 500},
+
+                   }
+               }
+            };
+            GraphPlotter.Instance.PlotGraph(vis);
+            //features = AnalyzeForTrainingData(samplesToAnalyze); //for training data
+            Analyze(samplesToAnalyze);
+        }
+
+        if (sampleHistory.Count > fftBufferLength * 3)
+        {
+            sampleHistory = sampleHistory.Skip(sampleHistory.Count - fftBufferLength * 3).ToList();
+        }
+
+        // print($"Historysize: {sampleHistory.Count()}");
+        return features;
+    }
+
     public void Analyze(float[] _rawSamples)
     {
         // //(float[] features, float frequency,List<SNote> overtones) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
@@ -51,11 +94,22 @@ public class AudioAnalyzer : MonoBehaviour
 
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
-        if (frequency == -1 || correspondingFrequency == 0)
+        if (frequency == -1 /*|| correspondingFrequency == 0*/)
             return;
-
+        if(features == null)
+        {
+            return;
+        }
         float[] results = StringDetectionModelHandler.Instance.Predict(features);
-        visualizer.Visualize(correspondingFrequency, results);
+        if(correspondingFrequency != 0)
+            visualizer.Visualize(correspondingFrequency, results);
+        print(string.Join(",", features.Select(x => x.ToString("F20"))));
+        print("String: " + results.IndexOf(results.Max()));
+        
+        using(StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
+        {
+            writer.WriteLine(string.Join(",", _rawSamples));
+        }
 
     }
 
@@ -117,7 +171,6 @@ public class AudioAnalyzer : MonoBehaviour
 
         float targetFrequency = overtones[0].frequency;
         //calculate the exact base frequency
-        latestOvertones = overtones;
      
         float exactBaseFrequency = overtones[0].frequency;
         foreach (var overtone in overtones)

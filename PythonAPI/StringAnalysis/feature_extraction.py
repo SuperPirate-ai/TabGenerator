@@ -45,6 +45,11 @@ for stringname, audio in audios.items():
 
 results = [] # metric, freq, clip_index, mp3
 is_first = True
+samples = []
+with open("_rawSamples.csv", 'r') as f:
+    text= f.read()
+    samples = text.split(",")
+notes.append(("aaaaaaaaaaaaaaaaaaaa",samples))
 for stringname, clip in notes:
     # Fourier transform
     fft_result = scipy.fft.fft(clip,norm="forward")
@@ -128,5 +133,5 @@ for metric, amp_ra, deviation,freq, stringname in results:
     csv_text += f"{stringname},{metric:.20f},{amp_ra:.20f},{deviation:.20f},{freq:.5f}\n"
 
 
-with open(os.path.join("results","testresults.csv"), "w") as f:
+with open(os.path.join("results","TESTSSSSresults.csv"), "w") as f:
     f.write(csv_text)

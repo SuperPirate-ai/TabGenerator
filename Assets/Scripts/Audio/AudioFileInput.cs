@@ -1,11 +1,8 @@
-using Accord.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using System.Numerics;
-
 public class AudioFileInput : MonoBehaviour
 {
     [SerializeField] AudioClip[] audioClips;
@@ -15,7 +12,7 @@ public class AudioFileInput : MonoBehaviour
     List<string[]> features = new List<string[]>();
     public void StartAnalysingBtn()
     {
-        foreach (AudioClip audioClip in audioClips)
+        foreach (AudioClip audioClip in audioClipsTEST)
         {
             NoteManager.Instance.DefaultSamplerate = audioClip.frequency;
             string fileName = audioClip.name;
@@ -30,53 +27,23 @@ public class AudioFileInput : MonoBehaviour
                 Array.Copy(audioClipData, i, subbuffer, 0, subSampleLength);
                 subSamples.Add(subbuffer);
             }
-            float[] previousBuffer = null;
-            int pickStrokeIndex = int.MinValue;
-            bool hasPickStrokeInPenUl = false;
-            foreach (var subb in subSamples)
+            foreach(var suB in subSamples)
             {
-                if (pickStrokeIndex >= 0)
-                {
-
-                    
-                    if (Analyze(previousBuffer, subb, pickStrokeIndex, stringName))
-                    {
-                        (pickStrokeIndex, hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(subb);
-                    
-                        if(hasPickStrokeInPenUl)
-                        {
-                            Analyze(previousBuffer, subb, pickStrokeIndex, stringName);
-                            hasPickStrokeInPenUl = false;
-                            pickStrokeIndex = int.MinValue;
-                        }
-
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                }
-                else
-                {
-                    (pickStrokeIndex, hasPickStrokeInPenUl) = AudioComponents.Instance.DetectStroke(subb);
-                    if (hasPickStrokeInPenUl && previousBuffer != null)
-                    {
-
-
-                        Analyze(previousBuffer, subb, pickStrokeIndex, stringName);
-
-                        hasPickStrokeInPenUl = false;
-                        pickStrokeIndex = int.MinValue;
-                    }
-                }
-                previousBuffer = subb;
-
+                if(suB.Length < 8192)
+                    continue;
+                (float[] newfeatures, _) = analyzer.MainAnalyze(suB);
+                if (newfeatures == null)
+                    continue;
+                string[] featuresString = newfeatures.Select(x => x.ToString("F20")).ToArray();
+                string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(featuresString).ToArray();
+                features.Add(featuresWithSTRINGNAME);
             }
+
+
         }
         features.RemoveAll(x => x == null);
 
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "features.csv");
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "Testfeatures.csv");
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             foreach (string[] feature in features)

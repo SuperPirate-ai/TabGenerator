@@ -1,5 +1,7 @@
 using Accord.Math;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
@@ -15,7 +17,6 @@ public class AudioComponents : MonoBehaviour
     private int lastMedianChunkLoudnessIndex = int.MinValue;
     private float penultimateMedianChunkLoudness = Mathf.Infinity;
 
-    private const float subBufferRisingFactor = 1.70f;
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class AudioComponents : MonoBehaviour
     //}
     public (int,bool) DetectStroke(float[] _samples)
     {
-        return DetectPickStroke(_samples, 1.70f);
+        return DetectPickStroke(_samples, 1.7f, 0.01f);
     }
     private bool FrequencyChange(float _noteFrequency)
     {
@@ -93,65 +94,82 @@ public class AudioComponents : MonoBehaviour
         }
         return false;
     }
-    public (int,bool) DetectPickStroke(float[] _samples, float _subBufferRisingFactor)
+
+    private float[] previous_pickstrokedetection_samples;
+    private const float lowestFrequency = 40f;
+    public (int,bool) DetectPickStroke(float[] _samples, float _subBufferRisingFactor, float threshold)
     {
-        float lowestFrequency = 40f;
-
-        int chunkCount = (int)(buffersize / (NoteManager.Instance.DefaultSamplerate / lowestFrequency));
-
-        int minimalSubBufferSize = buffersize / chunkCount;
-
-        float[] medianChunkLoudness = new float[chunkCount];
-        int[] medianChunLoudnessIndecies = new int[chunkCount];
-        for (int i = 0; i < chunkCount; i++)
+        if (previous_pickstrokedetection_samples == null)
         {
-            float[] chunk = _samples.Skip(minimalSubBufferSize * i).Take(minimalSubBufferSize).ToArray();
-            medianChunkLoudness[i] = chunk.Max();
-            int index = Array.IndexOf(chunk, chunk.Max());
-            int realIndex = minimalSubBufferSize * i + index;
-            medianChunLoudnessIndecies[i] = realIndex;
+            previous_pickstrokedetection_samples = _samples;
+            return (int.MinValue, false);
         }
 
-        for (int i = 1; i < medianChunkLoudness.Length - 1; i++)
-        {
-            if (medianChunkLoudness[i] < 0.01f) continue;
-            if (isPotentialAmplitudePeak(medianChunkLoudness[i - 1], medianChunkLoudness[i], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[i], medianChunkLoudness[i + 1], _subBufferRisingFactor))
-            {
-                //print($"picking detected with {medianChunkLoudness[i]} bigger than {medianChunkLoudness[i - 1]} times {subBufferRisingFactor}: {(medianChunkLoudness[i] * subBufferRisingFactor)}");
-                return (medianChunLoudnessIndecies[i],false);
-            }
-        }
-        if (isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0], _subBufferRisingFactor) && !isPotentialAmplitudePeak(medianChunkLoudness[0], medianChunkLoudness[1], _subBufferRisingFactor))
-        {
-            if (medianChunkLoudness[0] > 0.01f)
-            {
-               // print($"picking detected with {medianChunkLoudness[0]} bigger than {lastMedianChunkLoudness} times {subBufferRisingFactor}: {(lastMedianChunkLoudness * subBufferRisingFactor)}");
-                return (medianChunLoudnessIndecies[0],false);
+        int minimalSubBufferSize = (int)(NoteManager.Instance.DefaultSamplerate / lowestFrequency);
 
+
+        Assert.IsTrue(minimalSubBufferSize < _samples.Length, "Minimal sub buffer size is less than sample length");
+
+        float[] last_and_this_sample = previous_pickstrokedetection_samples.Concat(_samples).ToArray();
+        
+
+        float[] loudnesses = new float[(int)(last_and_this_sample.Length / minimalSubBufferSize)];
+        for (int i = 0; i < loudnesses.Length; i++)
+        {
+            for (int j = i * minimalSubBufferSize; j < (i + 1) * minimalSubBufferSize; j++)
+            {
+                if (loudnesses[i] < last_and_this_sample[j])
+                {
+                    loudnesses[i] = last_and_this_sample[j];
+                }
             }
         }
 
-        if (isPotentialAmplitudePeak(penultimateMedianChunkLoudness, lastMedianChunkLoudness, _subBufferRisingFactor) && !isPotentialAmplitudePeak(lastMedianChunkLoudness, medianChunkLoudness[0], _subBufferRisingFactor))
+        var vis = new Dictionary<string, object>
         {
-            if (medianChunkLoudness[0] > 0.01f)
+           { "plotting_data", new List<object> {
+
+                    new List<object> {1,1, loudnesses},
+                    new List<object> {1,1, threshold}
+
+               }
+           }
+        };
+        //GraphPlotter.Instance.PlotGraph(vis);
+
+
+        int exactPickstrokeIndex = int.MinValue;
+        bool peak_loudness_in_previous_samples = false;
+
+        for (int i = 1; i < loudnesses.Length; i++)
+        {
+            if (loudnesses[i-1] * _subBufferRisingFactor < loudnesses[i] && threshold < loudnesses[i])
             {
-                //print($"picking detected with {lastMedianChunkLoudness} bigger than {penultimateMedianChunkLoudness} times {subBufferRisingFactor}: {(penultimateMedianChunkLoudness * subBufferRisingFactor)}");
-                return (lastMedianChunkLoudnessIndex,true);
+                previous_pickstrokedetection_samples = _samples;
+                peak_loudness_in_previous_samples = i < previous_pickstrokedetection_samples.Length;
+
+                int startIndex = i * minimalSubBufferSize;
+                int endIndex = (i+1) * minimalSubBufferSize;
+
+                int maxIndex = 0;
+                for (int j = startIndex; j < endIndex; j++)
+                {
+                    if (last_and_this_sample[j] > last_and_this_sample[maxIndex])
+                    {
+                        maxIndex = j;
+                    }
+                }
+
+                exactPickstrokeIndex = maxIndex;
+                break;
             }
         }
+        previous_pickstrokedetection_samples = _samples;
 
-        lastMedianChunkLoudness = medianChunkLoudness.Last();
-        lastMedianChunkLoudnessIndex = medianChunLoudnessIndecies.Last();
-        penultimateMedianChunkLoudness = medianChunkLoudness[medianChunkLoudness.Length - 2];
-
-        return (int.MinValue,false);
+        return (exactPickstrokeIndex, peak_loudness_in_previous_samples);
     }
 
-    private bool isPotentialAmplitudePeak(float _previousChuckLoudness, float _chuckLoudness, float _subBufferRisingFactor)
-    {
-        return _previousChuckLoudness * _subBufferRisingFactor < _chuckLoudness;
-    }
-
+ 
     public float[] FFT(float[] _data)
     {
         float[] fft = new float[_data.Length];
