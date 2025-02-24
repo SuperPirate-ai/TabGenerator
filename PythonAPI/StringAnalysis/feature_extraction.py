@@ -7,6 +7,15 @@ import soundfile as sf
 audios = {}
 stringnames = []
 dir_name = "test"
+
+samples = []
+with open("_rawSamples.csv", 'r') as f:
+    text= f.read()
+    samples = text.split(",")
+    #make samples into floats and a numpy array
+    samples = np.array([float(sample) for sample in samples])
+
+
 for mp3 in os.listdir(dir_name):
     if not "_string" in mp3 and not mp3.endswith(".mp3"):
         continue
@@ -21,7 +30,7 @@ for mp3 in os.listdir(dir_name):
     audios[stringname] = data
     if stringname not in stringnames:
         stringnames.append(stringname)
-
+audios["ZZZAAAAAAAAAAAAAAAAAAAAAAAA"] = samples
 BUFSIZE = 8192
 notes = [] ## string, data
 for stringname, audio in audios.items():
@@ -45,11 +54,7 @@ for stringname, audio in audios.items():
 
 results = [] # metric, freq, clip_index, mp3
 is_first = True
-samples = []
-with open("_rawSamples.csv", 'r') as f:
-    text= f.read()
-    samples = text.split(",")
-notes.append(("aaaaaaaaaaaaaaaaaaaa",samples))
+
 for stringname, clip in notes:
     # Fourier transform
     fft_result = scipy.fft.fft(clip,norm="forward")

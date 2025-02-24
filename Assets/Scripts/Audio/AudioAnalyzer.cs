@@ -63,11 +63,16 @@ public class AudioAnalyzer : MonoBehaviour
             float[] a_couple_before = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd - 500).Take(500).ToArray();
             float[] samplesToAnalyze = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd).Take(fftBufferLength).ToArray();
             noteStartIndexFromEnd = -1;
+            float[] samplesToAnalyzePlus500 = a_couple_before.Concat(samplesToAnalyze).ToArray();
+            using (StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
+            {
+                writer.WriteLine(string.Join(",", samplesToAnalyzePlus500));
+            }
             var vis = new Dictionary<string, object>
             {
                { "plotting_data", new List<object> {
 
-                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray()/*.Select(x => (float)Mathf.Abs(x))*/},
+                        new List<object> {1,1, samplesToAnalyzePlus500/*.Select(x => (float)Mathf.Abs(x))*/},
                         new List<object> {1,0, 500},
 
                    }
