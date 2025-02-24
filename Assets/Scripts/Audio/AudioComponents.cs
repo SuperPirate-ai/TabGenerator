@@ -96,7 +96,7 @@ public class AudioComponents : MonoBehaviour
     }
 
     private float[] previous_pickstrokedetection_samples;
-    private const float lowestFrequency = 40f;
+    private const float lowestFrequency = 80f;
     public (int,bool) DetectPickStroke(float[] _samples, float _subBufferRisingFactor, float threshold)
     {
         if (previous_pickstrokedetection_samples == null)
@@ -147,7 +147,7 @@ public class AudioComponents : MonoBehaviour
             if (loudnesses[i - 1] * _subBufferRisingFactor < loudnesses[i] && threshold < loudnesses[i])
             {
                 previous_pickstrokedetection_samples = _samples;
-                peak_loudness_in_previous_samples = i < previous_pickstrokedetection_samples.Length;
+                peak_loudness_in_previous_samples = i * minimalSubBufferSize < previous_pickstrokedetection_samples.Length;
 
                 int startIndex = i * minimalSubBufferSize;
                 int endIndex = (i + 1) * minimalSubBufferSize;

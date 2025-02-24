@@ -73,12 +73,10 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource.clip = Microphone.Start(microphone, true, 3599, sampleRate);
     }
-    float[] previousBuffer = null;
-    int pickStrokeIndex = int.MinValue;
-    bool hasPickStrokeInPenUl = false;
+
     public IEnumerator GrapMicrophoneBuffer()
     {
-        int microphoneBufferSize = buffersize;
+        int microphoneBufferSize = buffersize ;
         yield return new WaitUntil(() => Microphone.GetPosition(microphone) - positionInClip >= microphoneBufferSize);
 
         AudioClip clip = audioSource.clip;

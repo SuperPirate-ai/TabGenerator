@@ -28,7 +28,7 @@ for stringname, audio in audios.items():
     # get loudness over time of audio
     half_wavelength_for_50_hz = fs // 100
     loudness = []
-    for i in range(0, len(audio), half_wavelength_for_50_hz):
+    for i in range(0, len(audio), half_wavelength_for_50_hz):   
         loudness.append(np.max(np.abs(audio[i:i+half_wavelength_for_50_hz])))
 
     new_note_indecies = []

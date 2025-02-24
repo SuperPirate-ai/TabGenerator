@@ -67,13 +67,13 @@ public class AudioAnalyzer : MonoBehaviour
             {
                { "plotting_data", new List<object> {
 
-                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray().Select(x => (float)Mathf.Abs(x))},
+                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray()/*.Select(x => (float)Mathf.Abs(x))*/},
                         new List<object> {1,0, 500},
 
                    }
                }
             };
-            GraphPlotter.Instance.PlotGraph(vis);
+            //GraphPlotter.Instance.PlotGraph(vis);
             //features = AnalyzeForTrainingData(samplesToAnalyze); //for training data
             Analyze(samplesToAnalyze);
         }
@@ -307,7 +307,6 @@ public class AudioAnalyzer : MonoBehaviour
 
     private (float, float[],List<SNote>) GetFreq(float[] _samples)
     {
-        
 
         float[] magnitudes = AudioComponents.Instance.FFT(_samples);
         float[] frequencies = Enumerable.Range(0, _samples.Length)
@@ -373,7 +372,33 @@ public class AudioAnalyzer : MonoBehaviour
 
         Dictionary<int, float> averagedOvertoneFrequencies = overtoneFrequenciesADDED
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Average());
+        float[] actualOvertones = new float[magnitudes.Length];
+        for (int i = 0; i < actualOvertones.Length; i++)
+        {
+            actualOvertones[i] = -.001f;
+        }
+        for(int i = 1;i <= 5; i++)
+        {
+            int index = (int)((exactBaseFrequency * i) / sampleRate * magnitudes.Length);
+            actualOvertones[index] = overtones[i-1].volume;
+        }
+        var vis = new Dictionary<string, object>
+        {
+           { "plotting_data", new List<object> {
 
+                    new List<object> {1, 1, actualOvertones.Take(500)},
+                    new List<object> {1,1, magnitudes.Take(500)},
+                    //new List<object> {1, 0, exactBaseFrequency*2},
+                    //new List<object> {1, 0, exactBaseFrequency*3},
+                    //new List<object> {1, 0, exactBaseFrequency*4},
+                    //new List<object> {1, 0, exactBaseFrequency*5},
+                    //new List<object> { 1, 2, envelope.Take(500).ToArray() },
+                    //new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
+
+               }
+           }
+        };
+        GraphPlotter.Instance.PlotGraph(vis);
 
         #region
         // Compute metric 1
