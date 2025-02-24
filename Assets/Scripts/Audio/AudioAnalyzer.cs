@@ -67,7 +67,7 @@ public class AudioAnalyzer : MonoBehaviour
             {
                { "plotting_data", new List<object> {
 
-                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray()},
+                        new List<object> {1,1, a_couple_before.Concat(samplesToAnalyze).ToArray().Select(x => (float)Mathf.Abs(x))},
                         new List<object> {1,0, 500},
 
                    }

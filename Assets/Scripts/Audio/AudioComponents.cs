@@ -141,15 +141,16 @@ public class AudioComponents : MonoBehaviour
         int exactPickstrokeIndex = int.MinValue;
         bool peak_loudness_in_previous_samples = false;
 
+
         for (int i = 1; i < loudnesses.Length; i++)
         {
-            if (loudnesses[i-1] * _subBufferRisingFactor < loudnesses[i] && threshold < loudnesses[i])
+            if (loudnesses[i - 1] * _subBufferRisingFactor < loudnesses[i] && threshold < loudnesses[i])
             {
                 previous_pickstrokedetection_samples = _samples;
                 peak_loudness_in_previous_samples = i < previous_pickstrokedetection_samples.Length;
 
                 int startIndex = i * minimalSubBufferSize;
-                int endIndex = (i+1) * minimalSubBufferSize;
+                int endIndex = (i + 1) * minimalSubBufferSize;
 
                 int maxIndex = 0;
                 for (int j = startIndex; j < endIndex; j++)
