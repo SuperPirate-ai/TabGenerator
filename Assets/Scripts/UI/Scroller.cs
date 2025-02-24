@@ -31,7 +31,7 @@ public class Scroller : MonoBehaviour
     }
     private void Scroll()
     {
-        foreach (var note in NoteManager.Instance.PlayedNotes)
+        foreach (var note in NoteManager.Instance.PlayedNotesOnScreen)
         {
             note.transform.position += new Vector3(scrollingValue, 0);
         }

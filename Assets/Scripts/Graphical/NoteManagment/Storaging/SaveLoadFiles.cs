@@ -58,7 +58,7 @@ public class SaveLoadFiles : MonoBehaviour
     void SaveAsStandartFile()
     {
         string file = $"{noteManager.BPM}";
-        foreach (GameObject note in noteManager.PlayedNotes)
+        foreach (GameObject note in noteManager.PlayedNotesOnScreen)
         {
             file += $";{note.transform.position.y},{note.transform.position.z},{note.transform.position.x}";
         }
@@ -87,7 +87,7 @@ public class SaveLoadFiles : MonoBehaviour
     }
     void DisplayNotes(string _file)
     {
-        noteManager.PlayedNotes.Clear();
+        noteManager.AllPlayedNotes.Clear();
 
         string[] data = _file.Split(";");
         noteManager.BPM = Convert.ToInt32(data[0]);

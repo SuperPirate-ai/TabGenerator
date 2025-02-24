@@ -8,7 +8,7 @@ public class Note : MovingObject
 
     new void Update()
     {
-        if (!manager.PlayedNotes.Contains(this.gameObject)) Destroy(this.gameObject);
+        if (!manager.PlayedNotesOnScreen.Contains(this.gameObject)) Destroy(this.gameObject);
     }
 
 

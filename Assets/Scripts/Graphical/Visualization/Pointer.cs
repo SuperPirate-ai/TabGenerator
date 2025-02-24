@@ -54,9 +54,9 @@ public class Pointer : MonoBehaviour
             this.transform.position = measureBeginnPos.position;
         }
         this.transform.Translate(Vector3.right * velocity * Time.deltaTime);
-        for (int i = NoteManager.Instance.PlayedNotes.Count - 1; i >= 0; i--)
+        for (int i = NoteManager.Instance.PlayedNotesOnScreen.Count - 1; i >= 0; i--)
         {
-            GameObject note = NoteManager.Instance.PlayedNotes[i];
+            GameObject note = NoteManager.Instance.PlayedNotesOnScreen[i];
             if (this.transform.position.x < note.transform.position.x && this.transform.position.x + 1 > note.transform.position.x)
             {
                 NoteManager.Instance.RemoveNoteFromScreen(note);

@@ -8,7 +8,8 @@ public class NoteManager : MonoBehaviour
     public static NoteManager Instance { get; private set; }
 
     public GameObject NoteObj;
-    public List<GameObject> PlayedNotes;
+    public List<GameObject> PlayedNotesOnScreen;
+    public List<Vector3> AllPlayedNotes;
     public List<GameObject> MeasureBars;
     public int BPM = 100;
     public int NoteSpeed = 10;
@@ -49,11 +50,12 @@ public class NoteManager : MonoBehaviour
         GameObject go = Instantiate(NoteObj, _notePosition, Quaternion.identity);
         _notePosition.z = fret;
         go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = fretString;
-        Instance.PlayedNotes.Add(go);
+        Instance.PlayedNotesOnScreen.Add(go);
+        Instance.AllPlayedNotes.Add(_notePosition);
     }
     public void RemoveNoteFromScreen(GameObject _note)
     {
         Destroy(_note);
-        PlayedNotes.Remove(_note);
+        PlayedNotesOnScreen.Remove(_note);
     }
 }

@@ -23,7 +23,6 @@ public class AudioAnalyzer : MonoBehaviour
     [SerializeField] int analysingDepth;
     [SerializeField] AudioVisualizer visualizer;
     [SerializeField] TMP_InputField stringInput;
-    [SerializeField] Toggle recordOvertones;
 
     private int bufferSize;
     private int sampleRate;
@@ -60,19 +59,16 @@ public class AudioAnalyzer : MonoBehaviour
 
         if (noteStartIndexFromEnd >= fftBufferLength)
         {
-            float[] a_couple_before = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd - 500).Take(500).ToArray();
+            float[] a_couple_before = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd - 8192).Take(8192).ToArray();
             float[] samplesToAnalyze = sampleHistory.Skip(sampleHistory.Count() - noteStartIndexFromEnd).Take(fftBufferLength).ToArray();
             noteStartIndexFromEnd = -1;
             float[] samplesToAnalyzePlus500 = a_couple_before.Concat(samplesToAnalyze).ToArray();
-            using (StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
-            {
-                writer.WriteLine(string.Join(",", samplesToAnalyzePlus500));
-            }
+            
             var vis = new Dictionary<string, object>
             {
                { "plotting_data", new List<object> {
 
-                        new List<object> {1,1, samplesToAnalyzePlus500/*.Select(x => (float)Mathf.Abs(x))*/},
+                        new List<object> {1,1, samplesToAnalyzePlus500},
                         new List<object> {1,0, 500},
 
                    }
@@ -88,7 +84,6 @@ public class AudioAnalyzer : MonoBehaviour
             sampleHistory = sampleHistory.Skip(sampleHistory.Count - fftBufferLength * 3).ToList();
         }
 
-        // print($"Historysize: {sampleHistory.Count()}");
         return features;
     }
 
@@ -111,11 +106,7 @@ public class AudioAnalyzer : MonoBehaviour
         print(string.Join(",", features.Select(x => x.ToString("F20"))));
         print("String: " + results.IndexOf(results.Max()));
         
-        using(StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
-        {
-            writer.WriteLine(string.Join(",", _rawSamples));
-        }
-
+      
     }
 
     
@@ -377,33 +368,33 @@ public class AudioAnalyzer : MonoBehaviour
 
         Dictionary<int, float> averagedOvertoneFrequencies = overtoneFrequenciesADDED
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Average());
-        float[] actualOvertones = new float[magnitudes.Length];
-        for (int i = 0; i < actualOvertones.Length; i++)
-        {
-            actualOvertones[i] = -.001f;
-        }
-        for(int i = 1;i <= 5; i++)
-        {
-            int index = (int)((exactBaseFrequency * i) / sampleRate * magnitudes.Length);
-            actualOvertones[index] = overtones[i-1].volume;
-        }
-        var vis = new Dictionary<string, object>
-        {
-           { "plotting_data", new List<object> {
+        //float[] actualOvertones = new float[magnitudes.Length];
+        //for (int i = 0; i < actualOvertones.Length; i++)
+        //{
+        //    actualOvertones[i] = -.001f;
+        //}
+        //for(int i = 1;i <= 5; i++)
+        //{
+        //    int index = (int)((exactBaseFrequency * i) / sampleRate * magnitudes.Length);
+        //    actualOvertones[index] = overtones[i-1].volume;
+        //}
+        //var vis = new Dictionary<string, object>
+        //{
+        //   { "plotting_data", new List<object> {
 
-                    new List<object> {1, 1, actualOvertones.Take(500)},
-                    new List<object> {1,1, magnitudes.Take(500)},
-                    //new List<object> {1, 0, exactBaseFrequency*2},
-                    //new List<object> {1, 0, exactBaseFrequency*3},
-                    //new List<object> {1, 0, exactBaseFrequency*4},
-                    //new List<object> {1, 0, exactBaseFrequency*5},
-                    //new List<object> { 1, 2, envelope.Take(500).ToArray() },
-                    //new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
+        //            new List<object> {1, 1, actualOvertones.Take(500)},
+        //            new List<object> {1,1, magnitudes.Take(500)},
+        //            //new List<object> {1, 0, exactBaseFrequency*2},
+        //            //new List<object> {1, 0, exactBaseFrequency*3},
+        //            //new List<object> {1, 0, exactBaseFrequency*4},
+        //            //new List<object> {1, 0, exactBaseFrequency*5},
+        //            //new List<object> { 1, 2, envelope.Take(500).ToArray() },
+        //            //new List<object> { 1, 1, new List<float> {0,0}.ToArray() },
 
-               }
-           }
-        };
-        GraphPlotter.Instance.PlotGraph(vis);
+        //       }
+        //   }
+        //};
+        //GraphPlotter.Instance.PlotGraph(vis);
 
         #region
         // Compute metric 1

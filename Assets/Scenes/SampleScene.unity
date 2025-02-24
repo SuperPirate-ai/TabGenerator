@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 28806816}
   - component: {fileID: 28806817}
   m_Layer: 5
-  m_Name: RecordOvertones
+  m_Name: UseMl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 158.06, y: -143.99}
+  m_AnchoredPosition: {x: 304, y: 512}
   m_SizeDelta: {x: 189.88, y: 65.978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &28806817
@@ -1008,7 +1008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39.5563, y: -2.0798}
+  m_AnchoredPosition: {x: 56, y: 14.808}
   m_SizeDelta: {x: 6.3884, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211774899
@@ -1033,18 +1033,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 25
-    m_FontStyle: 0
+    m_FontSize: 50
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 57
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Record Overtones
+  m_Text: Use ML
 --- !u!222 &211774900
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4440,7 +4440,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoteObj: {fileID: 4403095215134486680, guid: d8508db6a1be51d40a54bff388f0a45d, type: 3}
-  PlayedNotes: []
+  PlayedNotesOnScreen: []
+  AllPlayedNotes: []
   MeasureBars: []
   BPM: 100
   NoteSpeed: 10
@@ -7001,7 +7002,6 @@ MonoBehaviour:
   analysingDepth: 5
   visualizer: {fileID: 1774572596}
   stringInput: {fileID: 916426933}
-  recordOvertones: {fileID: 28806817}
 --- !u!114 &1559014351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8357,6 +8357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e97f6ae1794b5b42afbaa61ba888c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useML: {fileID: 28806817}
 --- !u!114 &1774572597
 MonoBehaviour:
   m_ObjectHideFlags: 0

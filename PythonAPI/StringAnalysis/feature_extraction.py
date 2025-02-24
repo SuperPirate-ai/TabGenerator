@@ -14,8 +14,8 @@ with open("_rawSamples.csv", 'r') as f:
     samples = text.split(",")
     #make samples into floats and a numpy array
     samples = np.array([float(sample) for sample in samples])
-
-
+    print(samples.shape)
+    print(samples.dtype)
 for mp3 in os.listdir(dir_name):
     if not "_string" in mp3 and not mp3.endswith(".mp3"):
         continue
@@ -23,6 +23,8 @@ for mp3 in os.listdir(dir_name):
     print(mp3)
     mp3 = os.path.join(dir_name, mp3)
     data, fs = sf.read(mp3)
+    print(data.shape)
+    print(data.dtype)
     #replace everthing after the first _ with nothing
     stringname = mp3.split("_s")[0]
     stringname = stringname.split("\\")[-1]

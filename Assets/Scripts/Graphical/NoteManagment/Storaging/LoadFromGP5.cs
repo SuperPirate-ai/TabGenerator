@@ -50,12 +50,11 @@ public class LoadFromGP5 : MonoBehaviour
     }
     private void WriteToApi(string _filepath)
     {
-        float[,] notes = new float[NoteManager.Instance.PlayedNotes.Count, 3];
+        float[,] notes = new float[NoteManager.Instance.AllPlayedNotes.Count, 3];
 
         int i = 0;
-        foreach (GameObject note in NoteManager.Instance.PlayedNotes)
+        foreach (Vector3 pos in NoteManager.Instance.AllPlayedNotes)
         {
-            Vector3 pos = note.transform.position;
             notes[i, 0] = pos.x;
             notes[i, 1] = -pos.y;
             notes[i, 2] = pos.z;

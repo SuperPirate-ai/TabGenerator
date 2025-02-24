@@ -13,7 +13,7 @@ public class FollowingNoteDetermination : MonoBehaviour
     {
 
         if (_notePositions == null) return new Vector3();
-        if (NoteManager.Instance.PlayedNotes.Count == 0)
+        if (NoteManager.Instance.PlayedNotesOnScreen.Count == 0)
         {
             float smallestZ = float.MaxValue;
             Vector3 smallestTabNote = new Vector3();
@@ -30,7 +30,7 @@ public class FollowingNoteDetermination : MonoBehaviour
         Vector3 mostLikelyNotePosition = new Vector3(0, 0, 200);
 
 
-        GameObject lastNote = NoteManager.Instance.PlayedNotes.Last();
+        GameObject lastNote = NoteManager.Instance.PlayedNotesOnScreen.Last();
         Vector3 posOfLastNote = lastNote.transform.position;
         foreach (var position in _notePositions)
         {

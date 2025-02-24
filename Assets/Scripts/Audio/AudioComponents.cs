@@ -1,10 +1,13 @@
 using Accord.Math;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using NUnit.Framework;
+#endif
 
 public class AudioComponents : MonoBehaviour
 {
@@ -107,8 +110,10 @@ public class AudioComponents : MonoBehaviour
 
         int minimalSubBufferSize = (int)(NoteManager.Instance.DefaultSamplerate / lowestFrequency);
 
-
+#if UNITY_EDITOR
         Assert.IsTrue(minimalSubBufferSize < _samples.Length, "Minimal sub buffer size is less than sample length");
+#endif
+
 
         float[] last_and_this_sample = previous_pickstrokedetection_samples.Concat(_samples).ToArray();
         

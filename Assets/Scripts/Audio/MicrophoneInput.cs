@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -44,6 +45,7 @@ public class MicrophoneInput : MonoBehaviour
         NoteManager.Instance.MaxBMP = (int)(60 / actualRecordingLength);
     }
 
+    string sampleContent = "";
     public void StartStopRecording(TMP_Text _bntText)
     {
         recording = !recording;
@@ -51,6 +53,11 @@ public class MicrophoneInput : MonoBehaviour
         {
             Microphone.End(microphone);
             EventManager.TriggerEvent("StopedRecording", null);
+            sampleContent = sampleContent.TrimEnd(',');
+        //    using (StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
+        //    {
+        //        writer.WriteLine(sampleContent);
+        //    }
         }
         else
         {
@@ -73,7 +80,6 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource.clip = Microphone.Start(microphone, true, 3599, sampleRate);
     }
-
     public IEnumerator GrapMicrophoneBuffer()
     {
         int microphoneBufferSize = buffersize ;
@@ -82,7 +88,7 @@ public class MicrophoneInput : MonoBehaviour
         AudioClip clip = audioSource.clip;
         float[] samples = AudioComponents.Instance.ExtractDataOutOfAudioClip(clip, positionInClip);
         positionInClip += microphoneBufferSize;
-
+        sampleContent += string.Join(",", samples.Select(x => x.ToString("F12"))) + ",";
         analyzer.MainAnalyze(samples);
 
         StartCoroutine(GrapMicrophoneBuffer());
