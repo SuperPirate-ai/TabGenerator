@@ -12,8 +12,12 @@ public class AudioFileInput : MonoBehaviour
     List<string[]> features = new List<string[]>();
     public void StartAnalysingBtn()
     {
-        foreach (AudioClip audioClip in audioClipsTEST)
+        int j = 0;
+        foreach (AudioClip audioClip in audioClips)
         {
+            //if(j > 0)
+            //    break;
+            //j++;
             NoteManager.Instance.DefaultSamplerate = audioClip.frequency;
             string fileName = audioClip.name;
             string stringName = fileName.Split("_str")[0];
@@ -27,13 +31,17 @@ public class AudioFileInput : MonoBehaviour
                 Array.Copy(audioClipData, i, subbuffer, 0, subSampleLength);
                 subSamples.Add(subbuffer);
             }
+            int c = 0;
             foreach(var suB in subSamples)
             {
-                if(suB.Length < 8192)
+                //if (c > 0)
+                //    break;
+                if (suB.Length < 8192)
                     continue;
                 (float[] newfeatures, _) = analyzer.MainAnalyze(suB);
                 if (newfeatures == null)
                     continue;
+                //c++;
                 string[] featuresString = newfeatures.Select(x => x.ToString("F20")).ToArray();
                 string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(featuresString).ToArray();
                 features.Add(featuresWithSTRINGNAME);
@@ -43,7 +51,7 @@ public class AudioFileInput : MonoBehaviour
         }
         features.RemoveAll(x => x == null);
 
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "Testfeatures.csv");
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "features.csv");
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             foreach (string[] feature in features)
@@ -54,24 +62,51 @@ public class AudioFileInput : MonoBehaviour
         }
         Debug.Log("Features saved to " + filePath);
     }
-
-    private bool Analyze(float[] previousBuffer, float[] subb,int pickStrokeIndex,string stringName)
+    public void AnalyseSamples()
     {
-        float[] combinedBuffer = new float[previousBuffer.Length - pickStrokeIndex];
-        Array.Copy(previousBuffer, pickStrokeIndex, combinedBuffer, 0, previousBuffer.Length - pickStrokeIndex);
-        Array.Resize(ref combinedBuffer, combinedBuffer.Length + pickStrokeIndex);
-        Array.Copy(subb, 0, combinedBuffer, pickStrokeIndex, Math.Min(subb.Length, 8192 - pickStrokeIndex));
+        string filePath = Path.Combine(Application.dataPath, "A_Samples.csv");
+        float[] samples = new float[0];
+        using (StreamReader sr = new StreamReader(filePath))
+        {
+            string fileContent = sr.ReadToEnd();
+            string[] samplesString = fileContent.Split(',');
+            samples = samplesString.Select(x => float.Parse(x)).ToArray();
+        }
 
+        List<float[]> subSamples = new List<float[]>();
 
-        (float[] analyzedFeatures, float[] overtones) = analyzer.AnalyzeForTrainingData(combinedBuffer);
-        if (analyzedFeatures == null)
-            return false;
-        string[] overtoneSTRING = overtones.Select(x => x.ToString("F20")).ToArray();
-        string[] analyzedFeaturesString = analyzedFeatures.Select(x => x.ToString("F20")).ToArray();
-        string[] featuresWithSTRINGNAME = new string[] { stringName }.Concat(analyzedFeaturesString).ToArray();
-        features.Add(featuresWithSTRINGNAME);
-        return true;
+        for (int i = 0; i < samples.Length; i += NoteManager.Instance.DefaultBufferSize)
+        {
+            int subSampleLength = Math.Min(NoteManager.Instance.DefaultBufferSize, samples.Length - i);
+            float[] subbuffer = new float[subSampleLength];
+            Array.Copy(samples, i, subbuffer, 0, subSampleLength);
+            subSamples.Add(subbuffer);
+        }
+        foreach (var suB in subSamples)
+        {
+            if (suB.Length < 8192)
+                continue;
+            (float[] newfeatures, _) = analyzer.MainAnalyze(suB);
+            if (newfeatures == null)
+                continue;
+            string[] featuresString = newfeatures.Select(x => x.ToString("F20")).ToArray();
+            string[] featuresWithSTRINGNAME = new string[] { "A" }.Concat(featuresString).ToArray();
+            features.Add(featuresWithSTRINGNAME);
+        }
+        features.RemoveAll(x => x == null);
+
+        string savingPath = Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "A_Samples_features.csv");
+        using (StreamWriter writer = new StreamWriter(savingPath))
+        {
+            foreach (string[] feature in features)
+            {
+                string line = string.Join(",", feature);
+                writer.WriteLine(line);
+            }
+        }
+        Debug.Log("Features saved to " + savingPath);
     }
+    
     public void TestFeatures()
     {
     

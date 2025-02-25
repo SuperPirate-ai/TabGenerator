@@ -51,7 +51,7 @@ public class NoteManager : MonoBehaviour
         _notePosition.z = fret;
         go.transform.GetChild(0).transform.GetChild(0).GetComponent<TMP_Text>().text = fretString;
         Instance.PlayedNotesOnScreen.Add(go);
-        Instance.AllPlayedNotes.Add(_notePosition);
+        //Instance.AllPlayedNotes.Add(_notePosition);
     }
     public void RemoveNoteFromScreen(GameObject _note)
     {

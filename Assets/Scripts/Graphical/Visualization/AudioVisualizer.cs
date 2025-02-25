@@ -23,7 +23,7 @@ public class AudioVisualizer : MonoBehaviour
                                          .ToDictionary(pair => pair.Key, pair => pair.Value);
 
 
-            //print(string.Join(",", resultsSorted.Select(pair => $"{pair.Key}:{pair.Value}")));
+            print(string.Join(",", resultsSorted.Select(pair => $"{pair.Key}:{pair.Value}")));
 
 
             for (int i = 0; i < resultsSorted.Count; i++)
@@ -41,7 +41,7 @@ public class AudioVisualizer : MonoBehaviour
 
 
             // Vector3 nextNote = FollowingNoteDetermination.Instance.DetermineNextNote(notePos);
-            print(predictedPos.y);
+            //print(predictedPos.y);
 
         }
         else

@@ -94,24 +94,25 @@ public class AudioAnalyzer : MonoBehaviour
 
         float correspondingFrequency = GetFrequencyCorrespondingToNote(frequency);
 
-        if (frequency == -1 /*|| correspondingFrequency == 0*/)
+        if (frequency == -1 || correspondingFrequency == 0)
             return;
         if(features == null)
         {
             return;
         }
         float[] results = StringDetectionModelHandler.Instance.Predict(features);
-        if(correspondingFrequency != 0)
-            visualizer.Visualize(correspondingFrequency, results);
+        
+        visualizer.Visualize(correspondingFrequency, results);
+        //using (StreamWriter sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "results", "h_E.csv"), true))
+        //{
+        //    sw.WriteLine("h_E," + string.Join(",", features.Select(x => x.ToString("F20"))));
+        //}
         print(string.Join(",", features.Select(x => x.ToString("F20"))));
-        print("String: " + results.IndexOf(results.Max()));
+        //print("String: " + results.IndexOf(results.Max()));
         
       
     }
 
-    
-
-    bool isFirst = true;
     public (float[],float[]) AnalyzeForTrainingData(float[] _rawSamples)
     {
         //(float[] features,float frequency,List<SNote> overtones) = CalculateExactBaseFrequencyAndFeatures(_rawSamples);
@@ -120,11 +121,7 @@ public class AudioAnalyzer : MonoBehaviour
 
         if (frequency == -1 || correspondingFrequency == 0)
              return (null,null);
-        if (isFirst)
-        {
-            Debug.Log(string.Join(", ", overtones.Select(x => x.volume)));
-            isFirst = false;
-        }
+        
         
 
         //features[3] = correspondingFrequency;
@@ -303,12 +300,17 @@ public class AudioAnalyzer : MonoBehaviour
 
     private (float, float[],List<SNote>) GetFreq(float[] _samples)
     {
-
-        float[] magnitudes = AudioComponents.Instance.FFT(_samples);
+        //float[] windowedSignal = AudioComponents.Instance.ApplyHannWindow(_samples);
+        float[] magnitudes = AudioComponents.Instance.FFTMathNet(_samples);
+        
         float[] frequencies = Enumerable.Range(0, _samples.Length)
-                            .Select(i => (float)(i * NoteManager.Instance.DefaultSamplerate / _samples.Length))
+                            .Select(i => (float)(i * (float)NoteManager.Instance.DefaultSamplerate / (float)_samples.Length))
                             .ToArray();
 
+        //using (StreamWriter sw = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "audioSamples.csv"), true))
+        //{
+        //    sw.WriteLine(string.Join("\n", magnitudes.Select(x =>  x.ToString("F20").Replace(".",","))));
+        //}
         // Extract positive frequencies
         int halfLength = _samples.Length / 2;
         float[] positiveFrequencies = frequencies.Take(halfLength).ToArray();
@@ -331,7 +333,7 @@ public class AudioAnalyzer : MonoBehaviour
                 plotMagnitudes[i] > plotMagnitudes[i + 1] &&
                 plotMagnitudes[i] > plotMagnitudes[i - 2] + plotMagnitudes[i + 2])
             {
-               
+                //print($"Magnitude: {plotMagnitudes[i]} MagnitudeMAX {plotMagnitudes.Max()} Magnitude -1 {plotMagnitudes[i-1]} Magnitude +1 {plotMagnitudes[i +1]} Magnitude -2 {plotMagnitudes[i - 2]} Magnitude +2 {plotMagnitudes[i +2]}");
                 overtones.Add(new SNote { frequency = plotFrequencies[i], volume = plotMagnitudes[i]});
             }
         }
@@ -398,37 +400,37 @@ public class AudioAnalyzer : MonoBehaviour
 
         #region
         // Compute metric 1
-        List<float> amplitudeTimesFrequencies = overtones.Select(x => x.volume).Zip(overtones.Select(x => x.frequency), (a, f) => a * f).ToList();
-        float metric1 = 1 / (amplitudeTimesFrequencies.Sum() / overtones.Count);
+        //List<float> amplitudeTimesFrequencies = overtones.Select(x => x.volume).Zip(overtones.Select(x => x.frequency), (a, f) => a * f).ToList();
+        //float metric1 = 1 / (amplitudeTimesFrequencies.Sum() / overtones.Count);
 
-        // Compute metric 2
-        float metric2 = overtoneAmplitudesADDED.GetValueOrDefault(0, 0f) - overtoneAmplitudesADDED.GetValueOrDefault(1, 1f);
-        metric2 *= 0.0001f;
+        //// Compute metric 2
+        //float metric2 = overtoneAmplitudesADDED.GetValueOrDefault(0, 0f) - overtoneAmplitudesADDED.GetValueOrDefault(1, 1f);
+        //metric2 *= 0.0001f;
 
-        float ratio = metric2 + metric1;
-        // Compute amplitude ratio
-        List<float> amplitudeRatios = overtones.Select(x => x.volume).Select(a => a / overtones[0].volume).ToList();
-        float amplitudeRatio = amplitudeRatios.Sum() / amplitudeRatios.Count;
-        amplitudeRatio *= 0.0001f;
+        //float ratio = metric2 + metric1;
+        //// Compute amplitude ratio
+        //List<float> amplitudeRatios = overtones.Select(x => x.volume).Select(a => a / overtones[0].volume).ToList();
+        //float amplitudeRatio = amplitudeRatios.Sum() / amplitudeRatios.Count;
+        //amplitudeRatio *= 0.0001f;
 
-        // Compute deviation
-        float f0 = exactBaseFrequency;
-        List<float> deviations = new();
+        //// Compute deviation
+        //float f0 = exactBaseFrequency;
+        //List<float> deviations = new();
 
-        foreach (var kvp in averagedOvertoneFrequencies)
-        {
-            int overtoneIndex = kvp.Key;
-            float overtoneFreq = kvp.Value;
-            float expectedFreq = f0 * (overtoneIndex + 1);
-            float deviation = Math.Abs(overtoneFreq / expectedFreq);
-            deviations.Add(deviation);
-        }
+        //foreach (var kvp in averagedOvertoneFrequencies)
+        //{
+        //    int overtoneIndex = kvp.Key;
+        //    float overtoneFreq = kvp.Value;
+        //    float expectedFreq = f0 * (overtoneIndex + 1);
+        //    float deviation = Math.Abs(overtoneFreq / expectedFreq);
+        //    deviations.Add(deviation);
+        //}
 
-        float avgOvertoneDiffrence = deviations.Sum() / deviations.Count;
+        //float avgOvertoneDiffrence = deviations.Sum() / deviations.Count;
         #endregion
-        //float avgOvertoneDiffrence = ExtractMLFeatues.Instance.CalculteOvertoneDifference(averagedOvertoneFrequencies, exactBaseFrequency);
-        //float ratio = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones,overtoneAmplitudesADDED);
-        //float amplitudeRatio = ExtractMLFeatues.Instance.AplitudeRatio(overtones);
+        float avgOvertoneDiffrence = ExtractMLFeatues.Instance.CalculteOvertoneDifference(averagedOvertoneFrequencies, exactBaseFrequency);
+        float ratio = ExtractMLFeatues.Instance.CalculateAmplitudeFrequencyRatio(overtones, overtoneAmplitudesADDED);
+        float amplitudeRatio = ExtractMLFeatues.Instance.AplitudeRatio(overtones);
 
         float[] results = (new float[] { ratio, amplitudeRatio, avgOvertoneDiffrence, exactBaseFrequency });
         

@@ -54,10 +54,10 @@ public class MicrophoneInput : MonoBehaviour
             Microphone.End(microphone);
             EventManager.TriggerEvent("StopedRecording", null);
             sampleContent = sampleContent.TrimEnd(',');
-        //    using (StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
-        //    {
-        //        writer.WriteLine(sampleContent);
-        //    }
+            //using (StreamWriter writer = new StreamWriter(Path.Combine(Directory.GetCurrentDirectory(), "PythonAPI", "StringAnalysis", "_rawSamples.csv"), false))
+            //{
+            //    writer.WriteLine(sampleContent);
+            //}
         }
         else
         {

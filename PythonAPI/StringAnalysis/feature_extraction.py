@@ -2,30 +2,30 @@ import numpy as np
 import os
 import scipy.fft
 import soundfile as sf
+from scipy.signal.windows import hann
 
 
 audios = {}
 stringnames = []
-dir_name = "test"
+dir_name = "Trainingdata"
 
 samples = []
-with open("_rawSamples.csv", 'r') as f:
-    text= f.read()
-    samples = text.split(",")
+# with open("A_Samples.csv", 'r') as f:
+#     text= f.read()
+#     samples = text.split(",")
     #make samples into floats and a numpy array
-    samples = np.array([float(sample) for sample in samples])
-    print(samples.shape)
-    print(samples.dtype)
+    #samples = np.array([float(sample) for sample in samples])
+    #print(samples.shape)
 for mp3 in os.listdir(dir_name):
-    if not "_string" in mp3 and not mp3.endswith(".mp3"):
+    if not mp3.endswith(".mp3"):
         continue
     
     print(mp3)
     mp3 = os.path.join(dir_name, mp3)
     data, fs = sf.read(mp3)
-    print(data.shape)
-    print(data.dtype)
-    #replace everthing after the first _ with nothing
+    # if("A" in mp3):
+    #     with open("A_Samples.csv", "w") as f:
+    #         f.write(",".join([str(x) for x in data]))
     stringname = mp3.split("_s")[0]
     stringname = stringname.split("\\")[-1]
 
@@ -56,11 +56,21 @@ for stringname, audio in audios.items():
 
 results = [] # metric, freq, clip_index, mp3
 is_first = True
-
+j =0 
 for stringname, clip in notes:
+    if j > 0:
+        break
+    j += 1
+
+    windowed_signal = clip * hann(len(clip))
     # Fourier transform
-    fft_result = scipy.fft.fft(clip,norm="forward")
+    fft_result = scipy.fft.fft(clip)
     magnitudes = np.abs(fft_result)
+    with open("magnitudesPy.csv", "w") as f:
+        #replace . with , for excel
+
+
+        f.write("\n".join([str(x).replace(".",",") for x in magnitudes]))
     magnitudes = magnitudes 
     frequencies = scipy.fft.fftfreq(len(clip), d=1/fs)  # Frequency in Hz
     positive_frequencies = frequencies[:len(clip) // 2]
@@ -78,6 +88,7 @@ for stringname, clip in notes:
         if plot_magnitudes[i] > plot_magnitudes.max() * .08 and plot_magnitudes[i] > plot_magnitudes[i - 1] and plot_magnitudes[i] > plot_magnitudes[i + 1] and plot_magnitudes[i] > plot_magnitudes[i - 2] + plot_magnitudes[i + 2]:
             frequency_peaks.append(plot_frequencies[i])
             amplitude_peaks.append(plot_magnitudes[i])
+            print(f"{plot_magnitudes[i] = } {plot_magnitudes.max() = } {plot_magnitudes[i-1] = } {plot_magnitudes[i+1] = } {plot_magnitudes[i-2] = } {plot_magnitudes[i+2] = } " )
 
     if len(amplitude_peaks) == 0:
         print(f"No peaks found for {stringname}")
@@ -105,20 +116,22 @@ for stringname, clip in notes:
     amplitude_times_frequencies = []
     for a, f in zip(amplitude_peaks, frequency_peaks):
         amplitude_times_frequencies.append(a * f)
+        print(f"{a = } * {f = } {a*f = }")
         
-    metric_1 = 1/(sum(amplitude_times_frequencies) / len(amplitude_peaks))
+    metric_1 = 1/ (sum(amplitude_times_frequencies) / len(amplitude_peaks))
+    print(f"METRIC 1: 1 / {sum(amplitude_times_frequencies)} / {len(amplitude_peaks)} {metric_1 = }")
     amplitude_ratios = []
 
 
     metric_2 = overtone_amplitudes.get(0, 0) - overtone_amplitudes.get(1, 1)
     metric_2 *= .0001
-
+    print(f"METRIC 2: {overtone_amplitudes.get(0, 0)} - {overtone_amplitudes.get(1, 1)} = {metric_2}")
     #amplitude ratio
     for amp in amplitude_peaks:
         amplitude_ratios.append(amp / amplitude_peaks[0])
     amplitude_ratio = sum(amplitude_ratios) / len(amplitude_ratios)
     amplitude_ratio *= .0001
-
+    print("AmplRatio:",amplitude_ratio)
     #  deviation 
     f0 = real_base_freq
    
@@ -130,6 +143,7 @@ for stringname, clip in notes:
     
 
     avg_deviation = sum(deviations) / len(deviations)
+    print("Deviation",avg_deviation)
     results.append((metric_1 + metric_2, amplitude_ratio,avg_deviation ,real_base_freq, stringname))
     #print(f"{stringname} {metric_1 = } {metric_2 = } {amplitude_ratio = } {avg_deviation = } {real_base_freq = }")
 
@@ -140,5 +154,5 @@ for metric, amp_ra, deviation,freq, stringname in results:
     csv_text += f"{stringname},{metric:.20f},{amp_ra:.20f},{deviation:.20f},{freq:.5f}\n"
 
 
-with open(os.path.join("results","TESTSSSSresults.csv"), "w") as f:
+with open(os.path.join("results","A_SamplesPy.csv"), "w") as f:
     f.write(csv_text)

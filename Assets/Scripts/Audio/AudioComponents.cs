@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
+using Accord.Audio;
+using MathNet.Numerics;
+using MathNet.Numerics.IntegralTransforms;
+
 
 #if UNITY_EDITOR
 using NUnit.Framework;
@@ -79,7 +83,7 @@ public class AudioComponents : MonoBehaviour
     //}
     public (int,bool) DetectStroke(float[] _samples)
     {
-        return DetectPickStroke(_samples, 1.7f, 0.01f);
+        return DetectPickStroke(_samples, 2f, 0.01f);
     }
     private bool FrequencyChange(float _noteFrequency)
     {
@@ -194,6 +198,25 @@ public class AudioComponents : MonoBehaviour
         }
 
         return fft;
+    }
+    public float[] FFTMathNet(float[] _data)
+    {
+        //float[] hannWindow = Window.Hann(_data.Length).Select(x => (float)x).ToArray();
+        //for (int i = 0; i < _data.Length; i++)
+        //    _data[i] *= hannWindow[i];
+        float[] fft = new float[_data.Length];
+        Complex32[] fftComplex = new Complex32[_data.Length];
+        for (int i = 0; i < _data.Length; i++)
+        {
+            fftComplex[i] = new Complex32(_data[i], 0.0f);
+        }
+        MathNet.Numerics.IntegralTransforms.Fourier.Forward(fftComplex,FourierOptions.AsymmetricScaling);
+        for (int i = 0; i < _data.Length; i++)
+        {
+            fft[i] = (float)fftComplex[i].Magnitude;
+        }
+        return fft;
+
     }
 
 

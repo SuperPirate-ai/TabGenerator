@@ -1,3 +1,0 @@
-programm crashes after saving file
-
-delete all Measure bars when changing bpm and reInstanciate them
